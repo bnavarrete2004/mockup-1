@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lección 2.1 - Identificación de Peligros Biológicos - JC Digital Training</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        * { font-family: 'Inter', sans-serif; }
+        
+        .bg-main { background-color: #F8FAFC; }
+        .sidebar-gradient { background: linear-gradient(180deg, #064D91 0%, #043360 100%); }
+        
+        .pulse-dot {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .section {
+            display: none;
+        }
+        
+        .section.active {
+            display: block;
+        }
+
+        .step-indicator {
+            transition: all 0.3s ease;
+        }
+
+        .step-indicator.completed {
+            background: #10b981;
+            color: white;
+        }
+
+        .step-indicator.active {
+            background: #52A9B7;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        /* Scrollbar personalizada */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        @media (max-width: 1365px) {
+            .app-container { display: none; }
+            .mobile-blocker { display: flex; }
+        }
+    </style>
+</head>
+<body class="bg-main text-slate-800">
+
+    <div class="app-container flex h-screen overflow-hidden">
+        
+        <!-- SIDEBAR IZQUIERDO - Simplificado -->
+        <aside class="w-72 sidebar-gradient text-white flex flex-col z-20 shadow-2xl">
+            <div class="p-8">
+                <div class="flex items-center space-x-3 mb-2">
+                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-lg">
+                        <span class="text-[#064D91] font-bold text-xl">JC</span>
+                    </div>
+                    <span class="text-xl font-bold tracking-tight">JC Digital Training</span>
+                </div>
+                <div class="inline-flex items-center bg-white/10 px-3 py-1 rounded-full border border-white/20">
+                    <span class="w-2 h-2 bg-green-400 rounded-full mr-2 pulse-dot"></span>
+                    <span class="text-[10px] uppercase font-semibold tracking-widest text-blue-100">En Lección</span>
+                </div>
+            </div>
+
+            <!-- Progreso de la lección -->
+            <div class="px-6 mb-6">
+                <div class="bg-white/10 rounded-xl p-4 border border-white/20">
+                    <h3 class="text-xs font-semibold text-blue-200 mb-3 uppercase tracking-wider">Progreso de la Lección</h3>
+                    
+                    <div class="space-y-3">
+                        <!-- Paso 1 -->
+                        <div class="flex items-center space-x-3">
+                            <div id="step-1" class="step-indicator w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-xs font-bold active">1</div>
+                            <div class="flex-1">
+                                <p class="text-xs font-medium">Video Introductorio</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Paso 2 -->
+                        <div class="flex items-center space-x-3">
+                            <div id="step-2" class="step-indicator w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-xs font-bold">2</div>
+                            <div class="flex-1">
+                                <p class="text-xs font-medium">Diagnóstico Inicial</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Paso 3 -->
+                        <div class="flex items-center space-x-3">
+                            <div id="step-3" class="step-indicator w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-xs font-bold">3</div>
+                            <div class="flex-1">
+                                <p class="text-xs font-medium">Contenido Teórico</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Paso 4 -->
+                        <div class="flex items-center space-x-3">
+                            <div id="step-4" class="step-indicator w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-xs font-bold">4</div>
+                            <div class="flex-1">
+                                <p class="text-xs font-medium">Quiz de Verificación</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 pt-4 border-t border-white/20">
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-[10px] text-blue-200 uppercase tracking-wider">Completado</span>
+                            <span id="progress-percentage" class="text-sm font-bold">0%</span>
+                        </div>
+                        <div class="w-full h-2 bg-white/20 rounded-full">
+                            <div id="progress-bar" class="h-full bg-[#52A9B7] rounded-full transition-all duration-500" style="width: 0%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex-1"></div>
+
+            <div class="p-6 bg-black/20 m-4 rounded-xl">
+                <div class="flex items-center mb-3">
+                    <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-xs font-bold mr-2">S</div>
+                    <span class="text-xs font-semibold text-blue-200">Soporte</span>
+                </div>
+                <p class="text-[10px] text-blue-100/60 leading-relaxed mb-3">¿Problemas con el contenido? Contacta soporte técnico.</p>
+                <button class="w-full py-2 bg-[#52A9B7] rounded-lg text-xs font-semibold hover:bg-[#3D808A] transition-colors">Ayuda Directa</button>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="flex-1 overflow-y-auto relative">
+            <!-- Header Superior -->
+            <header class="sticky top-0 z-10 bg-white/90 backdrop-blur-md px-10 py-6 border-b border-slate-200">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <button onclick="goToCourse()" class="text-slate-400 hover:text-slate-600 transition">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                            </svg>
+                        </button>
+                        <div>
+                            <p class="text-xs text-slate-500">HACCP → Módulo 2 → Lección 2.1</p>
+                            <h1 class="text-xl font-bold text-slate-800">Identificación de Peligros Biológicos en Productos Pesqueros</h1>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-6">
+                        <!-- Tiempo de sesión -->
+                        <div class="bg-blue-50 rounded-lg px-4 py-2 border border-blue-200">
+                            <div class="flex items-center text-xs">
+                                <svg class="w-4 h-4 text-[#064D91] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span class="text-gray-600">Conexión SENCE:</span>
+                                <span class="font-bold text-[#064D91] ml-1">1h 45min</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-3 bg-white px-3 py-2 rounded-lg shadow-sm border border-slate-200">
+                            <img src="https://ui-avatars.com/api/?name=Juan+Perez&background=064D91&color=fff" class="w-8 h-8 rounded-full" alt="User">
+                            <div class="text-left">
+                                <p class="text-xs font-semibold text-slate-700">Juan Pérez</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="px-10 py-8">
+                
+                <!-- SECCIÓN 1: VIDEO INTRODUCTORIO -->
+                <div id="section-1" class="section active">
+                    <div class="max-w-5xl mx-auto">
+                        <div class="mb-6">
+                            <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full">Paso 1 de 4</span>
+                            <h2 class="text-3xl font-bold text-slate-800 mt-4 mb-2">Video Introductorio</h2>
+                            <p class="text-slate-600">Bienvenido a la lección sobre identificación de peligros biológicos. Comienza viendo este video introductorio.</p>
+                        </div>
+
+                        <!-- Video Embed de YouTube -->
+                        <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
+                            <div class="aspect-video">
+                                <iframe 
+                                    id="youtube-video"
+                                    width="100%" 
+                                    height="100%" 
+                                    src="https://www.youtube.com/embed/xRgeOxlK6Sc" 
+                                    title="Charla Inducción a Normativas de Salud y Seguridad Laboral en Chile" 
+                                    frameborder="0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                                    referrerpolicy="strict-origin-when-cross-origin" 
+                                    allowfullscreen>
+                                </iframe>
+                            </div>
+                            <div class="p-6 bg-slate-50 border-t border-slate-200">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center space-x-3">
+                                        <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                        </svg>
+                                        <div>
+                                            <p class="text-sm font-semibold text-slate-800">Introducción a Peligros Biológicos</p>
+                                            <p class="text-xs text-slate-500">Duración: 8:32 minutos</p>
+                                        </div>
+                                    </div>
+                                    <button onclick="markVideoComplete()" class="px-4 py-2 bg-green-500 text-white rounded-lg text-sm font-semibold hover:bg-green-600 transition">
+                                        ✓ Marcar como visto
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Navegación -->
+                        <div class="flex justify-between items-center">
+                            <button onclick="goToCourse()" class="px-6 py-3 bg-slate-200 text-slate-700 rounded-lg font-semibold hover:bg-slate-300 transition">
+                                ← Volver al curso
+                            </button>
+                            <button onclick="nextSection(2)" class="px-6 py-3 bg-[#064D91] text-white rounded-lg font-semibold hover:bg-[#265379] transition">
+                                Continuar con el diagnóstico →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN 2: DIAGNÓSTICO INICIAL -->
+                <div id="section-2" class="section">
+                    <div class="max-w-4xl mx-auto">
+                        <div class="mb-6">
+                            <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full">Paso 2 de 4</span>
+                            <h2 class="text-3xl font-bold text-slate-800 mt-4 mb-2">Diagnóstico Inicial</h2>
+                            <p class="text-slate-600">Antes de continuar, reflexiona sobre lo siguiente. Tu respuesta quedará registrada y podrás ver las respuestas de tus compañeros.</p>
+                        </div>
+
+                        <div class="bg-white rounded-xl shadow-lg p-8 mb-8">
+                            <div class="bg-amber-50 border-l-4 border-amber-400 p-4 mb-6">
+                                <div class="flex">
+                                    <svg class="w-6 h-6 text-amber-600 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <div>
+                                        <p class="text-sm font-semibold text-amber-900 mb-2">Pregunta de Reflexión</p>
+                                        <p class="text-sm text-amber-800">
+                                            Basándote en tu experiencia laboral o conocimientos previos: <strong>¿Cuáles crees que son los principales peligros biológicos que pueden afectar a los productos pesqueros durante su procesamiento?</strong> Menciona al menos 2 ejemplos.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <form id="diagnostic-form" onsubmit="submitDiagnostic(event)">
+                                <label class="block text-sm font-semibold text-slate-700 mb-2">Tu respuesta:</label>
+                                <textarea 
+                                    id="diagnostic-answer"
+                                    class="w-full h-32 px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#52A9B7] focus:border-[#52A9B7] outline-none resize-none"
+                                    placeholder="Escribe tu respuesta aquí... (mínimo 50 caracteres)"
+                                    required
+                                ></textarea>
+                                <p class="text-xs text-slate-500 mt-2">Esta es una actividad de reflexión. No hay respuestas correctas o incorrectas.</p>
+                                
+                                <button type="submit" class="mt-4 px-6 py-3 bg-[#52A9B7] text-white rounded-lg font-semibold hover:bg-[#3D808A] transition">
+                                    Enviar respuesta
+                                </button>
+                            </form>
+                        </div>
+
+                        <!-- Mini-foro con respuestas de otros estudiantes -->
+                        <div id="forum-section" class="bg-white rounded-xl shadow-lg p-8 mb-8 hidden">
+                            <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                                <svg class="w-5 h-5 mr-2 text-[#064D91]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z"></path>
+                                </svg>
+                                Respuestas de compañeros
+                            </h3>
+                            
+                            <div class="space-y-4">
+                                <!-- Respuesta 1 -->
+                                <div class="p-4 bg-slate-50 rounded-lg border border-slate-200">
+                                    <div class="flex items-start space-x-3">
+                                        <img src="https://ui-avatars.com/api/?name=Maria+Lopez&background=52A9B7&color=fff" class="w-10 h-10 rounded-full" alt="User">
+                                        <div class="flex-1">
+                                            <div class="flex items-center space-x-2 mb-1">
+                                                <p class="text-sm font-semibold text-slate-800">María López</p>
+                                                <span class="text-xs text-slate-500">Hace 2 horas</span>
+                                            </div>
+                                            <p class="text-sm text-slate-700">
+                                                Los principales peligros que identifico son las bacterias patógenas como Salmonella y Listeria, que pueden proliferar si no se mantiene la cadena de frío. También considero importante el riesgo de parásitos como Anisakis en pescados crudos.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Respuesta 2 -->
+                                <div class="p-4 bg-slate-50 rounded-lg border border-slate-200">
+                                    <div class="flex items-start space-x-3">
+                                        <img src="https://ui-avatars.com/api/?name=Carlos+Rojas&background=064D91&color=fff" class="w-10 h-10 rounded-full" alt="User">
+                                        <div class="flex-1">
+                                            <div class="flex items-center space-x-2 mb-1">
+                                                <p class="text-sm font-semibold text-slate-800">Carlos Rojas</p>
+                                                <span class="text-xs text-slate-500">Hace 4 horas</span>
+                                            </div>
+                                            <p class="text-sm text-slate-700">
+                                                Desde mi experiencia en planta, el mayor riesgo es la contaminación cruzada durante el procesamiento. Los virus como Norovirus y las toxinas de microorganismos son peligros que debemos controlar estrictamente.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Navegación -->
+                        <div class="flex justify-between items-center">
+                            <button onclick="prevSection(1)" class="px-6 py-3 bg-slate-200 text-slate-700 rounded-lg font-semibold hover:bg-slate-300 transition">
+                                ← Anterior
+                            </button>
+                            <button id="continue-to-content" onclick="nextSection(3)" class="px-6 py-3 bg-[#064D91] text-white rounded-lg font-semibold hover:bg-[#265379] transition opacity-50 cursor-not-allowed" disabled>
+                                Continuar con el contenido →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN 3: CONTENIDO TEÓRICO (PDF) -->
+                <div id="section-3" class="section">
+                    <div class="max-w-5xl mx-auto">
+                        <div class="mb-6">
+                            <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full">Paso 3 de 4</span>
+                            <h2 class="text-3xl font-bold text-slate-800 mt-4 mb-2">Contenido Teórico</h2>
+                            <p class="text-slate-600">Estudia el material completo. Navega por todas las páginas para continuar.</p>
+                        </div>
+
+                        <!-- Visor de PDF (simulado) -->
+                        <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-6">
+                            <div class="bg-slate-100 px-6 py-4 border-b border-slate-200 flex justify-between items-center">
+                                <div class="flex items-center space-x-3">
+                                    <svg class="w-6 h-6 text-[#064D91]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                    </svg>
+                                    <div>
+                                        <p class="text-sm font-semibold text-slate-800">Peligros Biológicos en Productos Pesqueros.pdf</p>
+                                        <p class="text-xs text-slate-500">Página <span id="current-page">1</span> de <span id="total-pages">8</span></p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <button onclick="previousPage()" class="px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm font-medium hover:bg-slate-50 transition">
+                                        ← Anterior
+                                    </button>
+                                    <button onclick="nextPage()" class="px-3 py-2 bg-white border border-slate-300 rounded-lg text-sm font-medium hover:bg-slate-50 transition">
+                                        Siguiente →
+                                    </button>
+                                </div>
+                            </div>
+                            
+                            <!-- Simulación de PDF con iframe o contenido -->
+                            <div class="bg-white p-10" style="min-height: 600px;">
+                                <div id="pdf-content" class="max-w-3xl mx-auto">
+                                    <!-- Página 1 (ejemplo) -->
+                                    <div class="pdf-page" data-page="1">
+                                        <h1 class="text-2xl font-bold text-slate-800 mb-4">Capítulo 1: Introducción a los Peligros Biológicos</h1>
+                                        <p class="text-slate-700 mb-4 leading-relaxed">
+                                            Los peligros biológicos en productos pesqueros representan uno de los mayores desafíos para la seguridad alimentaria. Estos peligros incluyen bacterias, virus, parásitos y toxinas producidas por microorganismos que pueden causar enfermedades transmitidas por alimentos.
+                                        </p>
+                                        <p class="text-slate-700 mb-4 leading-relaxed">
+                                            En el contexto del sistema HACCP, la identificación precisa de estos peligros es fundamental para establecer puntos críticos de control efectivos.
+                                        </p>
+                                        <div class="bg-blue-50 border-l-4 border-blue-500 p-4 my-6">
+                                            <p class="text-sm font-semibold text-blue-900 mb-2">Definición clave</p>
+                                            <p class="text-sm text-blue-800">
+                                                <strong>Peligro Biológico:</strong> Agente biológico (bacteria, virus, parásito, hongo) o sus toxinas que pueden causar efectos adversos a la salud humana.
+                                            </p>
+                                        </div>
+                                        <p class="text-xs text-slate-500 text-center mt-8">
+                                            [En producción, aquí iría el PDF completo renderizado con PDF.js o un iframe]
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Indicador de progreso de lectura -->
+                        <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-8">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <svg id="reading-icon" class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.754 18 18.168 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                                    </svg>
+                                    <div>
+                                        <p class="text-sm font-semibold text-green-800">Progreso de Lectura</p>
+                                        <p id="reading-status" class="text-xs text-green-700">Página 1 de 8 - Sigue leyendo para desbloquear el quiz</p>
+                                    </div>
+                                </div>
+                                <span id="reading-percentage" class="text-2xl font-bold text-green-600">13%</span>
+                            </div>
+                            <div class="mt-3">
+                                <div class="w-full h-2 bg-green-200 rounded-full">
+                                    <div id="reading-progress-bar" class="h-full bg-green-600 rounded-full transition-all" style="width: 13%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Navegación -->
+                        <div class="flex justify-between items-center">
+                            <button onclick="prevSection(2)" class="px-6 py-3 bg-slate-200 text-slate-700 rounded-lg font-semibold hover:bg-slate-300 transition">
+                                ← Anterior
+                            </button>
+                            <button id="continue-to-quiz" onclick="nextSection(4)" class="px-6 py-3 bg-[#064D91] text-white rounded-lg font-semibold hover:bg-[#265379] transition opacity-50 cursor-not-allowed" disabled>
+                                Continuar con el quiz →
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN 4: QUIZ FINAL -->
+                <div id="section-4" class="section">
+                    <div class="max-w-4xl mx-auto">
+                        <div class="mb-6">
+                            <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full">Paso 4 de 4</span>
+                            <h2 class="text-3xl font-bold text-slate-800 mt-4 mb-2">Quiz de Verificación</h2>
+                            <p class="text-slate-600">Responde las siguientes preguntas para verificar tu comprensión del contenido. Necesitas al menos 70% para aprobar.</p>
+                        </div>
+
+                        <form id="quiz-form" onsubmit="submitQuiz(event)">
+                            <!-- Pregunta 1 -->
+                            <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+                                <div class="mb-4">
+                                    <span class="text-xs font-semibold text-slate-500 uppercase">Pregunta 1 de 4</span>
+                                    <h3 class="text-lg font-bold text-slate-800 mt-2">¿Cuál de los siguientes es un ejemplo de peligro biológico en productos pesqueros?</h3>
+                                </div>
+                                <div class="space-y-3">
+                                    <label class="flex items-start p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-[#52A9B7] transition">
+                                        <input type="radio" name="q1" value="a" class="mt-1 mr-3" required>
+                                        <span class="text-sm text-slate-700">Presencia de fragmentos de vidrio en el producto</span>
+                                    </label>
+                                    <label class="flex items-start p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-[#52A9B7] transition">
+                                        <input type="radio" name="q1" value="b" class="mt-1 mr-3">
+                                        <span class="text-sm text-slate-700">Contaminación por metales pesados como mercurio</span>
+                                    </label>
+                                    <label class="flex items-start p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-[#52A9B7] transition">
+                                        <input type="radio" name="q1" value="c" class="mt-1 mr-3">
+                                        <span class="text-sm text-slate-700">Crecimiento de bacterias patógenas como Salmonella</span>
+                                    </label>
+                                    <label class="flex items-start p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-[#52A9B7] transition">
+                                        <input type="radio" name="q1" value="d" class="mt-1 mr-3">
+                                        <span class="text-sm text-slate-700">Temperatura elevada durante el almacenamiento</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Pregunta 2 -->
+                            <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+                                <div class="mb-4">
+                                    <span class="text-xs font-semibold text-slate-500 uppercase">Pregunta 2 de 4</span>
+                                    <h3 class="text-lg font-bold text-slate-800 mt-2">¿Qué condiciones favorecen la proliferación de microorganismos patógenos en pescados?</h3>
+                                </div>
+                                <div class="space-y-3">
+                                    <label class="flex items-start p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-[#52A9B7] transition">
+                                        <input type="radio" name="q2" value="a" class="mt-1 mr-3" required>
+                                        <span class="text-sm text-slate-700">Temperaturas de refrigeración por debajo de 4°C</span>
+                                    </label>
+                                    <label class="flex items-start p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-[#52A9B7] transition">
+                                        <input type="radio" name="q2" value="b" class="mt-1 mr-3">
+                                        <span class="text-sm text-slate-700">Congelación inmediata después de la captura</span>
+                                    </label>
+                                    <label class="flex items-start p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-[#52A9B7] transition">
+                                        <input type="radio" name="q2" value="c" class="mt-1 mr-3">
+                                        <span class="text-sm text-slate-700">Ruptura de la cadena de frío y temperaturas entre 5-60°C</span>
+                                    </label>
+                                    <label class="flex items-start p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-[#52A9B7] transition">
+                                        <input type="radio" name="q2" value="d" class="mt-1 mr-3">
+                                        <span class="text-sm text-slate-700">Ambiente seco y baja humedad</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Pregunta 3 -->
+                            <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+                                <div class="mb-4">
+                                    <span class="text-xs font-semibold text-slate-500 uppercase">Pregunta 3 de 4</span>
+                                    <h3 class="text-lg font-bold text-slate-800 mt-2">¿Cuál es el principal parásito encontrado en pescados crudos o mal cocidos?</h3>
+                                </div>
+                                <div class="space-y-3">
+                                    <label class="flex items-start p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-[#52A9B7] transition">
+                                        <input type="radio" name="q3" value="a" class="mt-1 mr-3" required>
+                                        <span class="text-sm text-slate-700">Anisakis simplex</span>
+                                    </label>
+                                    <label class="flex items-start p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-[#52A9B7] transition">
+                                        <input type="radio" name="q3" value="b" class="mt-1 mr-3">
+                                        <span class="text-sm text-slate-700">Escherichia coli</span>
+                                    </label>
+                                    <label class="flex items-start p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-[#52A9B7] transition">
+                                        <input type="radio" name="q3" value="c" class="mt-1 mr-3">
+                                        <span class="text-sm text-slate-700">Staphylococcus aureus</span>
+                                    </label>
+                                    <label class="flex items-start p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-[#52A9B7] transition">
+                                        <input type="radio" name="q3" value="d" class="mt-1 mr-3">
+                                        <span class="text-sm text-slate-700">Clostridium botulinum</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Pregunta 4 -->
+                            <div class="bg-white rounded-xl shadow-lg p-6 mb-6">
+                                <div class="mb-4">
+                                    <span class="text-xs font-semibold text-slate-500 uppercase">Pregunta 4 de 4</span>
+                                    <h3 class="text-lg font-bold text-slate-800 mt-2">En el sistema HACCP, ¿qué medida preventiva es más efectiva contra peligros biológicos?</h3>
+                                </div>
+                                <div class="space-y-3">
+                                    <label class="flex items-start p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-[#52A9B7] transition">
+                                        <input type="radio" name="q4" value="a" class="mt-1 mr-3" required>
+                                        <span class="text-sm text-slate-700">Control estricto de temperatura y cadena de frío</span>
+                                    </label>
+                                    <label class="flex items-start p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-[#52A9B7] transition">
+                                        <input type="radio" name="q4" value="b" class="mt-1 mr-3">
+                                        <span class="text-sm text-slate-700">Uso de envases metálicos únicamente</span>
+                                    </label>
+                                    <label class="flex items-start p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-[#52A9B7] transition">
+                                        <input type="radio" name="q4" value="c" class="mt-1 mr-3">
+                                        <span class="text-sm text-slate-700">Almacenamiento en ambientes secos</span>
+                                    </label>
+                                    <label class="flex items-start p-4 border-2 border-slate-200 rounded-lg cursor-pointer hover:border-[#52A9B7] transition">
+                                        <input type="radio" name="q4" value="d" class="mt-1 mr-3">
+                                        <span class="text-sm text-slate-700">Reducción del pH del producto</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button type="submit" class="w-full py-4 bg-[#064D91] text-white rounded-lg text-lg font-bold hover:bg-[#265379] transition">
+                                Enviar respuestas
+                            </button>
+                        </form>
+
+                        <!-- Resultado del quiz (oculto inicialmente) -->
+                        <div id="quiz-result" class="hidden">
+                            <!-- Se mostrará después de enviar -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN 5: COMPLETADO -->
+                <div id="section-5" class="section">
+                    <div class="max-w-3xl mx-auto text-center">
+                        <div class="bg-white rounded-2xl shadow-xl p-12">
+                            <div class="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                                <svg class="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            
+                            <h2 class="text-3xl font-bold text-slate-800 mb-4">¡Lección Completada!</h2>
+                            <p class="text-lg text-slate-600 mb-8">Has finalizado exitosamente la lección sobre Identificación de Peligros Biológicos.</p>
+                            
+                            <div class="grid grid-cols-3 gap-6 mb-8">
+                                <div class="p-4 bg-blue-50 rounded-lg">
+                                    <p class="text-xs text-slate-600 mb-1">Calificación Quiz</p>
+                                    <p id="final-score" class="text-2xl font-bold text-[#064D91]">--%</p>
+                                </div>
+                                <div class="p-4 bg-green-50 rounded-lg">
+                                    <p class="text-xs text-slate-600 mb-1">Tiempo empleado</p>
+                                    <p class="text-2xl font-bold text-green-600">28 min</p>
+                                </div>
+                                <div class="p-4 bg-purple-50 rounded-lg">
+                                    <p class="text-xs text-slate-600 mb-1">Estado</p>
+                                    <p class="text-2xl font-bold text-purple-600">Aprobado</p>
+                                </div>
+                            </div>
+
+                            <div class="space-y-4">
+                                <button onclick="downloadMaterial()" class="w-full py-3 bg-[#52A9B7] text-white rounded-lg font-semibold hover:bg-[#3D808A] transition flex items-center justify-center">
+                                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                    </svg>
+                                    Descargar material completo (PDF)
+                                </button>
+                                
+                                <button onclick="goToNextLesson()" class="w-full py-3 bg-[#064D91] text-white rounded-lg font-semibold hover:bg-[#265379] transition">
+                                    Continuar con la siguiente lección →
+                                </button>
+                                
+                                <button onclick="goToCourse()" class="w-full py-3 bg-slate-200 text-slate-700 rounded-lg font-semibold hover:bg-slate-300 transition">
+                                    Volver al curso
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Bloqueo Móvil -->
+    <div class="mobile-blocker fixed inset-0 bg-[#064D91] flex-col items-center justify-center p-8 text-center z-[100] hidden">
+        <div class="max-w-md">
+            <div class="w-24 h-24 bg-white rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-2xl">
+                <svg class="w-12 h-12 text-[#064D91]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+            </div>
+            <h2 class="text-3xl font-bold text-white mb-4">Computador Requerido</h2>
+            <p class="text-blue-100 mb-6 leading-relaxed">Para asegurar la validación SENCE de tu capacitación, debes ingresar desde un equipo de escritorio.</p>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let currentPage = 1;
+        const totalPages = 8;
+        let videoWatched = false;
+        let diagnosticCompleted = false;
+        let readingCompleted = false;
+
+        // Navegación entre secciones
+        function nextSection(step) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.getElementById(`section-${step}`).classList.add('active');
+            
+            // Actualizar indicadores
+            updateStepIndicators(step);
+            currentStep = step;
+            
+            // Scroll al top
+            window.scrollTo(0, 0);
+        }
+
+        function prevSection(step) {
+            nextSection(step);
+        }
+
+        function updateStepIndicators(activeStep) {
+            for (let i = 1; i <= 4; i++) {
+                const indicator = document.getElementById(`step-${i}`);
+                indicator.classList.remove('active', 'completed');
+                
+                if (i < activeStep) {
+                    indicator.classList.add('completed');
+                } else if (i === activeStep) {
+                    indicator.classList.add('active');
+                }
+            }
+            
+            // Actualizar barra de progreso
+            const progress = ((activeStep - 1) / 4) * 100;
+            document.getElementById('progress-bar').style.width = `${progress}%`;
+            document.getElementById('progress-percentage').textContent = `${Math.round(progress)}%`;
+        }
+
+        // Marcar video como visto
+        function markVideoComplete() {
+            videoWatched = true;
+            alert('✓ Video marcado como visto. Ahora puedes continuar.');
+        }
+
+        // Enviar diagnóstico
+        function submitDiagnostic(event) {
+            event.preventDefault();
+            const answer = document.getElementById('diagnostic-answer').value;
+            
+            if (answer.length < 50) {
+                alert('Por favor, escribe una respuesta más detallada (mínimo 50 caracteres).');
+                return;
+            }
+            
+            // Mostrar foro
+            document.getElementById('forum-section').classList.remove('hidden');
+            
+            // Agregar respuesta del usuario al foro
+            const forumSection = document.getElementById('forum-section').querySelector('.space-y-4');
+            const userResponse = document.createElement('div');
+            userResponse.className = 'p-4 bg-blue-50 rounded-lg border-2 border-blue-400';
+            userResponse.innerHTML = `
+                <div class="flex items-start space-x-3">
+                    <img src="https://ui-avatars.com/api/?name=Juan+Perez&background=064D91&color=fff" class="w-10 h-10 rounded-full" alt="User">
+                    <div class="flex-1">
+                        <div class="flex items-center space-x-2 mb-1">
+                            <p class="text-sm font-semibold text-slate-800">Juan Pérez (Tú)</p>
+                            <span class="text-xs text-slate-500">Ahora</span>
+                        </div>
+                        <p class="text-sm text-slate-700">${answer}</p>
+                    </div>
+                </div>
+            `;
+            forumSection.insertBefore(userResponse, forumSection.firstChild);
+            
+            // Deshabilitar formulario
+            document.getElementById('diagnostic-form').innerHTML = `
+                <div class="text-center py-6">
+                    <svg class="w-16 h-16 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <p class="text-lg font-semibold text-slate-800">Respuesta enviada correctamente</p>
+                    <p class="text-sm text-slate-600 mt-2">Tu reflexión ha sido registrada y es visible para tus compañeros</p>
+                </div>
+            `;
+            
+            // Habilitar botón de continuar
+            const continueBtn = document.getElementById('continue-to-content');
+            continueBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            continueBtn.disabled = false;
+            diagnosticCompleted = true;
+        }
+
+        // Navegación de PDF
+        function nextPage() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                document.getElementById('current-page').textContent = currentPage;
+                updateReadingProgress();
+            }
+        }
+
+        function previousPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                document.getElementById('current-page').textContent = currentPage;
+                updateReadingProgress();
+            }
+        }
+
+        function updateReadingProgress() {
+            const progress = (currentPage / totalPages) * 100;
+            document.getElementById('reading-progress-bar').style.width = `${progress}%`;
+            document.getElementById('reading-percentage').textContent = `${Math.round(progress)}%`;
+            
+            if (currentPage === totalPages && !readingCompleted) {
+                readingCompleted = true;
+                document.getElementById('reading-status').textContent = '✓ Lectura completa - Puedes continuar con el quiz';
+                document.getElementById('reading-icon').innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>';
+                
+                // Habilitar botón de continuar al quiz
+                const continueBtn = document.getElementById('continue-to-quiz');
+                continueBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                continueBtn.disabled = false;
+            } else {
+                document.getElementById('reading-status').textContent = `Página ${currentPage} de ${totalPages} - Sigue leyendo para desbloquear el quiz`;
+            }
+        }
+
+        // Enviar quiz
+        function submitQuiz(event) {
+            event.preventDefault();
+            
+            // Respuestas correctas
+            const correctAnswers = {
+                q1: 'c',
+                q2: 'c',
+                q3: 'a',
+                q4: 'a'
+            };
+            
+            let score = 0;
+            const total = Object.keys(correctAnswers).length;
+            
+            // Calcular puntaje
+            Object.keys(correctAnswers).forEach(question => {
+                const selected = document.querySelector(`input[name="${question}"]:checked`);
+                if (selected && selected.value === correctAnswers[question]) {
+                    score++;
+                }
+            });
+            
+            const percentage = Math.round((score / total) * 100);
+            const passed = percentage >= 70;
+            
+            // Mostrar resultado
+            const resultDiv = document.getElementById('quiz-result');
+            resultDiv.className = `mt-8 p-8 rounded-xl ${passed ? 'bg-green-50 border-2 border-green-200' : 'bg-red-50 border-2 border-red-200'}`;
+            resultDiv.innerHTML = `
+                <div class="text-center">
+                    <div class="w-20 h-20 ${passed ? 'bg-green-500' : 'bg-red-500'} rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-4xl text-white font-bold">${percentage}%</span>
+                    </div>
+                    <h3 class="text-2xl font-bold ${passed ? 'text-green-800' : 'text-red-800'} mb-2">
+                        ${passed ? '¡Aprobado!' : 'No aprobado'}
+                    </h3>
+                    <p class="text-sm ${passed ? 'text-green-700' : 'text-red-700'} mb-6">
+                        Respondiste correctamente ${score} de ${total} preguntas (${percentage}%)
+                    </p>
+                    ${passed 
+                        ? `<button onclick="completeLesson(${percentage})" class="px-8 py-3 bg-green-600 text-white rounded-lg font-semibold hover:bg-green-700 transition">
+                            Finalizar lección →
+                           </button>`
+                        : `<button onclick="retryQuiz()" class="px-8 py-3 bg-red-600 text-white rounded-lg font-semibold hover:bg-red-700 transition">
+                            Reintentar quiz
+                           </button>`
+                    }
+                </div>
+            `;
+            resultDiv.classList.remove('hidden');
+            
+            // Ocultar formulario
+            document.getElementById('quiz-form').classList.add('hidden');
+            
+            // Scroll al resultado
+            resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        function retryQuiz() {
+            document.getElementById('quiz-form').reset();
+            document.getElementById('quiz-form').classList.remove('hidden');
+            document.getElementById('quiz-result').classList.add('hidden');
+        }
+
+        function completeLesson(score) {
+            document.getElementById('final-score').textContent = `${score}%`;
+            nextSection(5);
+            
+            // Marcar todos los pasos como completados
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById(`step-${i}`).classList.add('completed');
+                document.getElementById(`step-${i}`).classList.remove('active');
+            }
+            document.getElementById('progress-bar').style.width = '100%';
+            document.getElementById('progress-percentage').textContent = '100%';
+        }
+
+        // Descargar material
+        function downloadMaterial() {
+            alert('Descargando material completo en PDF...\n\nEn producción: Se generaría un PDF con todo el contenido de la lección.');
+        }
+
+        // Navegación
+        function goToCourse() {
+            alert('Volviendo a la vista del curso...');
+        }
+
+        function goToNextLesson() {
+            alert('Cargando siguiente lección: 2.2 - Análisis de Riesgos...');
+        }
+
+        // Inicializar
+        updateStepIndicators(1);
+    </script>
+</body>
+</html>

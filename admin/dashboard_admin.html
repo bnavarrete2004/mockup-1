@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - JC Digital Training</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        * { font-family: 'Inter', sans-serif; }
+        
+        .bg-main { background-color: #F8FAFC; }
+        .sidebar-gradient { background: linear-gradient(180deg, #064D91 0%, #043360 100%); }
+        
+        .pulse-dot {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .badge-notification {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* Scrollbar personalizada */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        @media (max-width: 1365px) {
+            .app-container { display: none; }
+            .mobile-blocker { display: flex; }
+        }
+    </style>
+</head>
+<body class="bg-main text-slate-800">
+
+    <div class="app-container flex h-screen overflow-hidden">
+        
+        <!-- SIDEBAR IZQUIERDO -->
+        <aside class="w-72 sidebar-gradient text-white flex flex-col z-20 shadow-2xl overflow-y-auto">
+            <div class="p-8">
+                <div class="flex items-center space-x-3 mb-2">
+                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-lg">
+                        <span class="text-[#064D91] font-bold text-xl">JC</span>
+                    </div>
+                    <span class="text-xl font-bold tracking-tight">JC Digital Training</span>
+                </div>
+                <div class="inline-flex items-center bg-white/10 px-3 py-1 rounded-full border border-white/20">
+                    <span class="w-2 h-2 bg-green-400 rounded-full mr-2 pulse-dot"></span>
+                    <span class="text-[10px] uppercase font-semibold tracking-widest text-blue-100">Panel Admin</span>
+                </div>
+            </div>
+
+            <nav class="flex-1 px-4 space-y-1">
+                <p class="px-4 text-[10px] font-semibold text-blue-300/50 uppercase tracking-widest mb-2">Menú Principal</p>
+                
+                <a href="dashboard_admin.html" class="flex items-center px-4 py-3 bg-white/10 border-l-4 border-[#52A9B7] rounded-r-lg transition-all">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    <span class="font-medium">Panel General</span>
+                </a>
+                
+                <a href="#" class="flex items-center justify-between px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        <span>Revisión Material</span>
+                    </div>
+                    <span class="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full badge-notification">5</span>
+                </a>
+                
+                <a href="#" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.754 18 18.168 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    <span>Gestión de Cursos</span>
+                </a>
+                
+                <a href="gestion_estudiantes.html" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <span>Gestión de Usuarios</span>
+                </a>
+                
+                <a href="#" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                    <span>Estadísticas</span>
+                </a>
+                
+                <a href="#" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z"></path></svg>
+                    <span>Repositorio Archivos</span>
+                </a>
+                
+                <a href="reportes.html" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <span>Reportes SENCE</span>
+                </a>
+                
+                <p class="px-4 text-[10px] font-semibold text-blue-300/50 uppercase tracking-widest mt-8 mb-2">Otros</p>
+                
+                <a href="#" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                    <span>Contenido Público</span>
+                </a>
+                
+                <a href="#" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    <span>Configuración</span>
+                </a>
+            </nav>
+
+            <div class="p-6 bg-black/20 m-4 rounded-xl">
+                <div class="flex items-center mb-3">
+                    <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-xs font-bold mr-2">S</div>
+                    <span class="text-xs font-semibold text-blue-200">Soporte Técnico</span>
+                </div>
+                <p class="text-[10px] text-blue-100/60 leading-relaxed mb-3">¿Problemas con la plataforma? Contacta al equipo de desarrollo.</p>
+                <button class="w-full py-2 bg-[#52A9B7] rounded-lg text-xs font-semibold hover:bg-[#3D808A] transition-colors">Ayuda Directa</button>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="flex-1 overflow-y-auto relative">
+            <!-- Header Superior -->
+            <header class="sticky top-0 z-10 bg-white/90 backdrop-blur-md px-10 py-6 border-b border-slate-200">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-2xl font-bold text-slate-800">Panel de Administración</h1>
+                        <p class="text-slate-500 text-sm">Gestión integral del sistema de capacitación</p>
+                    </div>
+                    <div class="flex items-center space-x-6">
+                        <div class="bg-blue-50 rounded-lg px-4 py-2 border border-blue-200">
+                            <div class="flex items-center text-xs">
+                                <svg class="w-4 h-4 text-[#064D91] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span class="text-gray-600">Sesión:</span>
+                                <span class="font-bold text-[#064D91] ml-1">2h 15min</span>
+                            </div>
+                        </div>
+                        
+                        <div class="relative">
+                            <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+                            <svg class="w-6 h-6 text-slate-400 cursor-pointer hover:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                        </div>
+                        
+                        <div class="h-10 w-[1px] bg-slate-200"></div>
+                        
+                        <div class="flex items-center space-x-3 bg-white px-3 py-2 rounded-lg shadow-sm border border-slate-200">
+                            <img src="https://ui-avatars.com/api/?name=Admin+Sistema&background=064D91&color=fff" class="w-8 h-8 rounded-full" alt="Admin">
+                            <div class="text-left">
+                                <p class="text-xs font-semibold text-slate-700">Admin Sistema</p>
+                                <p class="text-[10px] text-slate-500">Superusuario</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="px-10 py-8">
+                <!-- Widgets de Métricas -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                            </div>
+                            <span class="text-xs text-green-600 font-semibold">+8% hoy</span>
+                        </div>
+                        <p class="text-2xl font-bold text-slate-800">127</p>
+                        <p class="text-xs text-slate-500 mt-1">Usuarios activos hoy</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.754 18 18.168 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                            </div>
+                            <span class="text-xs text-blue-600 font-semibold">12 total</span>
+                        </div>
+                        <p class="text-2xl font-bold text-slate-800">8</p>
+                        <p class="text-xs text-slate-500 mt-1">Cursos en progreso</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            </div>
+                            <span class="text-xs text-amber-600 font-semibold">Esta semana</span>
+                        </div>
+                        <p class="text-2xl font-bold text-slate-800">23</p>
+                        <p class="text-xs text-slate-500 mt-1">Exámenes próximos a vencer</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-sm border border-red-200 p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                            </div>
+                            <span class="text-xs text-red-600 font-semibold badge-notification">¡Acción requerida!</span>
+                        </div>
+                        <p class="text-2xl font-bold text-slate-800">5</p>
+                        <p class="text-xs text-slate-500 mt-1">Materiales por revisar</p>
+                    </div>
+                </div>
+
+                <!-- SECCIÓN PRINCIPAL: Material Pendiente -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 mb-8">
+                    <div class="p-6 border-b border-slate-200">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                                </div>
+                                <div>
+                                    <h2 class="text-xl font-bold text-slate-800">Material Pendiente de Revisión</h2>
+                                    <p class="text-sm text-slate-500">Contenido enviado por relatores esperando aprobación</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-slate-50 border-b border-slate-200">
+                                <tr>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Material</th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Tipo</th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Curso / Módulo</th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Relator</th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Fecha Envío</th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200">
+                                <!-- Fila 1 -->
+                                <tr class="hover:bg-slate-50 transition">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-semibold text-slate-800">Video: Introducción a Puntos Críticos</p>
+                                                <p class="text-xs text-slate-500">Duración: 12:34 min</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-3 py-1 bg-red-100 text-red-700 text-xs font-semibold rounded-full">Video</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm text-slate-800 font-medium">HACCP</p>
+                                        <p class="text-xs text-slate-500">Módulo 3</p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-2">
+                                            <img src="https://ui-avatars.com/api/?name=Carlos+Rojas&background=52A9B7&color=fff" class="w-8 h-8 rounded-full" alt="Relator">
+                                            <span class="text-sm text-slate-700">Dr. Carlos Rojas</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm text-slate-700">Hace 2 horas</p>
+                                        <p class="text-xs text-slate-500">14 Ene 2026, 10:30</p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-2">
+                                            <button onclick="previewMaterial('video', 1)" class="px-3 py-2 bg-blue-500 text-white text-xs font-semibold rounded-lg hover:bg-blue-600 transition">Ver</button>
+                                            <button onclick="approveMaterial(1)" class="px-3 py-2 bg-green-500 text-white text-xs font-semibold rounded-lg hover:bg-green-600 transition">Aprobar</button>
+                                            <button onclick="rejectMaterial(1)" class="px-3 py-2 bg-red-500 text-white text-xs font-semibold rounded-lg hover:bg-red-600 transition">Rechazar</button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Fila 2 -->
+                                <tr class="hover:bg-slate-50 transition">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-semibold text-slate-800">Guía: Control de Temperatura</p>
+                                                <p class="text-xs text-slate-500">PDF - 2.3 MB</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full">Guía PDF</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm text-slate-800 font-medium">HACCP</p>
+                                        <p class="text-xs text-slate-500">Módulo 2</p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-2">
+                                            <img src="https://ui-avatars.com/api/?name=Maria+Lopez&background=064D91&color=fff" class="w-8 h-8 rounded-full" alt="Relator">
+                                            <span class="text-sm text-slate-700">María López</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm text-slate-700">Hace 5 horas</p>
+                                        <p class="text-xs text-slate-500">14 Ene 2026, 07:45</p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-2">
+                                            <button onclick="previewMaterial('pdf', 2)" class="px-3 py-2 bg-blue-500 text-white text-xs font-semibold rounded-lg hover:bg-blue-600 transition">Ver</button>
+                                            <button onclick="approveMaterial(2)" class="px-3 py-2 bg-green-500 text-white text-xs font-semibold rounded-lg hover:bg-green-600 transition">Aprobar</button>
+                                            <button onclick="rejectMaterial(2)" class="px-3 py-2 bg-red-500 text-white text-xs font-semibold rounded-lg hover:bg-red-600 transition">Rechazar</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- ... (Siguientes filas seguirían el mismo formato) -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Sección: Actividad Reciente -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Actividad del Sistema -->
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                        <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                            <svg class="w-5 h-5 mr-2 text-[#064D91]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Actividad Reciente del Sistema
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start space-x-3 pb-4 border-b border-slate-100">
+                                <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-slate-800">Material aprobado</p>
+                                    <p class="text-xs text-slate-500">Video "Control de Calidad" - Curso HACCP</p>
+                                    <p class="text-xs text-[#52A9B7] mt-1">Hace 15 minutos</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start space-x-3 pb-4 border-b border-slate-100">
+                                <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-slate-800">Nuevo usuario creado</p>
+                                    <p class="text-xs text-slate-500">Estudiante: Juan Pérez (RUT: 12.345.678-9)</p>
+                                    <p class="text-xs text-[#52A9B7] mt-1">Hace 1 hora</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start space-x-3 pb-4 border-b border-slate-100">
+                                <div class="w-8 h-8 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-slate-800">Curso completado</p>
+                                    <p class="text-xs text-slate-500">María López finalizó "Normativa Laboral"</p>
+                                    <p class="text-xs text-[#52A9B7] mt-1">Hace 2 horas</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start space-x-3">
+                                <div class="w-8 h-8 bg-amber-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                    <svg class="w-4 h-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-slate-800">Intento de examen reseteado</p>
+                                    <p class="text-xs text-slate-500">Carlos Rojas - Examen Módulo 3 HACCP</p>
+                                    <p class="text-xs text-[#52A9B7] mt-1">Hace 3 horas</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Alertas Importantes -->
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                        <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                            <svg class="w-5 h-5 mr-2 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                            </svg>
+                            Alertas y Tareas Urgentes
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="p-4 bg-red-50 border-l-4 border-red-400 rounded-lg">
+                                <div class="flex items-start">
+                                    <svg class="w-5 h-5 text-red-600 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                    </svg>
+                                    <div>
+                                        <p class="text-sm font-bold text-red-900">5 materiales esperando revisión</p>
+                                        <p class="text-xs text-red-700 mt-1">Relatores esperando aprobación para continuar creando contenido</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-amber-50 border-l-4 border-amber-400 rounded-lg">
+                                <div class="flex items-start">
+                                    <svg class="w-5 h-5 text-amber-600 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <div>
+                                        <p class="text-sm font-bold text-amber-900">23 exámenes vencen esta semana</p>
+                                        <p class="text-xs text-amber-700 mt-1">Cursos: HACCP (12), BPM Y POS (8), Normativa Laboral (3)</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-blue-50 border-l-4 border-blue-400 rounded-lg">
+                                <div class="flex items-start">
+                                    <svg class="w-5 h-5 text-blue-600 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <div>
+                                        <p class="text-sm font-bold text-blue-900">Reporte SENCE mensual pendiente</p>
+                                        <p class="text-xs text-blue-700 mt-1">Debe generarse antes del 20 de enero</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="p-4 bg-green-50 border-l-4 border-green-400 rounded-lg">
+                                <div class="flex items-start">
+                                    <svg class="w-5 h-5 text-green-600 mr-2 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <div>
+                                        <p class="text-sm font-bold text-green-900">18 diplomas listos para descargar</p>
+                                        <p class="text-xs text-green-700 mt-1">Estudiantes han completado sus cursos exitosamente</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    
+
+    <!-- Bloqueo Móvil -->
+    <div class="mobile-blocker fixed inset-0 bg-[#064D91] flex-col items-center justify-center p-8 text-center z-[100] hidden">
+        <h2 class="text-3xl font-bold text-white mb-4">Computador Requerido</h2>
+        <p class="text-blue-100 mb-6">El panel requiere una pantalla más grande para gestionar el contenido.</p>
+    </div>
+
+    <script>
+        function previewMaterial(type, id) {
+            alert(`Vista previa de ${type} (ID: ${id})`);
+        }
+
+        function approveMaterial(id) {
+            if (confirm('¿Deseas APROBAR este material?')) {
+                alert(`Material #${id} aprobado.`);
+            }
+        }
+
+        function rejectMaterial(id) {
+            const comment = prompt('Motivo del rechazo:');
+            if (comment) {
+                alert(`Material #${id} rechazado: ${comment}`);
+            }
+        }
+    </script>
+</body>
+</html>

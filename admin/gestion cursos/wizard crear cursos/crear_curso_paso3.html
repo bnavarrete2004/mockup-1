@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Curso - Paso 3 - JC Digital Training</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        * { font-family: 'Inter', sans-serif; }
+        
+        .bg-main { background-color: #F8FAFC; }
+        .sidebar-gradient { background: linear-gradient(180deg, #064D91 0%, #043360 100%); }
+        
+        .pulse-dot {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .step-active {
+            background: #064D91;
+            color: white;
+        }
+
+        .step-completed {
+            background: #10b981;
+            color: white;
+        }
+
+        .step-pending {
+            background: #e2e8f0;
+            color: #64748b;
+        }
+
+        .step-line-completed {
+            background: #10b981;
+        }
+
+        .step-line-pending {
+            background: #e2e8f0;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        @media (max-width: 1365px) {
+            .app-container { display: none; }
+            .mobile-blocker { display: flex; }
+        }
+
+        .lesson-card {
+            transition: all 0.2s ease;
+        }
+
+        .lesson-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        .module-tab {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .module-tab.active {
+            background: #064D91;
+            color: white;
+        }
+
+        .module-tab:not(.active):hover {
+            background: #e2e8f0;
+        }
+    </style>
+</head>
+<body class="bg-main text-slate-800">
+
+    <div class="app-container flex h-screen overflow-hidden">
+        
+        <!-- SIDEBAR CON VISTA PREVIA -->
+        <aside class="w-72 sidebar-gradient text-white flex flex-col z-20 shadow-2xl">
+            <div class="p-8">
+                <div class="flex items-center space-x-3 mb-2">
+                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-lg">
+                        <span class="text-[#064D91] font-bold text-xl">JC</span>
+                    </div>
+                    <span class="text-xl font-bold tracking-tight">JC Digital Training</span>
+                </div>
+                <div class="inline-flex items-center bg-white/10 px-3 py-1 rounded-full border border-white/20">
+                    <span class="w-2 h-2 bg-green-400 rounded-full mr-2 pulse-dot"></span>
+                    <span class="text-[10px] uppercase font-semibold tracking-widest text-blue-100">Creando Curso</span>
+                </div>
+            </div>
+
+            <!-- Vista previa dinámica -->
+            <div class="flex-1 px-6 overflow-y-auto">
+                <h3 class="text-xs font-semibold text-blue-200 uppercase tracking-wider mb-4">Vista Previa</h3>
+                <div class="bg-white/10 rounded-xl p-4 border border-white/20 mb-4">
+                    <p class="text-xs text-blue-200 mb-2">Información Básica</p>
+                    <div class="space-y-1">
+                        <p class="text-sm font-semibold text-white">Normativa Sanitaria HACCP</p>
+                        <p class="text-xs text-white/70">24 horas • Código: 9918231</p>
+                    </div>
+                </div>
+
+                <div class="bg-white/10 rounded-xl p-4 border border-white/20">
+                    <p class="text-xs text-blue-200 mb-3">Estructura del Curso</p>
+                    <div id="course-structure-preview" class="space-y-3">
+                        <!-- Se llenará dinámicamente -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-6">
+                <button onclick="cancelCreate()" class="w-full py-2 bg-red-500 text-white rounded-lg text-sm font-semibold hover:bg-red-600 transition">
+                    Cancelar Creación
+                </button>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="flex-1 overflow-y-auto relative">
+            <!-- Header -->
+            <header class="sticky top-0 z-10 bg-white/90 backdrop-blur-md px-10 py-6 border-b border-slate-200">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-2xl font-bold text-slate-800">Crear Lecciones</h1>
+                        <p class="text-slate-500 text-sm">Agrega lecciones a cada módulo del curso</p>
+                    </div>
+                    <a href="../gestion_cursos.html" class="text-slate-400 hover:text-slate-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </a>
+                </div>
+            </header>
+
+            <div class="px-10 py-8">
+                
+                <!-- Stepper / Progress Bar -->
+                <div class="mb-10">
+                    <div class="flex items-center justify-between max-w-4xl mx-auto">
+                        <!-- Step 1 - Completado -->
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold step-completed mb-2">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <p class="text-xs font-semibold text-green-600">Información Básica</p>
+                        </div>
+                        <div class="flex-1 h-1 step-line-completed mx-2 mt-[-24px]"></div>
+                        
+                        <!-- Step 2 - Completado -->
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold step-completed mb-2">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <p class="text-xs font-semibold text-green-600">Crear Módulos</p>
+                        </div>
+                        <div class="flex-1 h-1 step-line-completed mx-2 mt-[-24px]"></div>
+                        
+                        <!-- Step 3 - Activo -->
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold step-active mb-2">
+                                3
+                            </div>
+                            <p class="text-xs font-semibold text-[#064D91]">Crear Lecciones</p>
+                        </div>
+                        <div class="flex-1 h-1 step-line-pending mx-2 mt-[-24px]"></div>
+                        
+                        <!-- Step 4 -->
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold step-pending mb-2">
+                                4
+                            </div>
+                            <p class="text-xs font-semibold text-slate-400">Asignar Actividades</p>
+                        </div>
+                        <div class="flex-1 h-1 step-line-pending mx-2 mt-[-24px]"></div>
+                        
+                        <!-- Step 5 -->
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold step-pending mb-2">
+                                5
+                            </div>
+                            <p class="text-xs font-semibold text-slate-400">Revisar y Publicar</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contenido Paso 3 -->
+                <div class="max-w-4xl mx-auto">
+                    
+                    <!-- Tabs de Módulos -->
+                    <div class="mb-6">
+                        <div class="flex gap-2 flex-wrap" id="module-tabs">
+                            <!-- Se generarán dinámicamente -->
+                        </div>
+                    </div>
+
+                    <!-- Botón para agregar lección -->
+                    <div class="mb-6">
+                        <button onclick="addLesson()" class="w-full py-4 border-2 border-dashed border-[#064D91] rounded-xl text-[#064D91] font-semibold hover:bg-[#064D91] hover:text-white transition flex items-center justify-center">
+                            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                            </svg>
+                            Agregar Nueva Lección al Módulo Seleccionado
+                        </button>
+                    </div>
+
+                    <!-- Contenedor de lecciones por módulo -->
+                    <div id="lessons-container">
+                        <!-- Las lecciones se mostrarán aquí según el módulo activo -->
+                    </div>
+
+                    <!-- Mensaje cuando no hay lecciones -->
+                    <div id="empty-state" class="bg-white rounded-xl shadow-sm border border-slate-200 p-12 text-center">
+                        <svg class="w-16 h-16 text-slate-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                        <h3 class="text-lg font-semibold text-slate-700 mb-2">No hay lecciones en este módulo</h3>
+                        <p class="text-slate-500 text-sm mb-4">Comienza agregando la primera lección</p>
+                        <button onclick="addLesson()" class="px-6 py-2 bg-[#064D91] text-white rounded-lg font-semibold hover:bg-[#265379] transition">
+                            Crear Primera Lección
+                        </button>
+                    </div>
+
+                </div>
+
+                <!-- Botones de Navegación -->
+                <div class="max-w-4xl mx-auto">
+                    <div class="flex justify-between items-center mt-8">
+                        <a href="crear_curso_paso2.html" class="px-6 py-3 bg-slate-200 text-slate-700 rounded-lg font-semibold hover:bg-slate-300 transition flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12"></path>
+                            </svg>
+                            Anterior
+                        </a>
+                        <a href="#" onclick="validateAndGoToStep4(); return false;" id="next-button" class="px-8 py-3 bg-slate-300 text-slate-500 rounded-lg font-semibold cursor-not-allowed flex items-center pointer-events-none opacity-60">
+                            Siguiente: Asignar Actividades
+                            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Bloqueo Móvil -->
+    <div class="mobile-blocker fixed inset-0 bg-[#064D91] flex-col items-center justify-center p-8 text-center z-[100] hidden">
+        <div class="max-w-md">
+            <h2 class="text-3xl font-bold text-white mb-4">Computador Requerido</h2>
+            <p class="text-blue-100">La creación de cursos requiere escritorio</p>
+        </div>
+    </div>
+
+    <script>
+        // Simulación de módulos del paso anterior
+        let modules = [
+            { id: 'module-1', name: 'Introducción a HACCP', order: 1, lessons: [] },
+            { id: 'module-2', name: 'Principios de Inocuidad', order: 2, lessons: [] },
+            { id: 'module-3', name: 'Implementación y Control', order: 3, lessons: [] }
+        ];
+
+        let currentModuleId = 'module-1';
+        let lessonCounter = 0;
+
+        // Inicializar tabs de módulos
+        function initModuleTabs() {
+            const tabsContainer = document.getElementById('module-tabs');
+            tabsContainer.innerHTML = modules.map(m => `
+                <button 
+                    onclick="selectModule('${m.id}')" 
+                    class="module-tab px-6 py-3 rounded-lg font-semibold text-sm ${m.id === currentModuleId ? 'active' : 'bg-white text-slate-700'}"
+                    id="tab-${m.id}"
+                >
+                    ${m.name} (${m.lessons.length})
+                </button>
+            `).join('');
+
+            updateLessonsDisplay();
+        }
+
+        function selectModule(moduleId) {
+            currentModuleId = moduleId;
+            
+            // Actualizar tabs
+            document.querySelectorAll('.module-tab').forEach(tab => {
+                tab.classList.remove('active');
+                tab.classList.add('bg-white', 'text-slate-700');
+            });
+            
+            const activeTab = document.getElementById(`tab-${moduleId}`);
+            activeTab.classList.add('active');
+            activeTab.classList.remove('bg-white', 'text-slate-700');
+
+            updateLessonsDisplay();
+        }
+
+        function addLesson() {
+            lessonCounter++;
+            const module = modules.find(m => m.id === currentModuleId);
+            const lessonNumber = module.lessons.length + 1;
+            const lessonId = `lesson-${currentModuleId}-${lessonCounter}`;
+            
+            const lesson = {
+                id: lessonId,
+                moduleId: currentModuleId,
+                name: '',
+                description: '',
+                duration: '',
+                order: lessonNumber
+            };
+
+            module.lessons.push(lesson);
+            updateLessonsDisplay();
+            updateModuleTabs();
+            updateNextButton();
+            updatePreview();
+        }
+
+        function updateLessonsDisplay() {
+            const module = modules.find(m => m.id === currentModuleId);
+            const container = document.getElementById('lessons-container');
+            const emptyState = document.getElementById('empty-state');
+
+            if (module.lessons.length === 0) {
+                container.innerHTML = '';
+                emptyState.style.display = 'block';
+                return;
+            }
+
+            emptyState.style.display = 'none';
+
+            container.innerHTML = module.lessons.map((lesson, index) => `
+                <div id="${lesson.id}" class="lesson-card bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-4">
+                    <div class="flex items-start gap-4">
+                        <!-- Número de lección -->
+                        <div class="flex-shrink-0">
+                            <span class="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-[#52A9B7] text-white font-bold">
+                                L${index + 1}
+                            </span>
+                        </div>
+
+                        <!-- Contenido de la lección -->
+                        <div class="flex-1">
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="font-semibold text-slate-800">Lección ${index + 1}</h3>
+                                <button onclick="deleteLesson('${lesson.id}')" class="text-red-500 hover:text-red-700 hover:bg-red-50 p-2 rounded-lg transition">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <div class="space-y-4">
+                                <!-- Nombre de la lección -->
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-2">
+                                        Nombre de la Lección <span class="text-red-500">*</span>
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        id="${lesson.id}-name"
+                                        value="${lesson.name}"
+                                        class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#52A9B7] focus:border-[#52A9B7] outline-none"
+                                        placeholder="Ej: ¿Qué es el sistema HACCP?"
+                                        onchange="updateLesson('${lesson.id}')"
+                                        required
+                                    >
+                                </div>
+
+                                <!-- Descripción -->
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-2">
+                                        Descripción Breve
+                                    </label>
+                                    <textarea 
+                                        id="${lesson.id}-description"
+                                        rows="2"
+                                        class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#52A9B7] focus:border-[#52A9B7] outline-none resize-none"
+                                        placeholder="Describe brevemente el contenido de esta lección..."
+                                        onchange="updateLesson('${lesson.id}')"
+                                    >${lesson.description}</textarea>
+                                </div>
+
+                                <!-- Duración estimada -->
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-2">
+                                            Duración Estimada (min) <span class="text-red-500">*</span>
+                                        </label>
+                                        <input 
+                                            type="number" 
+                                            id="${lesson.id}-duration"
+                                            value="${lesson.duration}"
+                                            min="5"
+                                            step="5"
+                                            class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#52A9B7] focus:border-[#52A9B7] outline-none"
+                                            placeholder="Ej: 30"
+                                            onchange="updateLesson('${lesson.id}')"
+                                            required
+                                        >
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-2">
+                                            Orden
+                                        </label>
+                                        <input 
+                                            type="number" 
+                                            id="${lesson.id}-order"
+                                            value="${lesson.order}"
+                                            min="1"
+                                            class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#52A9B7] focus:border-[#52A9B7] outline-none"
+                                            onchange="updateLesson('${lesson.id}')"
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function deleteLesson(lessonId) {
+            if (confirm('¿Estás seguro de eliminar esta lección?')) {
+                const module = modules.find(m => m.id === currentModuleId);
+                module.lessons = module.lessons.filter(l => l.id !== lessonId);
+                
+                updateLessonsDisplay();
+                updateModuleTabs();
+                updateNextButton();
+                updatePreview();
+            }
+        }
+
+        function updateLesson(lessonId) {
+            const module = modules.find(m => m.id === currentModuleId);
+            const lesson = module.lessons.find(l => l.id === lessonId);
+            
+            if (lesson) {
+                lesson.name = document.getElementById(`${lessonId}-name`).value;
+                lesson.description = document.getElementById(`${lessonId}-description`).value;
+                lesson.duration = document.getElementById(`${lessonId}-duration`).value;
+                lesson.order = document.getElementById(`${lessonId}-order`).value;
+            }
+
+            updateNextButton();
+            updatePreview();
+        }
+
+        function updateModuleTabs() {
+            modules.forEach(m => {
+                const tab = document.getElementById(`tab-${m.id}`);
+                if (tab) {
+                    const baseName = m.name;
+                    tab.innerHTML = `${baseName} (${m.lessons.length})`;
+                }
+            });
+        }
+
+        function updateNextButton() {
+            const nextButton = document.getElementById('next-button');
+            const hasLessons = modules.some(m => m.lessons.length > 0);
+            const allLessonsValid = modules.every(m => 
+                m.lessons.every(l => l.name && l.duration)
+            );
+
+            if (hasLessons && allLessonsValid) {
+                nextButton.classList.remove('bg-slate-300', 'text-slate-500', 'cursor-not-allowed', 'pointer-events-none', 'opacity-60');
+                nextButton.classList.add('bg-[#064D91]', 'text-white', 'hover:bg-[#265379]', 'transition');
+            } else {
+                nextButton.classList.remove('bg-[#064D91]', 'text-white', 'hover:bg-[#265379]', 'transition');
+                nextButton.classList.add('bg-slate-300', 'text-slate-500', 'cursor-not-allowed', 'pointer-events-none', 'opacity-60');
+            }
+        }
+
+        function updatePreview() {
+            const preview = document.getElementById('course-structure-preview');
+            
+            preview.innerHTML = modules.map(m => `
+                <div class="bg-white/5 rounded-lg p-3 border border-white/10">
+                    <p class="text-sm font-semibold text-white mb-2">${m.name}</p>
+                    ${m.lessons.length > 0 ? `
+                        <div class="space-y-1 pl-3">
+                            ${m.lessons.map(l => `
+                                <p class="text-xs text-white/60">• ${l.name || 'Sin nombre'}</p>
+                            `).join('')}
+                        </div>
+                    ` : '<p class="text-xs text-white/40 italic pl-3">Sin lecciones</p>'}
+                </div>
+            `).join('');
+        }
+
+        function validateAndGoToStep4() {
+            const totalLessons = modules.reduce((sum, m) => sum + m.lessons.length, 0);
+            
+            if (totalLessons === 0) {
+                alert('Debes crear al menos una lección antes de continuar');
+                return;
+            }
+
+            const allLessonsValid = modules.every(m => 
+                m.lessons.every(l => l.name && l.duration)
+            );
+
+            if (!allLessonsValid) {
+                alert('Completa todos los campos obligatorios de las lecciones');
+                return;
+            }
+
+            // Si todo está bien, navegar al siguiente paso
+            window.location.href = 'crear_curso_paso4.html';
+        }
+
+        function cancelCreate() {
+            if (confirm('¿Estás seguro de cancelar? Se perderá todo el progreso.')) {
+                window.location.href = '../gestion_cursos.html';
+            }
+        }
+
+        // Inicializar al cargar
+        initModuleTabs();
+    </script>
+
+</body>
+</html>

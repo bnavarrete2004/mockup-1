@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - JC Digital Training</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #265379 0%, #064D91 100%);
+        }
+        
+        .input-focus:focus {
+            border-color: #52A9B7;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(82, 169, 183, 0.1);
+        }
+        
+        .logo-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .device-warning {
+            display: none;
+        }
+        
+        @media (max-width: 1365px) {
+            .login-container {
+                display: none;
+            }
+            .device-warning {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Contenedor Principal de Login -->
+    <div class="login-container min-h-screen flex">
+        <!-- Panel Izquierdo - Branding -->
+        <div class="hidden lg:flex lg:w-1/2 gradient-bg text-white p-12 flex-col justify-between relative overflow-hidden">
+            <!-- Decoración de fondo -->
+            <div class="absolute top-0 right-0 w-96 h-96 bg-white/5 rounded-full -mr-48 -mt-48"></div>
+            <div class="absolute bottom-0 left-0 w-80 h-80 bg-white/5 rounded-full -ml-40 -mb-40"></div>
+            
+            <div class="relative z-10">
+                <!-- Logo -->
+                <div class="flex items-center mb-8">
+                    <div class="text-3xl font-bold">JC Digital Training</div>
+                </div>
+                
+                <!-- Título -->
+                <div class="mt-24">
+                    <h1 class="text-5xl font-bold mb-6 leading-tight">
+                        Bienvenido a tu Plataforma de Capacitación
+                    </h1>
+                    <p class="text-xl text-blue-100 mb-8">
+                        Accede a tus cursos, revisa tu progreso y continúa tu desarrollo profesional.
+                    </p>
+                </div>
+                
+                <!-- Features -->
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-3">
+                        <div class="bg-white/20 p-2 rounded-lg">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <span class="text-sm">Acceso 24/7 a tu material de estudio</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <div class="bg-white/20 p-2 rounded-lg">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                            </svg>
+                        </div>
+                        <span class="text-sm">Seguimiento de tu progreso en tiempo real</span>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <div class="bg-white/20 p-2 rounded-lg">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                        </div>
+                        <span class="text-sm">Certificación SENCE al completar</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer del panel izquierdo -->
+            <div class="relative z-10 text-sm text-blue-200">
+                © 2026 JC Digital Training. Todos los derechos reservados.
+            </div>
+        </div>
+        
+        <!-- Panel Derecho - Formulario -->
+        <div class="w-full lg:w-1/2 flex items-center justify-center p-8 bg-white">
+            <div class="w-full max-w-md">
+                <!-- Logo para móvil -->
+                <div class="lg:hidden text-center mb-8">
+                    <div class="text-2xl font-bold text-[#064D91]">JC Digital Training</div>
+                    <p class="text-gray-600 text-sm mt-2">Plataforma de Capacitación</p>
+                </div>
+                
+                <!-- Header del formulario -->
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-bold text-gray-900 mb-2">Iniciar Sesión</h2>
+                    <p class="text-gray-600">Ingresa tus credenciales para acceder</p>
+                </div>
+                
+                <!-- Formulario -->
+                <form id="login-form" class="space-y-6">
+                    <!-- Email/Usuario -->
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-2">
+                            Correo Electrónico o RUT
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                </svg>
+                            </div>
+                            <input 
+                                type="text" 
+                                id="email" 
+                                name="email"
+                                class="input-focus block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#52A9B7]/20 transition"
+                                placeholder="usuario@ejemplo.com o 12345678-9"
+                                required
+                            >
+                        </div>
+                    </div>
+                    
+                    <!-- Contraseña -->
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-2">
+                            Contraseña
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                </svg>
+                            </div>
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password"
+                                class="input-focus block w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#52A9B7]/20 transition"
+                                placeholder="••••••••"
+                                required
+                            >
+                            <button 
+                                type="button"
+                                id="toggle-password"
+                                class="absolute inset-y-0 right-0 pr-3 flex items-center"
+                            >
+                                <svg class="h-5 w-5 text-gray-400 hover:text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Recordarme y Olvidaste contraseña -->
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <input 
+                                id="remember" 
+                                name="remember" 
+                                type="checkbox"
+                                class="h-4 w-4 text-[#064D91] focus:ring-[#52A9B7] border-gray-300 rounded"
+                            >
+                            <label for="remember" class="ml-2 block text-sm text-gray-700">
+                                Recordarme
+                            </label>
+                        </div>
+                        
+                        <a href="#" onclick="alert('Redirigir a /recuperar-contraseña')" class="text-sm text-[#064D91] hover:text-[#265379] font-medium">
+                            ¿Olvidaste tu contraseña?
+                        </a>
+                    </div>
+                    
+                    <!-- Botón de inicio de sesión -->
+                    <button 
+                        type="submit"
+                        class="w-full bg-[#064D91] text-white py-3 px-4 rounded-lg font-semibold hover:bg-[#265379] focus:outline-none focus:ring-2 focus:ring-[#52A9B7] focus:ring-offset-2 transition-all duration-200 transform hover:scale-[1.02]"
+                    >
+                        Iniciar Sesión
+                    </button>
+                    
+                    <!-- Selector de Rol (Opcional - Solo para Demo) -->
+                    <div class="mt-6 p-4 bg-gray-50 rounded-lg border border-gray-200">
+                        <p class="text-xs text-gray-600 mb-3 text-center font-medium">Modo de demostración - Selecciona tu rol:</p>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button 
+                                type="button"
+                                onclick="loginAs('estudiante')"
+                                class="text-xs py-2 px-3 bg-white border border-gray-300 rounded-lg hover:bg-[#52A9B7] hover:text-white hover:border-[#52A9B7] transition"
+                            >
+                                Estudiante
+                            </button>
+                            <button 
+                                type="button"
+                                onclick="loginAs('relator')"
+                                class="text-xs py-2 px-3 bg-white border border-gray-300 rounded-lg hover:bg-[#52A9B7] hover:text-white hover:border-[#52A9B7] transition"
+                            >
+                                Relator
+                            </button>
+                            <button 
+                                type="button"
+                                onclick="loginAs('admin')"
+                                class="text-xs py-2 px-3 bg-white border border-gray-300 rounded-lg hover:bg-[#52A9B7] hover:text-white hover:border-[#52A9B7] transition"
+                            >
+                                Admin
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                
+                <!-- Información de soporte -->
+                <div class="mt-8 text-center">
+                    <p class="text-sm text-gray-600">
+                        ¿Problemas para ingresar? 
+                        <a href="#" class="text-[#064D91] hover:text-[#265379] font-medium">Contacta soporte</a>
+                    </p>
+                </div>
+                
+                <!-- Volver al inicio -->
+                <div class="mt-6 text-center">
+                    <a href="#" onclick="alert('Volver al landing page')" class="text-sm text-gray-500 hover:text-gray-700 flex items-center justify-center">
+                        <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Volver al inicio
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Advertencia de Dispositivo Móvil -->
+    <div class="device-warning min-h-screen items-center justify-center p-8 bg-gray-50">
+        <div class="max-w-md text-center">
+            <div class="mb-8">
+                <div class="w-24 h-24 bg-[#064D91] rounded-full flex items-center justify-center mx-auto mb-6">
+                    <svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-bold text-gray-900 mb-4">Computador Requerido</h1>
+                <p class="text-lg text-gray-600 mb-6">
+                    Esta plataforma de capacitación requiere un computador de escritorio o laptop para funcionar correctamente.
+                </p>
+            </div>
+            
+            <div class="bg-white rounded-xl p-6 shadow-lg mb-6">
+                <h3 class="font-semibold text-gray-900 mb-4">Por favor, accede desde:</h3>
+                <ul class="space-y-3 text-left">
+                    <li class="flex items-center text-gray-700">
+                        <svg class="w-5 h-5 text-[#52A9B7] mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Un computador Windows, Mac o Linux
+                    </li>
+                    <li class="flex items-center text-gray-700">
+                        <svg class="w-5 h-5 text-[#52A9B7] mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Navegador actualizado (Chrome, Firefox, Edge o Safari)
+                    </li>
+                    <li class="flex items-center text-gray-700">
+                        <svg class="w-5 h-5 text-[#52A9B7] mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Resolución mínima de 1366x768
+                    </li>
+                </ul>
+            </div>
+            
+            <a href="#" onclick="alert('Volver al landing')" class="inline-flex items-center text-[#064D91] hover:text-[#265379] font-medium">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                </svg>
+                Volver al sitio principal
+            </a>
+            
+            <p class="mt-8 text-sm text-gray-500">
+                El sitio público sigue disponible en tu dispositivo móvil.
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Toggle password visibility
+        const togglePassword = document.getElementById('toggle-password');
+        const passwordInput = document.getElementById('password');
+        
+        togglePassword.addEventListener('click', function() {
+            const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordInput.setAttribute('type', type);
+        });
+        
+        // Form submission
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            // Aquí iría la lógica de autenticación
+            console.log('Intentando login con:', { email, password });
+            
+            // Simulación de login exitoso
+            alert(`Login exitoso como: ${email}\n\nRedirigiendo al dashboard...`);
+        });
+        
+        // Función para login rápido de demostración
+        function loginAs(role) {
+            alert(`Accediendo como ${role.toUpperCase()}...\n\nRedirigiendo al dashboard de ${role}...`);
+        }
+    </script>
+</body>
+</html>

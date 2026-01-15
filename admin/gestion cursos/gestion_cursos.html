@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Cursos - JC Digital Training</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        * { font-family: 'Inter', sans-serif; }
+        
+        .bg-main { background-color: #F8FAFC; }
+        .sidebar-gradient { background: linear-gradient(180deg, #064D91 0%, #043360 100%); }
+        
+        .pulse-dot {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .badge-notification {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* Scrollbar personalizada */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        .progress-bar {
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 1365px) {
+            .app-container { display: none; }
+            .mobile-blocker { display: flex; }
+        }
+    </style>
+</head>
+<body class="bg-main text-slate-800">
+
+    <div class="app-container flex h-screen overflow-hidden">
+        
+        <!-- SIDEBAR IZQUIERDO -->
+        <aside class="w-72 sidebar-gradient text-white flex flex-col z-20 shadow-2xl overflow-y-auto">
+            <div class="p-8">
+                <div class="flex items-center space-x-3 mb-2">
+                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-lg">
+                        <span class="text-[#064D91] font-bold text-xl">JC</span>
+                    </div>
+                    <span class="text-xl font-bold tracking-tight">JC Digital Training</span>
+                </div>
+                <div class="inline-flex items-center bg-white/10 px-3 py-1 rounded-full border border-white/20">
+                    <span class="w-2 h-2 bg-green-400 rounded-full mr-2 pulse-dot"></span>
+                    <span class="text-[10px] uppercase font-semibold tracking-widest text-blue-100">Panel Admin</span>
+                </div>
+            </div>
+
+            <nav class="flex-1 px-4 space-y-1">
+                <p class="px-4 text-[10px] font-semibold text-blue-300/50 uppercase tracking-widest mb-2">Menú Principal</p>
+                
+                <a href="dashboard_admin.html" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    <span class="font-medium">Panel General</span>
+                </a>
+                
+                <a href="#" class="flex items-center justify-between px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        <span>Revisión Material</span>
+                    </div>
+                    <span class="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full badge-notification">5</span>
+                </a>
+                
+                <a href="gestion_cursos.html" class="flex items-center px-4 py-3 bg-white/10 border-l-4 border-[#52A9B7] rounded-r-lg transition-all">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.754 18 18.168 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    <span class="font-medium">Gestión de Cursos</span>
+                </a>
+                
+                <a href="gestion_estudiantes.html" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <span>Gestión de Usuarios</span>
+                </a>
+                
+                <a href="#" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                    <span>Estadísticas</span>
+                </a>
+                
+                <a href="#" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z"></path></svg>
+                    <span>Repositorio Archivos</span>
+                </a>
+                
+                <a href="reportes.html" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <span>Reportes SENCE</span>
+                </a>
+                
+                <p class="px-4 text-[10px] font-semibold text-blue-300/50 uppercase tracking-widest mt-8 mb-2">Otros</p>
+                
+                <a href="#" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                    <span>Contenido Público</span>
+                </a>
+                
+                <a href="#" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    <span>Configuración</span>
+                </a>
+            </nav>
+
+            <div class="p-6 bg-black/20 m-4 rounded-xl">
+                <div class="flex items-center mb-3">
+                    <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-xs font-bold mr-2">S</div>
+                    <span class="text-xs font-semibold text-blue-200">Soporte Técnico</span>
+                </div>
+                <p class="text-[10px] text-blue-100/60 leading-relaxed mb-3">¿Problemas con la plataforma? Contacta al equipo de desarrollo.</p>
+                <button class="w-full py-2 bg-[#52A9B7] rounded-lg text-xs font-semibold hover:bg-[#3D808A] transition-colors">Ayuda Directa</button>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="flex-1 overflow-y-auto relative">
+            <!-- Header Superior -->
+            <header class="sticky top-0 z-10 bg-white/90 backdrop-blur-md px-10 py-6 border-b border-slate-200">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-2xl font-bold text-slate-800">Gestión de Cursos</h1>
+                        <p class="text-slate-500 text-sm">Administración y seguimiento de todos los cursos disponibles</p>
+                    </div>
+                    <div class="flex items-center space-x-6">
+                        <div class="bg-blue-50 rounded-lg px-4 py-2 border border-blue-200">
+                            <div class="flex items-center text-xs">
+                                <svg class="w-4 h-4 text-[#064D91] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span class="text-gray-600">Sesión:</span>
+                                <span class="font-bold text-[#064D91] ml-1">2h 15min</span>
+                            </div>
+                        </div>
+                        
+                        <div class="relative">
+                            <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+                            <svg class="w-6 h-6 text-slate-400 cursor-pointer hover:text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                        </div>
+                        
+                        <div class="h-10 w-[1px] bg-slate-200"></div>
+                        
+                        <div class="flex items-center space-x-3 bg-white px-3 py-2 rounded-lg shadow-sm border border-slate-200">
+                            <img src="https://ui-avatars.com/api/?name=Admin+Sistema&background=064D91&color=fff" class="w-8 h-8 rounded-full" alt="Admin">
+                            <div class="text-left">
+                                <p class="text-xs font-semibold text-slate-700">Admin Sistema</p>
+                                <p class="text-[10px] text-slate-500">Superusuario</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="px-10 py-8">
+                <!-- Botón Crear Curso -->
+                 <div class="mb-8">
+                    <button onclick="window.location.href='wizard crear cursos/crear_curso_paso1.html'" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-[#064D91] to-[#043360] text-white font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                        Crear Nuevo Curso
+                    </button>
+                </div>
+                
+
+                <!-- Widgets de Métricas -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.754 18 18.168 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                            </div>
+                            <span class="text-xs text-blue-600 font-semibold">Total</span>
+                        </div>
+                        <p class="text-2xl font-bold text-slate-800">12</p>
+                        <p class="text-xs text-slate-500 mt-1">Cursos totales</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            </div>
+                            <span class="text-xs text-green-600 font-semibold">Activos</span>
+                        </div>
+                        <p class="text-2xl font-bold text-slate-800">8</p>
+                        <p class="text-xs text-slate-500 mt-1">Cursos en progreso</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                            </div>
+                            <span class="text-xs text-purple-600 font-semibold">Inscritos</span>
+                        </div>
+                        <p class="text-2xl font-bold text-slate-800">342</p>
+                        <p class="text-xs text-slate-500 mt-1">Estudiantes totales</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-amber-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path></svg>
+                            </div>
+                            <span class="text-xs text-amber-600 font-semibold">Promedio</span>
+                        </div>
+                        <p class="text-2xl font-bold text-slate-800">4.6</p>
+                        <p class="text-xs text-slate-500 mt-1">Calificación global</p>
+                    </div>
+                </div>
+
+                <!-- Tabla de Cursos -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 mb-8">
+                    <div class="p-6 border-b border-slate-200">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.754 18 18.168 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                                </div>
+                                <div>
+                                    <h2 class="text-xl font-bold text-slate-800">Cursos Activos</h2>
+                                    <p class="text-sm text-slate-500">Cursos actualmente disponibles en la plataforma</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <input type="text" placeholder="Buscar curso..." class="px-4 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#064D91]">
+                                <select class="px-4 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#064D91]">
+                                    <option>Todos los estados</option>
+                                    <option>Activos</option>
+                                    <option>En borrador</option>
+                                    <option>Archivados</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-slate-50 border-b border-slate-200">
+                                <tr>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Curso</th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Estado</th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Inscritos</th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Progreso Promedio</th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Popularidad</th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Tasa Éxito</th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200">
+                                <!-- Curso 1 -->
+                                <tr class="hover:bg-slate-50 transition">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                <span class="text-white font-bold text-sm">HC</span>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-semibold text-slate-800">HACCP - Sistema de Análisis</p>
+                                                <p class="text-xs text-slate-500">5 módulos • 24 lecciones</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">Activo</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm font-bold text-slate-800">87</p>
+                                        <p class="text-xs text-slate-500">estudiantes</p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="w-full">
+                                            <div class="flex items-center justify-between mb-1">
+                                                <span class="text-xs font-semibold text-slate-700">68%</span>
+                                            </div>
+                                            <div class="w-full bg-slate-200 rounded-full h-2">
+                                                <div class="bg-blue-600 h-2 rounded-full progress-bar" style="width: 68%"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-1">
+                                            <svg class="w-4 h-4 text-amber-400 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                                            <span class="text-sm font-bold text-slate-800">4.8</span>
+                                            <span class="text-xs text-slate-500">(42)</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-2">
+                                            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                                            <span class="text-sm font-bold text-green-700">92%</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-2">
+                                            <button onclick="viewCourse(1)" class="px-3 py-2 bg-blue-500 text-white text-xs font-semibold rounded-lg hover:bg-blue-600 transition">Ver</button>
+                                            <button onclick="editCourse(1)" class="px-3 py-2 bg-amber-500 text-white text-xs font-semibold rounded-lg hover:bg-amber-600 transition">Editar</button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Curso 2 -->
+                                <tr class="hover:bg-slate-50 transition">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-12 h-12 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                <span class="text-white font-bold text-sm">BP</span>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-semibold text-slate-800">BPM Y POS</p>
+                                                <p class="text-xs text-slate-500">4 módulos • 18 lecciones</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">Activo</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm font-bold text-slate-800">64</p>
+                                        <p class="text-xs text-slate-500">estudiantes</p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="w-full">
+                                            <div class="flex items-center justify-between mb-1">
+                                                <span class="text-xs font-semibold text-slate-700">75%</span>
+                                            </div>
+                                            <div class="w-full bg-slate-200 rounded-full h-2">
+                                                <div class="bg-green-600 h-2 rounded-full progress-bar" style="width: 75%"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-1">
+                                            <svg class="w-4 h-4 text-amber-400 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                                            <span class="text-sm font-bold text-slate-800">4.6</span>
+                                            <span class="text-xs text-slate-500">(31)</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-2">
+                                            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                                            <span class="text-sm font-bold text-green-700">89%</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-2">
+                                            <button onclick="viewCourse(2)" class="px-3 py-2 bg-blue-500 text-white text-xs font-semibold rounded-lg hover:bg-blue-600 transition">Ver</button>
+                                            <button onclick="editCourse(2)" class="px-3 py-2 bg-amber-500 text-white text-xs font-semibold rounded-lg hover:bg-amber-600 transition">Editar</button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Curso 3 -->
+                                <tr class="hover:bg-slate-50 transition">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                <span class="text-white font-bold text-sm">NL</span>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-semibold text-slate-800">Normativa Laboral Básica</p>
+                                                <p class="text-xs text-slate-500">3 módulos • 12 lecciones</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">Activo</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm font-bold text-slate-800">52</p>
+                                        <p class="text-xs text-slate-500">estudiantes</p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="w-full">
+                                            <div class="flex items-center justify-between mb-1">
+                                                <span class="text-xs font-semibold text-slate-700">82%</span>
+                                            </div>
+                                            <div class="w-full bg-slate-200 rounded-full h-2">
+                                                <div class="bg-purple-600 h-2 rounded-full progress-bar" style="width: 82%"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-1">
+                                            <svg class="w-4 h-4 text-amber-400 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                                            <span class="text-sm font-bold text-slate-800">4.7</span>
+                                            <span class="text-xs text-slate-500">(28)</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-2">
+                                            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                                            <span class="text-sm font-bold text-green-700">95%</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-2">
+                                            <button onclick="viewCourse(3)" class="px-3 py-2 bg-blue-500 text-white text-xs font-semibold rounded-lg hover:bg-blue-600 transition">Ver</button>
+                                            <button onclick="editCourse(3)" class="px-3 py-2 bg-amber-500 text-white text-xs font-semibold rounded-lg hover:bg-amber-600 transition">Editar</button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Curso 4 -->
+                                <tr class="hover:bg-slate-50 transition">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                <span class="text-white font-bold text-sm">PL</span>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-semibold text-slate-800">Prevención de Riesgos Laborales</p>
+                                                <p class="text-xs text-slate-500">6 módulos • 28 lecciones</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">Activo</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm font-bold text-slate-800">93</p>
+                                        <p class="text-xs text-slate-500">estudiantes</p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="w-full">
+                                            <div class="flex items-center justify-between mb-1">
+                                                <span class="text-xs font-semibold text-slate-700">61%</span>
+                                            </div>
+                                            <div class="w-full bg-slate-200 rounded-full h-2">
+                                                <div class="bg-red-600 h-2 rounded-full progress-bar" style="width: 61%"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-1">
+                                            <svg class="w-4 h-4 text-amber-400 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                                            <span class="text-sm font-bold text-slate-800">4.5</span>
+                                            <span class="text-xs text-slate-500">(48)</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-2">
+                                            <div class="w-2 h-2 bg-amber-500 rounded-full"></div>
+                                            <span class="text-sm font-bold text-amber-700">85%</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-2">
+                                            <button onclick="viewCourse(4)" class="px-3 py-2 bg-blue-500 text-white text-xs font-semibold rounded-lg hover:bg-blue-600 transition">Ver</button>
+                                            <button onclick="editCourse(4)" class="px-3 py-2 bg-amber-500 text-white text-xs font-semibold rounded-lg hover:bg-amber-600 transition">Editar</button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Curso 5 -->
+                                <tr class="hover:bg-slate-50 transition">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-12 h-12 bg-gradient-to-br from-teal-500 to-teal-600 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                <span class="text-white font-bold text-sm">MA</span>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-semibold text-slate-800">Manipulación de Alimentos</p>
+                                                <p class="text-xs text-slate-500">4 módulos • 16 lecciones</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-3 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">Activo</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm font-bold text-slate-800">46</p>
+                                        <p class="text-xs text-slate-500">estudiantes</p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="w-full">
+                                            <div class="flex items-center justify-between mb-1">
+                                                <span class="text-xs font-semibold text-slate-700">70%</span>
+                                            </div>
+                                            <div class="w-full bg-slate-200 rounded-full h-2">
+                                                <div class="bg-teal-600 h-2 rounded-full progress-bar" style="width: 70%"></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-1">
+                                            <svg class="w-4 h-4 text-amber-400 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>
+                                            <span class="text-sm font-bold text-slate-800">4.9</span>
+                                            <span class="text-xs text-slate-500">(24)</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-2">
+                                            <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                                            <span class="text-sm font-bold text-green-700">94%</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-2">
+                                            <button onclick="viewCourse(5)" class="px-3 py-2 bg-blue-500 text-white text-xs font-semibold rounded-lg hover:bg-blue-600 transition">Ver</button>
+                                            <button onclick="editCourse(5)" class="px-3 py-2 bg-amber-500 text-white text-xs font-semibold rounded-lg hover:bg-amber-600 transition">Editar</button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Sección: Análisis de Rendimiento -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- Top Cursos -->
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                        <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                            <svg class="w-5 h-5 mr-2 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                            </svg>
+                            Cursos Más Populares
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+                                        <span class="text-white font-bold text-xs">HC</span>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-slate-800">HACCP</p>
+                                        <p class="text-xs text-slate-500">87 estudiantes</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-bold text-amber-600">4.8 ⭐</p>
+                                    <p class="text-xs text-slate-500">42 opiniones</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-gradient-to-br from-red-500 to-red-600 rounded-lg flex items-center justify-center">
+                                        <span class="text-white font-bold text-xs">PL</span>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-slate-800">Prevención de Riesgos</p>
+                                        <p class="text-xs text-slate-500">93 estudiantes</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-bold text-amber-600">4.5 ⭐</p>
+                                    <p class="text-xs text-slate-500">48 opiniones</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-gradient-to-br from-green-500 to-green-600 rounded-lg flex items-center justify-center">
+                                        <span class="text-white font-bold text-xs">BP</span>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-slate-800">BPM Y POS</p>
+                                        <p class="text-xs text-slate-500">64 estudiantes</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-bold text-amber-600">4.6 ⭐</p>
+                                    <p class="text-xs text-slate-500">31 opiniones</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Cursos con Mayor Tasa de Éxito -->
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                        <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center">
+                            <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Mayor Tasa de Éxito
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center">
+                                        <span class="text-white font-bold text-xs">NL</span>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-slate-800">Normativa Laboral</p>
+                                        <p class="text-xs text-slate-500">52 estudiantes</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-bold text-green-700">95%</p>
+                                    <p class="text-xs text-slate-500">tasa éxito</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-gradient-to-br from-teal-500 to-teal-600 rounded-lg flex items-center justify-center">
+                                        <span class="text-white font-bold text-xs">MA</span>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-slate-800">Manipulación Alimentos</p>
+                                        <p class="text-xs text-slate-500">46 estudiantes</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-bold text-green-700">94%</p>
+                                    <p class="text-xs text-slate-500">tasa éxito</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center space-x-3">
+                                    <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+                                        <span class="text-white font-bold text-xs">HC</span>
+                                    </div>
+                                    <div>
+                                        <p class="text-sm font-semibold text-slate-800">HACCP</p>
+                                        <p class="text-xs text-slate-500">87 estudiantes</p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm font-bold text-green-700">92%</p>
+                                    <p class="text-xs text-slate-500">tasa éxito</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Bloqueo Móvil -->
+    <div class="mobile-blocker fixed inset-0 bg-[#064D91] flex-col items-center justify-center p-8 text-center z-[100] hidden">
+        <h2 class="text-3xl font-bold text-white mb-4">Computador Requerido</h2>
+        <p class="text-blue-100 mb-6">El panel requiere una pantalla más grande para gestionar el contenido.</p>
+    </div>
+
+    <script>
+        function viewCourse(id) {
+            alert(`Ver detalles del curso #${id}`);
+        }
+
+        function editCourse(id) {
+            alert(`Editar curso #${id}`);
+        }
+    </script>
+</body>
+</html>

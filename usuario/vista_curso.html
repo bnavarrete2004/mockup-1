@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso HACCP - JC Digital Training</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        * { font-family: 'Inter', sans-serif; }
+        
+        .bg-main { background-color: #F8FAFC; }
+        .sidebar-gradient { background: linear-gradient(180deg, #064D91 0%, #043360 100%); }
+        .accent-gradient { background: linear-gradient(135deg, #52A9B7 0%, #3D808A 100%); }
+        
+        /* Timer animado */
+        .pulse-dot {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Scrollbar personalizada */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        /* Rotación de flecha para el menú desplegable */
+        .rotate-180 { transform: rotate(180deg); }
+        .transition-transform { transition: transform 0.3s ease; }
+
+        @media (max-width: 1365px) {
+            .app-container { display: none; }
+            .mobile-blocker { display: flex; }
+        }
+    </style>
+</head>
+<body class="bg-main text-slate-800">
+
+    <div class="app-container flex h-screen overflow-hidden">
+        
+        <!-- SIDEBAR IZQUIERDO (NORMALIZADO CON DASHBOARD) -->
+        <aside class="w-72 sidebar-gradient text-white flex flex-col z-20 shadow-2xl">
+            <div class="p-8">
+                <div class="flex items-center space-x-3 mb-2">
+                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-lg">
+                        <span class="text-[#064D91] font-bold text-xl">JC</span>
+                    </div>
+                    <span class="text-xl font-bold tracking-tight">JC Digital Training</span>
+                </div>
+                <div class="inline-flex items-center bg-white/10 px-3 py-1 rounded-full border border-white/20">
+                    <span class="w-2 h-2 bg-green-400 rounded-full mr-2 pulse-dot"></span>
+                    <span class="text-[10px] uppercase font-semibold tracking-widest text-blue-100">Portal Estudiante</span>
+                </div>
+            </div>
+
+            <nav class="flex-1 px-4 space-y-1">
+                <p class="px-4 text-[10px] font-semibold text-blue-300/50 uppercase tracking-widest mb-2">Menú Principal</p>
+                
+                <!-- Mi Panel -->
+                <a href="#" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    <span class="font-medium">Mi Panel</span>
+                </a>
+
+                <!-- Mis Cursos (Desplegable) -->
+                <div>
+                    <button onclick="toggleCourses()" class="w-full flex items-center justify-between px-4 py-3 bg-white/10 border-l-4 border-[#52A9B7] rounded-r-lg transition-all">
+                        <div class="flex items-center">
+                            <svg class="w-5 h-5 mr-3 text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.754 18 18.168 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                            <span class="font-medium">Mis Cursos</span>
+                        </div>
+                        <svg id="arrow-icon" class="w-4 h-4 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                    </button>
+                    
+                    <!-- Subsección: Mis Módulos -->
+                    <div id="modules-menu" class="hidden mt-1 ml-9 space-y-1 border-l border-white/10">
+                        <a href="#" class="block px-4 py-2 text-xs text-blue-200/70 hover:text-white hover:bg-white/5 rounded-md transition-all">Bioseguridad y Manejo de Patógenos en Especies Salmonídeas</a>
+                        <a href="#" class="block px-4 py-2 text-xs text-blue-200/70 hover:text-white hover:bg-white/5 rounded-md transition-all">Normativa Sanitaria y Calidad Alimentaria (HACCP) en Peces</a>
+                        <a href="#" class="block px-4 py-2 text-xs text-blue-200/70 hover:text-white hover:bg-white/5 rounded-md transition-all font-bold text-[#52A9B7]">Ver todos los módulos</a>
+                    </div>
+                </div>
+
+                <a href="#" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <span>Diplomas</span>
+                </a>
+                
+                <p class="px-4 text-[10px] font-semibold text-blue-300/50 uppercase tracking-widest mt-8 mb-2">Configuración</p>
+                <a href="#" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                    <span>Mi Perfil</span>
+                </a>
+            </nav>
+
+            <div class="p-6 bg-black/20 m-4 rounded-xl">
+                <div class="flex items-center mb-3">
+                    <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-xs font-bold mr-2">S</div>
+                    <span class="text-xs font-semibold text-blue-200">Soporte</span>
+                </div>
+                <p class="text-[10px] text-blue-100/60 leading-relaxed mb-3">¿Dudas con tu registro de asistencia biométrica? Contacta soporte.</p>
+                <button class="w-full py-2 bg-[#52A9B7] rounded-lg text-xs font-semibold hover:bg-[#3D808A] transition-colors">Ayuda Directa</button>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="flex-1 overflow-y-auto relative">
+            <!-- Header Superior -->
+            <header class="sticky top-0 z-10 bg-white/90 backdrop-blur-md px-10 py-6 border-b border-slate-200">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <button onclick="goToDashboard()" class="text-slate-400 hover:text-slate-600">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                            </svg>
+                        </button>
+                        <div>
+                            <p class="text-xs text-slate-500">Curso SENCE ID: 9918231</p>
+                            <h1 class="text-2xl font-bold text-slate-800">Normativa Sanitaria y Calidad Alimentaria (HACCP) en Peces</h1>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-6">
+                        <!-- Tiempo de sesión -->
+                        <div class="bg-blue-50 rounded-lg px-4 py-2 border border-blue-200">
+                            <div class="flex items-center text-xs">
+                                <svg class="w-4 h-4 text-[#064D91] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <span class="text-gray-600">Conexión SENCE:</span>
+                                <span class="font-bold text-[#064D91] ml-1">1h 23min</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-3 bg-white px-3 py-2 rounded-lg shadow-sm border border-slate-200">
+                            <img src="https://ui-avatars.com/api/?name=Juan+Perez&background=064D91&color=fff" class="w-8 h-8 rounded-full" alt="User">
+                            <div class="text-left">
+                                <p class="text-xs font-semibold text-slate-700">Juan Pérez</p>
+                                <p class="text-[10px] text-slate-500">RUT: 12.345.678-9</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Barra de progreso del curso -->
+                <div class="mt-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-xs font-semibold text-slate-600">Progreso del curso</span>
+                        <span class="text-sm font-bold text-[#064D91]">10%</span>
+                    </div>
+                    <div class="w-full h-2 bg-slate-100 rounded-full">
+                        <div class="w-[10%] h-full bg-[#064D91] rounded-full"></div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="px-10 py-8">
+                <!-- Info del curso -->
+                <div class="bg-white rounded-xl border border-slate-200 p-6 mb-8 shadow-sm">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-[#064D91]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-500">Duración</p>
+                                <p class="text-sm font-bold text-slate-800">12 Horas lectivas</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 bg-green-50 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-500">Actividades completadas</p>
+                                <p class="text-sm font-bold text-slate-800">2 de 18</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 bg-amber-50 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-500">Fecha límite</p>
+                                <p class="text-sm font-bold text-slate-800">31 Enero 2026</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 bg-purple-50 rounded-lg flex items-center justify-center">
+                                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-xs text-slate-500">Relator</p>
+                                <p class="text-sm font-bold text-slate-800">Dr. Carlos Rojas</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Módulos del curso -->
+                <div class="space-y-4">
+                    <h2 class="text-xl font-bold text-slate-800 mb-6">Módulos del curso</h2>
+                    
+                    <!-- Módulo 1 - COMPLETADO -->
+                    <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm">
+                        <div class="p-6 bg-green-50/30">
+                            <div class="flex items-start justify-between">
+                                <div class="flex items-start space-x-4 flex-1">
+                                    <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-center space-x-3 mb-2">
+                                            <h3 class="text-lg font-bold text-slate-800">Módulo 1: Introducción al Sistema HACCP</h3>
+                                            <span class="px-2 py-1 bg-green-100 text-green-700 text-xs font-semibold rounded-full">Completado</span>
+                                        </div>
+                                        <p class="text-sm text-slate-600 mb-3">Fundamentos del análisis de peligros y puntos críticos de control en la industria alimentaria.</p>
+                                        <div class="flex items-center space-x-4 text-xs text-slate-500">
+                                            <span class="flex items-center">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                                </svg>
+                                                3 videos
+                                            </span>
+                                            <span class="flex items-center">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                                </svg>
+                                                2 guías
+                                            </span>
+                                            <span class="flex items-center">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                                </svg>
+                                                1 cuestionario
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold text-green-600">100%</div>
+                                    <p class="text-xs text-slate-500">2h 15min</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Módulo 2 - EN PROGRESO -->
+                    <div class="bg-white rounded-xl border border-[#52A9B7] overflow-hidden shadow-sm">
+                        <div class="p-6">
+                            <div class="flex items-start justify-between">
+                                <div class="flex items-start space-x-4 flex-1">
+                                    <div class="w-12 h-12 bg-[#52A9B7] rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-center space-x-3 mb-2">
+                                            <h3 class="text-lg font-bold text-slate-800">Módulo 2: Identificación y Análisis de Peligros</h3>
+                                            <span class="px-2 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full">En progreso</span>
+                                        </div>
+                                        <p class="text-sm text-slate-600 mb-3">Métodos para identificar peligros biológicos, químicos y físicos en productos pesqueros.</p>
+                                        <div class="flex items-center space-x-4 text-xs text-slate-500 mb-4">
+                                            <span class="flex items-center">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                                </svg>
+                                                4 videos
+                                            </span>
+                                            <span class="flex items-center">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                                </svg>
+                                                3 guías
+                                            </span>
+                                            <span class="flex items-center">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                                </svg>
+                                                1 examen diagnóstico
+                                            </span>
+                                        </div>
+                                        
+                                        <!-- Progreso del módulo -->
+                                        <div class="mb-3">
+                                            <div class="flex justify-between items-center mb-1">
+                                                <span class="text-xs font-medium text-slate-600">Progreso del módulo</span>
+                                                <span class="text-xs font-bold text-[#064D91]">25%</span>
+                                            </div>
+                                            <div class="w-full h-1.5 bg-slate-100 rounded-full">
+                                                <div class="w-1/4 h-full bg-[#064D91] rounded-full"></div>
+                                            </div>
+                                        </div>
+                                        
+                                        <a href="leccion.html" class="px-4 py-2 bg-[#064D91] text-white rounded-lg text-sm font-semibold hover:bg-[#265379] transition-colors">
+                                            Continuar módulo
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold text-[#52A9B7]">25%</div>
+                                    <p class="text-xs text-slate-500">45min / 3h</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Módulo 3 - BLOQUEADO -->
+                    <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm opacity-60">
+                        <div class="p-6">
+                            <div class="flex items-start justify-between">
+                                <div class="flex items-start space-x-4 flex-1">
+                                    <div class="w-12 h-12 bg-slate-200 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-center space-x-3 mb-2">
+                                            <h3 class="text-lg font-bold text-slate-800">Módulo 3: Determinación de Puntos Críticos de Control</h3>
+                                            <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs font-semibold rounded-full">Bloqueado</span>
+                                        </div>
+                                        <p class="text-sm text-slate-600 mb-3">Aplicación del árbol de decisiones para establecer PCC en procesos de producción pesquera.</p>
+                                        <div class="flex items-center space-x-4 text-xs text-slate-500">
+                                            <span class="flex items-center">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                                </svg>
+                                                5 videos
+                                            </span>
+                                            <span class="flex items-center">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                                </svg>
+                                                2 guías
+                                            </span>
+                                            <span class="flex items-center">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                                </svg>
+                                                1 tarea práctica
+                                            </span>
+                                        </div>
+                                        <p class="text-xs text-amber-600 mt-3 flex items-center">
+                                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                            </svg>
+                                            Completa el Módulo 2 para desbloquear
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold text-slate-300">0%</div>
+                                    <p class="text-xs text-slate-400">3h 30min</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Módulo 4 - BLOQUEADO -->
+                    <div class="bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm opacity-60">
+                        <div class="p-6">
+                            <div class="flex items-start justify-between">
+                                <div class="flex items-start space-x-4 flex-1">
+                                    <div class="w-12 h-12 bg-slate-200 rounded-lg flex items-center justify-center flex-shrink-0">
+                                        <svg class="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                        </svg>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-center space-x-3 mb-2">
+                                            <h3 class="text-lg font-bold text-slate-800">Módulo 4: Verificación y Documentación del Sistema</h3>
+                                            <span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs font-semibold rounded-full">Bloqueado</span>
+                                        </div>
+                                        <p class="text-sm text-slate-600 mb-3">Procedimientos de verificación, registros y auditorías del sistema HACCP.</p>
+                                        <div class="flex items-center space-x-4 text-xs text-slate-500">
+                                            <span class="flex items-center">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                                </svg>
+                                                3 videos
+                                            </span>
+                                            <span class="flex items-center">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                                </svg>
+                                                2 guías
+                                            </span>
+                                            <span class="flex items-center">
+                                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                                </svg>
+                                                1 examen final
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-2xl font-bold text-slate-300">0%</div>
+                                    <p class="text-xs text-slate-400">2h 45min</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recursos adicionales -->
+                <div class="mt-10 bg-blue-50 rounded-xl p-6 border border-blue-100">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4">Recursos adicionales del curso</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <a href="#" class="flex items-center p-4 bg-white rounded-lg hover:shadow-md transition-shadow">
+                            <svg class="w-8 h-8 text-[#064D91] mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.754 18 18.168 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg>
+                            <div>
+                                <p class="text-sm font-semibold text-slate-800">Bibliografía</p>
+                                <p class="text-xs text-slate-500">Lecturas complementarias</p>
+                            </div>
+                        </a>
+                        
+                        <a href="#" class="flex items-center p-4 bg-white rounded-lg hover:shadow-md transition-shadow">
+                            <svg class="w-8 h-8 text-[#064D91] mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                            </svg>
+                            <div>
+                                <p class="text-sm font-semibold text-slate-800">Foro de dudas</p>
+                                <p class="text-xs text-slate-500">Consulta al relator</p>
+                            </div>
+                        </a>
+                        
+                        <a href="#" class="flex items-center p-4 bg-white rounded-lg hover:shadow-md transition-shadow">
+                            <svg class="w-8 h-8 text-[#064D91] mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                            </svg>
+                            <div>
+                                <p class="text-sm font-semibold text-slate-800">Material descargable</p>
+                                <p class="text-xs text-slate-500">PDFs y plantillas</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bloqueo Móvil -->
+    <div class="mobile-blocker fixed inset-0 bg-[#064D91] flex-col items-center justify-center p-8 text-center z-[100] hidden">
+        <div class="max-w-md">
+            <div class="w-24 h-24 bg-white rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-2xl">
+                <svg class="w-12 h-12 text-[#064D91]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+            </div>
+            <h2 class="text-3xl font-bold text-white mb-4">Computador Requerido</h2>
+            <p class="text-blue-100 mb-6 leading-relaxed">Para asegurar la validación SENCE de tu capacitación, debes ingresar desde un equipo de escritorio.</p>
+        </div>
+    </div>
+
+    <!-- Script para desplegar módulos y navegación -->
+    <script>
+        function toggleCourses() {
+            const menu = document.getElementById('modules-menu');
+            const arrow = document.getElementById('arrow-icon');
+            
+            if (menu.classList.contains('hidden')) {
+                menu.classList.remove('hidden');
+                arrow.classList.add('rotate-180');
+            } else {
+                menu.classList.add('hidden');
+                arrow.classList.remove('rotate-180');
+            }
+        }
+
+        function goToDashboard() {
+            alert('Volviendo al Dashboard...');
+            // En producción: window.location.href = '/dashboard';
+        }
+    </script>
+</body>
+</html>

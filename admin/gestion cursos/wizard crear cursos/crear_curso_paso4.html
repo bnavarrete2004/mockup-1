@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Curso - Paso 4 - JC Digital Training</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        * { font-family: 'Inter', sans-serif; }
+        
+        .bg-main { background-color: #F8FAFC; }
+        .sidebar-gradient { background: linear-gradient(180deg, #064D91 0%, #043360 100%); }
+        
+        .pulse-dot {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .step-active {
+            background: #064D91;
+            color: white;
+        }
+
+        .step-completed {
+            background: #10b981;
+            color: white;
+        }
+
+        .step-pending {
+            background: #e2e8f0;
+            color: #64748b;
+        }
+
+        .step-line-completed {
+            background: #10b981;
+        }
+
+        .step-line-pending {
+            background: #e2e8f0;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        @media (max-width: 1365px) {
+            .app-container { display: none; }
+            .mobile-blocker { display: flex; }
+        }
+
+        .activity-item {
+            transition: all 0.2s ease;
+        }
+
+        .activity-item:hover {
+            background: #f8fafc;
+        }
+
+        .module-tab {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .module-tab.active {
+            background: #064D91;
+            color: white;
+        }
+
+        .lesson-selector {
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .lesson-selector.active {
+            background: #52A9B7;
+            color: white;
+        }
+
+        .lesson-selector:not(.active):hover {
+            background: #e2e8f0;
+        }
+
+        .material-card {
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .material-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.15);
+        }
+
+        .filter-badge {
+            transition: all 0.2s ease;
+        }
+
+        .filter-badge.active {
+            background: #064D91;
+            color: white;
+        }
+
+        .modal-backdrop {
+            backdrop-filter: blur(4px);
+        }
+    </style>
+</head>
+<body class="bg-main text-slate-800">
+
+    <div class="app-container flex h-screen overflow-hidden">
+        
+        <!-- SIDEBAR CON VISTA PREVIA -->
+        <aside class="w-72 sidebar-gradient text-white flex flex-col z-20 shadow-2xl">
+            <div class="p-8">
+                <div class="flex items-center space-x-3 mb-2">
+                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-lg">
+                        <span class="text-[#064D91] font-bold text-xl">JC</span>
+                    </div>
+                    <span class="text-xl font-bold tracking-tight">JC Digital Training</span>
+                </div>
+                <div class="inline-flex items-center bg-white/10 px-3 py-1 rounded-full border border-white/20">
+                    <span class="w-2 h-2 bg-green-400 rounded-full mr-2 pulse-dot"></span>
+                    <span class="text-[10px] uppercase font-semibold tracking-widest text-blue-100">Creando Curso</span>
+                </div>
+            </div>
+
+            <!-- Vista previa dinámica -->
+            <div class="flex-1 px-6 overflow-y-auto">
+                <h3 class="text-xs font-semibold text-blue-200 uppercase tracking-wider mb-4">Progreso de Asignación</h3>
+                <div id="assignment-progress" class="space-y-3">
+                    <!-- Se llenará dinámicamente -->
+                </div>
+            </div>
+
+            <div class="p-6">
+                <button onclick="cancelCreate()" class="w-full py-2 bg-red-500 text-white rounded-lg text-sm font-semibold hover:bg-red-600 transition">
+                    Cancelar Creación
+                </button>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="flex-1 overflow-y-auto relative">
+            <!-- Header -->
+            <header class="sticky top-0 z-10 bg-white/90 backdrop-blur-md px-10 py-6 border-b border-slate-200">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-2xl font-bold text-slate-800">Asignar Actividades</h1>
+                        <p class="text-slate-500 text-sm">Selecciona materiales aprobados para cada lección</p>
+                    </div>
+                    <a href="../gestion_cursos.html" class="text-slate-400 hover:text-slate-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </a>
+                </div>
+            </header>
+
+            <div class="px-10 py-8">
+                
+                <!-- Stepper / Progress Bar -->
+                <div class="mb-10">
+                    <div class="flex items-center justify-between max-w-4xl mx-auto">
+                        <!-- Step 1-3 - Completados -->
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold step-completed mb-2">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <p class="text-xs font-semibold text-green-600">Información Básica</p>
+                        </div>
+                        <div class="flex-1 h-1 step-line-completed mx-2 mt-[-24px]"></div>
+                        
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold step-completed mb-2">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <p class="text-xs font-semibold text-green-600">Crear Módulos</p>
+                        </div>
+                        <div class="flex-1 h-1 step-line-completed mx-2 mt-[-24px]"></div>
+                        
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold step-completed mb-2">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <p class="text-xs font-semibold text-green-600">Crear Lecciones</p>
+                        </div>
+                        <div class="flex-1 h-1 step-line-completed mx-2 mt-[-24px]"></div>
+                        
+                        <!-- Step 4 - Activo -->
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold step-active mb-2">
+                                4
+                            </div>
+                            <p class="text-xs font-semibold text-[#064D91]">Asignar Actividades</p>
+                        </div>
+                        <div class="flex-1 h-1 step-line-pending mx-2 mt-[-24px]"></div>
+                        
+                        <!-- Step 5 -->
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold step-pending mb-2">
+                                5
+                            </div>
+                            <p class="text-xs font-semibold text-slate-400">Revisar y Publicar</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contenido Paso 4 -->
+                <div class="max-w-6xl mx-auto">
+                    
+                    <!-- Tabs de Módulos -->
+                    <div class="mb-6">
+                        <div class="flex gap-2 flex-wrap" id="module-tabs">
+                            <!-- Se generarán dinámicamente -->
+                        </div>
+                    </div>
+
+                    <!-- Grid: Lecciones + Materiales -->
+                    <div class="grid grid-cols-12 gap-6">
+                        
+                        <!-- Columna Izquierda: Lista de Lecciones -->
+                        <div class="col-span-4">
+                            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 sticky top-32">
+                                <h3 class="font-semibold text-slate-800 mb-3">Lecciones del Módulo</h3>
+                                <div id="lessons-list" class="space-y-2 max-h-[600px] overflow-y-auto">
+                                    <!-- Se generarán dinámicamente -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Columna Derecha: Asignación de Materiales -->
+                        <div class="col-span-8">
+                            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                                <div class="flex items-center justify-between mb-6">
+                                    <div>
+                                        <h3 class="font-semibold text-slate-800 text-lg" id="current-lesson-title">Selecciona una lección</h3>
+                                        <p class="text-sm text-slate-500" id="current-lesson-subtitle">Elige una lección de la lista para asignar materiales</p>
+                                    </div>
+                                </div>
+
+                                <div id="materials-assignment-area">
+                                    <!-- Estado inicial -->
+                                    <div id="empty-selection" class="text-center py-16">
+                                        <svg class="w-20 h-20 text-slate-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"></path>
+                                        </svg>
+                                        <p class="text-slate-500 font-medium">Selecciona una lección para comenzar</p>
+                                    </div>
+
+                                    <!-- Área de asignación (se mostrará cuando se seleccione una lección) -->
+                                    <div id="assignment-area" class="hidden">
+                                        
+                                        <!-- Materiales Asignados -->
+                                        <div class="mb-8">
+                                            <h4 class="font-semibold text-slate-700 mb-4">Materiales Asignados a esta Lección</h4>
+                                            <div id="assigned-materials" class="space-y-3 min-h-[100px]">
+                                                <p class="text-sm text-slate-400 italic">Aún no hay materiales asignados a esta lección</p>
+                                            </div>
+                                        </div>
+
+                                        <!-- Botón para abrir biblioteca -->
+                                        <div class="border-t pt-6">
+                                            <button onclick="openMaterialLibrary()" class="w-full py-4 border-2 border-dashed border-[#064D91] rounded-xl text-[#064D91] font-semibold hover:bg-[#064D91] hover:text-white transition flex items-center justify-center">
+                                                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                                                </svg>
+                                                Agregar Material desde Biblioteca
+                                            </button>
+                                            <p class="text-xs text-slate-500 text-center mt-2">
+                                                💡 Solo materiales con post-producción completa
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Botones de Navegación -->
+                <div class="max-w-6xl mx-auto">
+                    <div class="flex justify-between items-center mt-8">
+                        <a href="crear_curso_paso3.html" class="px-6 py-3 bg-slate-200 text-slate-700 rounded-lg font-semibold hover:bg-slate-300 transition flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12"></path>
+                            </svg>
+                            Anterior
+                        </a>
+                        <a href="crear_curso_paso5.html" class="px-8 py-3 bg-[#064D91] text-white rounded-lg font-semibold hover:bg-[#265379] transition flex items-center">
+                            Siguiente: Revisar y Publicar
+                            <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- MODAL: Biblioteca de Materiales -->
+    <div id="library-modal" class="hidden fixed inset-0 bg-black/50 modal-backdrop flex items-center justify-center z-50 p-4">
+        <div class="bg-white rounded-2xl w-full max-w-5xl max-h-[90vh] overflow-hidden flex flex-col">
+            
+            <!-- Header del Modal -->
+            <div class="px-8 py-6 border-b border-slate-200">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">Biblioteca de Materiales Aprobados</h2>
+                        <p class="text-sm text-slate-500 mt-1">Solo materiales con post-producción completa</p>
+                    </div>
+                    <button onclick="closeMaterialLibrary()" class="text-slate-400 hover:text-slate-600 p-2">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Búsqueda y Filtros -->
+            <div class="px-8 py-6 border-b border-slate-200">
+                <!-- Barra de búsqueda -->
+                <div class="mb-4">
+                    <div class="relative">
+                        <input 
+                            type="text" 
+                            id="search-materials"
+                            placeholder="Buscar por título, relator o tema..."
+                            class="w-full pl-12 pr-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#52A9B7] focus:border-[#52A9B7] outline-none"
+                            oninput="filterMaterials()"
+                        >
+                        <svg class="w-5 h-5 text-slate-400 absolute left-4 top-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Filtros Rápidos por Tipo -->
+                <div class="mb-4">
+                    <p class="text-sm font-semibold text-slate-700 mb-3">Filtrar por tipo:</p>
+                    <div class="flex gap-2 flex-wrap">
+                        <button onclick="filterByType('all')" class="filter-badge active px-4 py-2 rounded-lg border border-slate-300 text-sm font-medium">
+                            Todos (88)
+                        </button>
+                        <button onclick="filterByType('video')" class="filter-badge px-4 py-2 rounded-lg border border-slate-300 text-sm font-medium flex items-center">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                            </svg>
+                            Videos (23)
+                        </button>
+                        <button onclick="filterByType('pdf')" class="filter-badge px-4 py-2 rounded-lg border border-slate-300 text-sm font-medium flex items-center">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                            </svg>
+                            PDFs (45)
+                        </button>
+                        <button onclick="filterByType('quiz')" class="filter-badge px-4 py-2 rounded-lg border border-slate-300 text-sm font-medium flex items-center">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                            </svg>
+                            Quizzes (12)
+                        </button>
+                        <button onclick="filterByType('exam')" class="filter-badge px-4 py-2 rounded-lg border border-slate-300 text-sm font-medium flex items-center">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            Exámenes (8)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filtros adicionales -->
+                <div class="flex gap-4">
+                    <select class="px-4 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-[#52A9B7] outline-none" onchange="filterMaterials()">
+                        <option value="all">Todos los relatores</option>
+                        <option value="carlos">Dr. Carlos Rojas</option>
+                        <option value="maria">María López</option>
+                        <option value="pedro">Pedro González</option>
+                        <option value="ana">Ana Martínez</option>
+                    </select>
+                    <select class="px-4 py-2 border border-slate-300 rounded-lg text-sm focus:ring-2 focus:ring-[#52A9B7] outline-none" onchange="filterMaterials()">
+                        <option value="recent">Más reciente</option>
+                        <option value="name">Nombre A-Z</option>
+                        <option value="used">Más usado</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Lista de Materiales -->
+            <div class="flex-1 overflow-y-auto px-8 py-6">
+                <div id="materials-grid" class="grid grid-cols-1 gap-4">
+                    <!-- Las tarjetas de materiales se generarán aquí -->
+                </div>
+
+                <!-- Mensaje cuando no hay resultados -->
+                <div id="no-results" class="hidden text-center py-12">
+                    <svg class="w-16 h-16 text-slate-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    <p class="text-slate-500 font-medium">No se encontraron materiales</p>
+                    <p class="text-sm text-slate-400 mt-1">Intenta con otros filtros o términos de búsqueda</p>
+                </div>
+            </div>
+
+            <!-- Footer con Paginación -->
+            <div class="px-8 py-4 border-t border-slate-200 bg-slate-50">
+                <div class="flex items-center justify-between">
+                    <p class="text-sm text-slate-600">
+                        Mostrando <span class="font-semibold">1-10</span> de <span class="font-semibold">88</span> materiales
+                    </p>
+                    <div class="flex gap-2">
+                        <button class="px-4 py-2 border border-slate-300 rounded-lg text-sm font-medium text-slate-600 hover:bg-slate-100 disabled:opacity-50" disabled>
+                            Anterior
+                        </button>
+                        <button class="px-4 py-2 bg-[#064D91] text-white rounded-lg text-sm font-medium hover:bg-[#265379]">
+                            Siguiente
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Bloqueo Móvil -->
+    <div class="mobile-blocker fixed inset-0 bg-[#064D91] flex-col items-center justify-center p-8 text-center z-[100] hidden">
+        <div class="max-w-md">
+            <h2 class="text-3xl font-bold text-white mb-4">Computador Requerido</h2>
+            <p class="text-blue-100">La creación de cursos requiere escritorio</p>
+        </div>
+    </div>
+
+    <script>
+        // Simulación de datos
+        let modules = [
+            {
+                id: 'module-1',
+                name: 'Introducción a HACCP',
+                lessons: [
+                    { id: 'lesson-1-1', name: '¿Qué es HACCP?', materials: [] },
+                    { id: 'lesson-1-2', name: 'Historia y evolución', materials: [] }
+                ]
+            },
+            {
+                id: 'module-2',
+                name: 'Principios de Inocuidad',
+                lessons: [
+                    { id: 'lesson-2-1', name: 'Los 7 principios', materials: [] },
+                    { id: 'lesson-2-2', name: 'Análisis de peligros', materials: [] }
+                ]
+            }
+        ];
+
+        // Base de datos de materiales APROBADOS
+        const approvedMaterials = [
+            { 
+                id: 'v1', 
+                type: 'video',
+                name: 'Introducción al Sistema HACCP', 
+                duration: '15 min',
+                relator: 'Dr. Carlos Rojas',
+                description: 'Video explicativo con ejemplos prácticos y casos reales',
+                published: '12 Ene 2025',
+                usedIn: 3,
+                tags: ['HACCP', 'Introducción']
+            },
+            { 
+                id: 'v2', 
+                type: 'video',
+                name: 'Historia de la Inocuidad Alimentaria', 
+                duration: '20 min',
+                relator: 'María López',
+                description: 'Recorrido histórico por la normativa sanitaria',
+                published: '10 Ene 2025',
+                usedIn: 2,
+                tags: ['Historia', 'Inocuidad']
+            },
+            { 
+                id: 'v3', 
+                type: 'video',
+                name: 'Los 7 Principios Explicados', 
+                duration: '30 min',
+                relator: 'Dr. Carlos Rojas',
+                description: 'Análisis detallado de cada principio HACCP',
+                published: '8 Ene 2025',
+                usedIn: 5,
+                tags: ['HACCP', 'Principios']
+            },
+            { 
+                id: 'p1', 
+                type: 'pdf',
+                name: 'Guía Completa HACCP', 
+                pages: '45 páginas',
+                relator: 'Dr. Carlos Rojas',
+                description: 'Manual profesional con formato corporativo',
+                published: '15 Ene 2025',
+                usedIn: 7,
+                tags: ['HACCP', 'Manual']
+            },
+            { 
+                id: 'p2', 
+                type: 'pdf',
+                name: 'Manual de Buenas Prácticas', 
+                pages: '32 páginas',
+                relator: 'María López',
+                description: 'Guía práctica con diagramas profesionales',
+                published: '13 Ene 2025',
+                usedIn: 4,
+                tags: ['BPM', 'Prácticas']
+            },
+            { 
+                id: 'p3', 
+                type: 'pdf',
+                name: 'Checklist de Implementación', 
+                pages: '8 páginas',
+                relator: 'Pedro González',
+                description: 'Lista de verificación con branding JC Digital',
+                published: '11 Ene 2025',
+                usedIn: 6,
+                tags: ['Checklist', 'Implementación']
+            },
+            { 
+                id: 'q1', 
+                type: 'quiz',
+                name: 'Quiz: Conceptos Básicos HACCP', 
+                questions: '10 preguntas',
+                relator: 'Dr. Carlos Rojas',
+                description: 'Evaluación de conocimientos fundamentales',
+                published: '14 Ene 2025',
+                usedIn: 5,
+                tags: ['Quiz', 'Conceptos']
+            },
+            { 
+                id: 'q2', 
+                type: 'quiz',
+                name: 'Quiz: Los 7 Principios', 
+                questions: '15 preguntas',
+                relator: 'María López',
+                description: 'Evaluación detallada por principio',
+                published: '12 Ene 2025',
+                usedIn: 3,
+                tags: ['Quiz', 'Principios']
+            },
+            { 
+                id: 'e1', 
+                type: 'exam',
+                name: 'Examen Final Módulo 1', 
+                questions: '25 preguntas',
+                duration: '45 min',
+                relator: 'Dr. Carlos Rojas',
+                description: 'Evaluación comprehensiva del módulo',
+                published: '10 Ene 2025',
+                usedIn: 2,
+                tags: ['Examen', 'Final']
+            }
+        ];
+
+        let currentModuleId = 'module-1';
+        let currentLessonId = null;
+        let currentFilter = 'all';
+
+        // Inicializar
+        function init() {
+            initModuleTabs();
+            updateProgress();
+            renderMaterialsLibrary();
+        }
+
+        function initModuleTabs() {
+            const tabsContainer = document.getElementById('module-tabs');
+            tabsContainer.innerHTML = modules.map(m => `
+                <button 
+                    onclick="selectModule('${m.id}')" 
+                    class="module-tab px-6 py-3 rounded-lg font-semibold text-sm ${m.id === currentModuleId ? 'active' : 'bg-white text-slate-700'}"
+                    id="tab-${m.id}"
+                >
+                    ${m.name}
+                </button>
+            `).join('');
+
+            updateLessonsList();
+        }
+
+        function selectModule(moduleId) {
+            currentModuleId = moduleId;
+            currentLessonId = null;
+            
+            document.querySelectorAll('.module-tab').forEach(tab => {
+                tab.classList.remove('active');
+                tab.classList.add('bg-white', 'text-slate-700');
+            });
+            
+            const activeTab = document.getElementById(`tab-${moduleId}`);
+            activeTab.classList.add('active');
+            activeTab.classList.remove('bg-white', 'text-slate-700');
+
+            updateLessonsList();
+            showEmptySelection();
+        }
+
+        function updateLessonsList() {
+            const module = modules.find(m => m.id === currentModuleId);
+            const container = document.getElementById('lessons-list');
+            
+            container.innerHTML = module.lessons.map(l => `
+                <div 
+                    onclick="selectLesson('${l.id}')" 
+                    class="lesson-selector p-4 rounded-lg border border-slate-200 ${l.id === currentLessonId ? 'active' : 'bg-white'}"
+                    id="lesson-${l.id}"
+                >
+                    <p class="font-semibold text-sm">${l.name}</p>
+                    <p class="text-xs text-slate-500 mt-1">${l.materials.length} material(es)</p>
+                </div>
+            `).join('');
+        }
+
+        function selectLesson(lessonId) {
+            currentLessonId = lessonId;
+            
+            document.querySelectorAll('.lesson-selector').forEach(selector => {
+                selector.classList.remove('active');
+            });
+            
+            const activeSelector = document.getElementById(`lesson-${lessonId}`);
+            activeSelector.classList.add('active');
+
+            showAssignmentArea();
+        }
+
+        function showEmptySelection() {
+            document.getElementById('empty-selection').classList.remove('hidden');
+            document.getElementById('assignment-area').classList.add('hidden');
+            document.getElementById('current-lesson-title').textContent = 'Selecciona una lección';
+            document.getElementById('current-lesson-subtitle').textContent = 'Elige una lección de la lista para asignar materiales';
+        }
+
+        function showAssignmentArea() {
+            const module = modules.find(m => m.id === currentModuleId);
+            const lesson = module.lessons.find(l => l.id === currentLessonId);
+            
+            document.getElementById('empty-selection').classList.add('hidden');
+            document.getElementById('assignment-area').classList.remove('hidden');
+            document.getElementById('current-lesson-title').textContent = lesson.name;
+            document.getElementById('current-lesson-subtitle').textContent = `Módulo: ${module.name}`;
+            
+            updateAssignedMaterials();
+        }
+
+        function updateAssignedMaterials() {
+            const module = modules.find(m => m.id === currentModuleId);
+            const lesson = module.lessons.find(l => l.id === currentLessonId);
+            const container = document.getElementById('assigned-materials');
+            
+            if (lesson.materials.length === 0) {
+                container.innerHTML = '<p class="text-sm text-slate-400 italic">Aún no hay materiales asignados a esta lección</p>';
+                return;
+            }
+
+            const iconMap = {
+                video: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>',
+                pdf: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>',
+                quiz: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>',
+                exam: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>'
+            };
+
+            container.innerHTML = lesson.materials.map(m => `
+                <div class="activity-item flex items-start gap-4 p-4 border border-slate-200 rounded-lg">
+                    <svg class="w-6 h-6 text-[#064D91] flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        ${iconMap[m.type]}
+                    </svg>
+                    <div class="flex-1">
+                        <p class="font-semibold text-sm">${m.name}</p>
+                        <p class="text-xs text-slate-500 mt-1">${m.relator} • ${m.info}</p>
+                        <span class="inline-block mt-2 px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">✨ Post-producción completa</span>
+                    </div>
+                    <button onclick="removeMaterial('${m.assignedId}')" class="text-red-500 hover:text-red-700 flex-shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            `).join('');
+
+            updateProgress();
+        }
+
+        function removeMaterial(assignedId) {
+            if (confirm('¿Deseas eliminar este material de la lección?')) {
+                const module = modules.find(m => m.id === currentModuleId);
+                const lesson = module.lessons.find(l => l.id === currentLessonId);
+                
+                lesson.materials = lesson.materials.filter(m => m.assignedId !== assignedId);
+                
+                updateAssignedMaterials();
+                updateLessonsList();
+            }
+        }
+
+        // BIBLIOTECA DE MATERIALES
+        function openMaterialLibrary() {
+            if (!currentLessonId) {
+                alert('Selecciona una lección primero');
+                return;
+            }
+            document.getElementById('library-modal').classList.remove('hidden');
+            renderMaterialsLibrary();
+        }
+
+        function closeMaterialLibrary() {
+            document.getElementById('library-modal').classList.add('hidden');
+        }
+
+        function filterByType(type) {
+            currentFilter = type;
+            
+            // Actualizar badges
+            document.querySelectorAll('.filter-badge').forEach(badge => {
+                badge.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            renderMaterialsLibrary();
+        }
+
+        function filterMaterials() {
+            renderMaterialsLibrary();
+        }
+
+        function renderMaterialsLibrary() {
+            const searchTerm = document.getElementById('search-materials')?.value.toLowerCase() || '';
+            const container = document.getElementById('materials-grid');
+            
+            let filteredMaterials = approvedMaterials;
+            
+            // Filtrar por tipo
+            if (currentFilter !== 'all') {
+                filteredMaterials = filteredMaterials.filter(m => m.type === currentFilter);
+            }
+            
+            // Filtrar por búsqueda
+            if (searchTerm) {
+                filteredMaterials = filteredMaterials.filter(m => 
+                    m.name.toLowerCase().includes(searchTerm) ||
+                    m.relator.toLowerCase().includes(searchTerm) ||
+                    m.description.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            if (filteredMaterials.length === 0) {
+                container.innerHTML = '';
+                document.getElementById('no-results').classList.remove('hidden');
+                return;
+            }
+
+            document.getElementById('no-results').classList.add('hidden');
+
+            const typeIcons = {
+                video: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>',
+                pdf: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>',
+                quiz: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>',
+                exam: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>'
+            };
+
+            container.innerHTML = filteredMaterials.map(material => `
+                <div class="material-card border border-slate-200 rounded-xl p-5 hover:border-[#064D91]" onclick="assignMaterialFromLibrary('${material.id}')">
+                    <div class="flex items-start gap-4">
+                        <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-[#064D91] bg-opacity-10 flex items-center justify-center">
+                            <svg class="w-6 h-6 text-[#064D91]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                ${typeIcons[material.type]}
+                            </svg>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="font-semibold text-slate-800 mb-1">${material.name}</h4>
+                            <p class="text-sm text-slate-600 mb-2">${material.description}</p>
+                            <div class="flex items-center gap-4 text-xs text-slate-500">
+                                <span>👤 ${material.relator}</span>
+                                <span>⏱ ${material.duration || material.pages || material.questions}</span>
+                                <span>📅 ${material.published}</span>
+                                <span>📊 Usado en ${material.usedIn} cursos</span>
+                            </div>
+                            <div class="flex gap-1 mt-3">
+                                ${material.tags.map(tag => `<span class="px-2 py-1 bg-slate-100 text-slate-600 text-xs rounded-full">${tag}</span>`).join('')}
+                                <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">✨ Producción completa</span>
+                            </div>
+                        </div>
+                        <button class="flex-shrink-0 px-4 py-2 bg-[#52A9B7] text-white rounded-lg text-sm font-semibold hover:bg-[#3d8a96] transition">
+                            Asignar
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function assignMaterialFromLibrary(materialId) {
+            const material = approvedMaterials.find(m => m.id === materialId);
+            const module = modules.find(m => m.id === currentModuleId);
+            const lesson = module.lessons.find(l => l.id === currentLessonId);
+
+            // Verificar si ya está asignado
+            if (lesson.materials.some(m => m.id === materialId)) {
+                alert('Este material ya está asignado a esta lección');
+                return;
+            }
+
+            lesson.materials.push({
+                assignedId: `assigned-${Date.now()}`,
+                id: materialId,
+                type: material.type,
+                name: material.name,
+                relator: material.relator,
+                info: material.duration || material.pages || material.questions
+            });
+
+            updateAssignedMaterials();
+            updateLessonsList();
+            closeMaterialLibrary();
+            
+            // Mensaje de éxito
+            alert(`✓ Material "${material.name}" asignado exitosamente`);
+        }
+
+        function updateProgress() {
+            const preview = document.getElementById('assignment-progress');
+            
+            preview.innerHTML = modules.map(m => {
+                const totalLessons = m.lessons.length;
+                const lessonsWithMaterials = m.lessons.filter(l => l.materials.length > 0).length;
+                const percentage = Math.round((lessonsWithMaterials / totalLessons) * 100);
+
+                return `
+                    <div class="bg-white/10 rounded-lg p-3 border border-white/20">
+                        <p class="text-sm font-semibold text-white mb-2">${m.name}</p>
+                        <div class="flex items-center gap-2">
+                            <div class="flex-1 bg-white/20 rounded-full h-2">
+                                <div class="bg-green-400 h-2 rounded-full" style="width: ${percentage}%"></div>
+                            </div>
+                            <span class="text-xs text-white/80">${lessonsWithMaterials}/${totalLessons}</span>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function cancelCreate() {
+            if (confirm('¿Estás seguro de cancelar? Se perderá todo el progreso.')) {
+                window.location.href = '../gestion_cursos.html';
+            }
+        }
+
+        // Inicializar al cargar
+        init();
+
+        // Cerrar modal con ESC
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeMaterialLibrary();
+            }
+        });
+    </script>
+
+</body>
+</html>

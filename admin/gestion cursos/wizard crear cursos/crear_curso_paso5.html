@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Curso - Paso 5 - JC Digital Training</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        * { font-family: 'Inter', sans-serif; }
+        
+        .bg-main { background-color: #F8FAFC; }
+        .sidebar-gradient { background: linear-gradient(180deg, #064D91 0%, #043360 100%); }
+        
+        .pulse-dot {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .step-completed {
+            background: #10b981;
+            color: white;
+        }
+
+        .step-line-completed {
+            background: #10b981;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        @media (max-width: 1365px) {
+            .app-container { display: none; }
+            .mobile-blocker { display: flex; }
+        }
+
+        .module-preview {
+            transition: all 0.2s ease;
+        }
+
+        .module-preview:hover {
+            background: #f8fafc;
+        }
+
+        .success-animation {
+            animation: scaleIn 0.3s ease-out;
+        }
+
+        @keyframes scaleIn {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-main text-slate-800">
+
+    <div class="app-container flex h-screen overflow-hidden">
+        
+        <!-- SIDEBAR CON RESUMEN -->
+        <aside class="w-72 sidebar-gradient text-white flex flex-col z-20 shadow-2xl">
+            <div class="p-8">
+                <div class="flex items-center space-x-3 mb-2">
+                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-lg">
+                        <span class="text-[#064D91] font-bold text-xl">JC</span>
+                    </div>
+                    <span class="text-xl font-bold tracking-tight">JC Digital Training</span>
+                </div>
+                <div class="inline-flex items-center bg-white/10 px-3 py-1 rounded-full border border-white/20">
+                    <span class="w-2 h-2 bg-green-400 rounded-full mr-2 pulse-dot"></span>
+                    <span class="text-[10px] uppercase font-semibold tracking-widest text-blue-100">Revisión Final</span>
+                </div>
+            </div>
+
+            <!-- Resumen del curso -->
+            <div class="flex-1 px-6 overflow-y-auto">
+                <h3 class="text-xs font-semibold text-blue-200 uppercase tracking-wider mb-4">Resumen del Curso</h3>
+                
+                <div class="space-y-4">
+                    <div class="bg-white/10 rounded-xl p-4 border border-white/20">
+                        <p class="text-xs text-blue-200 mb-2">Información General</p>
+                        <p class="text-sm font-semibold text-white">Normativa Sanitaria HACCP</p>
+                        <p class="text-xs text-white/70 mt-1">24 horas • Código: 9918231</p>
+                    </div>
+
+                    <div class="bg-white/10 rounded-xl p-4 border border-white/20">
+                        <p class="text-xs text-blue-200 mb-2">Estructura</p>
+                        <div class="space-y-1">
+                            <p class="text-sm text-white">3 Módulos</p>
+                            <p class="text-sm text-white">6 Lecciones</p>
+                            <p class="text-sm text-white">18 Materiales</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white/10 rounded-xl p-4 border border-white/20">
+                        <p class="text-xs text-blue-200 mb-2">Relatores</p>
+                        <div class="space-y-1">
+                            <p class="text-xs text-white/80">• Dr. Carlos Rojas</p>
+                            <p class="text-xs text-white/80">• María López</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="p-6">
+                <button onclick="cancelCreate()" class="w-full py-2 bg-red-500 text-white rounded-lg text-sm font-semibold hover:bg-red-600 transition">
+                    Cancelar Creación
+                </button>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="flex-1 overflow-y-auto relative">
+            <!-- Header -->
+            <header class="sticky top-0 z-10 bg-white/90 backdrop-blur-md px-10 py-6 border-b border-slate-200">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-2xl font-bold text-slate-800">Revisar y Publicar Curso</h1>
+                        <p class="text-slate-500 text-sm">Verifica toda la información antes de publicar</p>
+                    </div>
+                    <button onclick="goToDashboard()" class="text-slate-400 hover:text-slate-600">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <div class="px-10 py-8">
+                
+                <!-- Stepper / Progress Bar - TODOS COMPLETADOS -->
+                <div class="mb-10">
+                    <div class="flex items-center justify-between max-w-4xl mx-auto">
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold step-completed mb-2">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <p class="text-xs font-semibold text-green-600">Información Básica</p>
+                        </div>
+                        <div class="flex-1 h-1 step-line-completed mx-2 mt-[-24px]"></div>
+                        
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold step-completed mb-2">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <p class="text-xs font-semibold text-green-600">Crear Módulos</p>
+                        </div>
+                        <div class="flex-1 h-1 step-line-completed mx-2 mt-[-24px]"></div>
+                        
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold step-completed mb-2">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <p class="text-xs font-semibold text-green-600">Crear Lecciones</p>
+                        </div>
+                        <div class="flex-1 h-1 step-line-completed mx-2 mt-[-24px]"></div>
+                        
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold step-completed mb-2">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <p class="text-xs font-semibold text-green-600">Asignar Actividades</p>
+                        </div>
+                        <div class="flex-1 h-1 step-line-completed mx-2 mt-[-24px]"></div>
+                        
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="w-12 h-12 rounded-full flex items-center justify-center font-bold step-completed mb-2">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                            <p class="text-xs font-semibold text-green-600">Revisar y Publicar</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contenido Paso 5 -->
+                <div class="max-w-5xl mx-auto">
+                    
+                    <!-- Información Básica -->
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-8 mb-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-xl font-bold text-slate-800">Información Básica</h2>
+                            <button onclick="editStep(1)" class="text-[#064D91] hover:text-[#265379] font-semibold text-sm flex items-center">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                                </svg>
+                                Editar
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-6">
+                            <div>
+                                <p class="text-xs font-semibold text-slate-500 uppercase mb-1">Nombre del Curso</p>
+                                <p class="text-slate-800 font-medium">Normativa Sanitaria y Calidad Alimentaria (HACCP)</p>
+                            </div>
+                            <div>
+                                <p class="text-xs font-semibold text-slate-500 uppercase mb-1">Código SENCE</p>
+                                <p class="text-slate-800 font-medium">9918231</p>
+                            </div>
+                            <div>
+                                <p class="text-xs font-semibold text-slate-500 uppercase mb-1">Horas Totales</p>
+                                <p class="text-slate-800 font-medium">24 horas</p>
+                            </div>
+                            <div>
+                                <p class="text-xs font-semibold text-slate-500 uppercase mb-1">Ciudad</p>
+                                <p class="text-slate-800 font-medium">Puerto Montt</p>
+                            </div>
+                            <div class="col-span-2">
+                                <p class="text-xs font-semibold text-slate-500 uppercase mb-1">Descripción</p>
+                                <p class="text-slate-600 text-sm">Curso especializado en normativa sanitaria con énfasis en sistema HACCP para garantizar inocuidad alimentaria en la industria.</p>
+                            </div>
+                            <div>
+                                <p class="text-xs font-semibold text-slate-500 uppercase mb-1">Fecha Inicio</p>
+                                <p class="text-slate-800 font-medium">15 de Febrero, 2025</p>
+                            </div>
+                            <div>
+                                <p class="text-xs font-semibold text-slate-500 uppercase mb-1">Fecha Fin</p>
+                                <p class="text-slate-800 font-medium">28 de Febrero, 2025</p>
+                            </div>
+                            <div class="col-span-2">
+                                <p class="text-xs font-semibold text-slate-500 uppercase mb-1">Relatores Asignados</p>
+                                <div class="flex gap-2 mt-2">
+                                    <span class="px-3 py-1 bg-[#064D91] text-white text-xs rounded-full">Dr. Carlos Rojas</span>
+                                    <span class="px-3 py-1 bg-[#064D91] text-white text-xs rounded-full">María López</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Estructura del Curso -->
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-8 mb-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <h2 class="text-xl font-bold text-slate-800">Estructura del Curso</h2>
+                                <p class="text-slate-500 text-sm mt-1">3 módulos • 6 lecciones • 18 materiales</p>
+                            </div>
+                            <button onclick="editStep(2)" class="text-[#064D91] hover:text-[#265379] font-semibold text-sm flex items-center">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path>
+                                </svg>
+                                Editar
+                            </button>
+                        </div>
+
+                        <div class="space-y-4">
+                            <!-- Módulo 1 -->
+                            <div class="module-preview border border-slate-200 rounded-lg p-5">
+                                <div class="flex items-start gap-4">
+                                    <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-[#064D91] text-white flex items-center justify-center font-bold">
+                                        M1
+                                    </div>
+                                    <div class="flex-1">
+                                        <h3 class="font-semibold text-slate-800 mb-2">Introducción a HACCP</h3>
+                                        <p class="text-sm text-slate-500 mb-3">6 horas • 2 lecciones • 6 materiales</p>
+                                        
+                                        <div class="space-y-3 pl-4 border-l-2 border-slate-200">
+                                            <!-- Lección 1 -->
+                                            <div>
+                                                <p class="font-medium text-sm text-slate-700 mb-2">📖 Lección 1: ¿Qué es HACCP?</p>
+                                                <div class="space-y-1 pl-4">
+                                                    <p class="text-xs text-slate-600">▶ Video: Introducción al Sistema HACCP (15 min)</p>
+                                                    <p class="text-xs text-slate-600">📄 PDF: Guía Completa HACCP.pdf (45 pág.)</p>
+                                                    <p class="text-xs text-slate-600">❓ Quiz: Conceptos Básicos HACCP (10 preguntas)</p>
+                                                </div>
+                                            </div>
+
+                                            <!-- Lección 2 -->
+                                            <div>
+                                                <p class="font-medium text-sm text-slate-700 mb-2">📖 Lección 2: Historia y evolución</p>
+                                                <div class="space-y-1 pl-4">
+                                                    <p class="text-xs text-slate-600">▶ Video: Historia de la Inocuidad Alimentaria (20 min)</p>
+                                                    <p class="text-xs text-slate-600">📄 PDF: Manual de Buenas Prácticas.pdf (32 pág.)</p>
+                                                    <p class="text-xs text-slate-600">✅ Examen: Examen Final Módulo 1 (25 preguntas)</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Módulo 2 -->
+                            <div class="module-preview border border-slate-200 rounded-lg p-5">
+                                <div class="flex items-start gap-4">
+                                    <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-[#064D91] text-white flex items-center justify-center font-bold">
+                                        M2
+                                    </div>
+                                    <div class="flex-1">
+                                        <h3 class="font-semibold text-slate-800 mb-2">Principios de Inocuidad</h3>
+                                        <p class="text-sm text-slate-500 mb-3">8 horas • 2 lecciones • 6 materiales</p>
+                                        
+                                        <div class="space-y-3 pl-4 border-l-2 border-slate-200">
+                                            <div>
+                                                <p class="font-medium text-sm text-slate-700 mb-2">📖 Lección 1: Los 7 principios</p>
+                                                <div class="space-y-1 pl-4">
+                                                    <p class="text-xs text-slate-600">▶ Video: Los 7 Principios Explicados (30 min)</p>
+                                                    <p class="text-xs text-slate-600">📄 PDF: Checklist de Implementación.pdf (8 pág.)</p>
+                                                    <p class="text-xs text-slate-600">❓ Quiz: Los 7 Principios (15 preguntas)</p>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <p class="font-medium text-sm text-slate-700 mb-2">📖 Lección 2: Análisis de peligros</p>
+                                                <div class="space-y-1 pl-4">
+                                                    <p class="text-xs text-slate-600">▶ Video: Identificación de Peligros (25 min)</p>
+                                                    <p class="text-xs text-slate-600">📄 PDF: Matriz de Riesgos.pdf (18 pág.)</p>
+                                                    <p class="text-xs text-slate-600">❓ Quiz: Análisis de Peligros (12 preguntas)</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Módulo 3 -->
+                            <div class="module-preview border border-slate-200 rounded-lg p-5">
+                                <div class="flex items-start gap-4">
+                                    <div class="flex-shrink-0 w-12 h-12 rounded-lg bg-[#064D91] text-white flex items-center justify-center font-bold">
+                                        M3
+                                    </div>
+                                    <div class="flex-1">
+                                        <h3 class="font-semibold text-slate-800 mb-2">Implementación y Control</h3>
+                                        <p class="text-sm text-slate-500 mb-3">10 horas • 2 lecciones • 6 materiales</p>
+                                        
+                                        <div class="space-y-3 pl-4 border-l-2 border-slate-200">
+                                            <div>
+                                                <p class="font-medium text-sm text-slate-700 mb-2">📖 Lección 1: Plan HACCP</p>
+                                                <div class="space-y-1 pl-4">
+                                                    <p class="text-xs text-slate-600">▶ Video: Diseño de Plan HACCP (35 min)</p>
+                                                    <p class="text-xs text-slate-600">📄 PDF: Plantilla Plan HACCP.pdf (25 pág.)</p>
+                                                    <p class="text-xs text-slate-600">❓ Quiz: Diseño de Planes (15 preguntas)</p>
+                                                </div>
+                                            </div>
+
+                                            <div>
+                                                <p class="font-medium text-sm text-slate-700 mb-2">📖 Lección 2: Auditoría y certificación</p>
+                                                <div class="space-y-1 pl-4">
+                                                    <p class="text-xs text-slate-600">▶ Video: Proceso de Certificación (30 min)</p>
+                                                    <p class="text-xs text-slate-600">📄 PDF: Guía de Auditoría.pdf (40 pág.)</p>
+                                                    <p class="text-xs text-slate-600">✅ Examen: Examen Final del Curso (30 preguntas)</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Verificación Final -->
+                    <div class="bg-green-50 border border-green-200 rounded-xl p-6 mb-6">
+                        <div class="flex items-start gap-4">
+                            <svg class="w-6 h-6 text-green-600 flex-shrink-0 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                            <div class="flex-1">
+                                <h3 class="font-semibold text-green-800 mb-2">Todo listo para publicar</h3>
+                                <p class="text-sm text-green-700">El curso ha sido completamente configurado y está listo para ser publicado. Los estudiantes podrán inscribirse una vez que el curso esté activo.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Opciones de Publicación -->
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-8">
+                        <h3 class="font-semibold text-slate-800 mb-4">Opciones de Publicación</h3>
+                        
+                        <div class="space-y-4 mb-6">
+                            <label class="flex items-start gap-3 cursor-pointer">
+                                <input type="radio" name="publish-option" value="now" checked class="mt-1">
+                                <div>
+                                    <p class="font-medium text-slate-800">Publicar ahora</p>
+                                    <p class="text-sm text-slate-500">El curso estará disponible inmediatamente para inscripciones</p>
+                                </div>
+                            </label>
+                            
+                            <label class="flex items-start gap-3 cursor-pointer">
+                                <input type="radio" name="publish-option" value="draft" class="mt-1">
+                                <div>
+                                    <p class="font-medium text-slate-800">Guardar como borrador</p>
+                                    <p class="text-sm text-slate-500">El curso se guardará pero no estará visible para estudiantes</p>
+                                </div>
+                            </label>
+
+                            <label class="flex items-start gap-3 cursor-pointer">
+                                <input type="radio" name="publish-option" value="schedule" class="mt-1">
+                                <div>
+                                    <p class="font-medium text-slate-800">Programar publicación</p>
+                                    <p class="text-sm text-slate-500">Elige una fecha y hora específica para publicar</p>
+                                </div>
+                            </label>
+                        </div>
+
+                        <div id="schedule-section" class="hidden mb-6">
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Fecha y hora de publicación</label>
+                            <input type="datetime-local" class="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#52A9B7] focus:border-[#52A9B7] outline-none">
+                        </div>
+
+                        <div class="flex items-center gap-3 mb-6">
+                            <input type="checkbox" id="notify-students" checked>
+                            <label for="notify-students" class="text-sm text-slate-700">Notificar a estudiantes inscritos cuando el curso esté disponible</label>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Botones de Navegación -->
+                <div class="max-w-5xl mx-auto">
+                    <div class="flex justify-between items-center mt-8">
+                        <button onclick="goToStep4()" class="px-6 py-3 bg-slate-200 text-slate-700 rounded-lg font-semibold hover:bg-slate-300 transition flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 17l-5-5m0 0l5-5m-5 5h12"></path>
+                            </svg>
+                            Volver a Asignar Actividades
+                        </button>
+                        <button onclick="publishCourse()" class="px-12 py-4 bg-green-600 text-white rounded-lg font-bold text-lg hover:bg-green-700 transition flex items-center shadow-lg">
+                            <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Publicar Curso
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal de Éxito -->
+    <div id="success-modal" class="hidden fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div class="success-animation bg-white rounded-2xl p-8 max-w-md mx-4 text-center">
+            <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            <h2 class="text-2xl font-bold text-slate-800 mb-3">¡Curso Publicado Exitosamente!</h2>
+            <p class="text-slate-600 mb-6">El curso "Normativa Sanitaria HACCP" ha sido publicado y ya está disponible para inscripciones.</p>
+            <div class="flex gap-3">
+                <button onclick="goToDashboard()" class="flex-1 py-3 bg-[#064D91] text-white rounded-lg font-semibold hover:bg-[#265379] transition">
+                    Ir al Dashboard
+                </button>
+                <button onclick="viewCourse()" class="flex-1 py-3 bg-slate-200 text-slate-700 rounded-lg font-semibold hover:bg-slate-300 transition">
+                    Ver Curso
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bloqueo Móvil -->
+    <div class="mobile-blocker fixed inset-0 bg-[#064D91] flex-col items-center justify-center p-8 text-center z-[100] hidden">
+        <div class="max-w-md">
+            <h2 class="text-3xl font-bold text-white mb-4">Computador Requerido</h2>
+            <p class="text-blue-100">La creación de cursos requiere escritorio</p>
+        </div>
+    </div>
+
+    <script>
+        // Mostrar/ocultar sección de programación
+        document.querySelectorAll('input[name="publish-option"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                const scheduleSection = document.getElementById('schedule-section');
+                if (this.value === 'schedule') {
+                    scheduleSection.classList.remove('hidden');
+                } else {
+                    scheduleSection.classList.add('hidden');
+                }
+            });
+        });
+
+        function publishCourse() {
+            const selectedOption = document.querySelector('input[name="publish-option"]:checked').value;
+            const notifyStudents = document.getElementById('notify-students').checked;
+
+            let message = '¿Estás seguro de publicar este curso?';
+            if (selectedOption === 'draft') {
+                message = '¿Deseas guardar este curso como borrador?';
+            } else if (selectedOption === 'schedule') {
+                message = '¿Deseas programar la publicación de este curso?';
+            }
+
+            if (confirm(message)) {
+                // Simular proceso de publicación
+                document.getElementById('success-modal').classList.remove('hidden');
+            }
+        }
+
+        function editStep(stepNumber) {
+            alert(`Editando paso ${stepNumber}... (Redirigiendo)`);
+            // window.location.href = `paso${stepNumber}.html`;
+        }
+
+        function goToStep4() {
+            alert('Volviendo al Paso 4...');
+            // window.location.href = 'paso4.html';
+        }
+
+        function viewCourse() {
+            alert('Visualizando curso publicado...');
+            // window.location.href = '/admin/cursos/view/123';
+        }
+
+        function cancelCreate() {
+            if (confirm('¿Estás seguro de cancelar? El curso no se publicará.')) {
+                goToDashboard();
+            }
+        }
+
+        function goToDashboard() {
+            alert('Volviendo al Dashboard de Administrador...');
+            // window.location.href = '/admin/dashboard';
+        }
+    </script>
+
+</body>
+</html>

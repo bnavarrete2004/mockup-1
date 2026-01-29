@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuración del Sistema - JC Digital Training</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        * { font-family: 'Inter', sans-serif; }
+        
+        .bg-main { background-color: #F8FAFC; }
+        .sidebar-gradient { background: linear-gradient(180deg, #064D91 0%, #043360 100%); }
+        
+        .pulse-dot {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .badge-notification {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* Scrollbar personalizada */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        /* Tabs */
+        .tab-button {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button.active {
+            color: #064D91;
+            font-weight: 600;
+        }
+
+        .tab-button.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: #52A9B7;
+            border-radius: 2px;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Toggle Switch */
+        .toggle-switch {
+            position: relative;
+            width: 48px;
+            height: 24px;
+            background: #cbd5e1;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .toggle-switch.active {
+            background: #10b981;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s ease;
+        }
+
+        .toggle-switch.active::after {
+            transform: translateX(24px);
+        }
+
+        @media (max-width: 1365px) {
+            .app-container { display: none; }
+            .mobile-blocker { display: flex; }
+        }
+    </style>
+</head>
+<body class="bg-main text-slate-800">
+
+    <div class="app-container flex h-screen overflow-hidden">
+        
+        <!-- SIDEBAR IZQUIERDO -->
+        <aside class="w-72 sidebar-gradient text-white flex flex-col z-20 shadow-2xl overflow-y-auto">
+            <div class="p-8">
+                <div class="flex items-center space-x-3 mb-2">
+                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-lg">
+                        <span class="text-[#064D91] font-bold text-xl">JC</span>
+                    </div>
+                    <span class="text-xl font-bold tracking-tight">JC Digital Training</span>
+                </div>
+                <div class="inline-flex items-center bg-white/10 px-3 py-1 rounded-full border border-white/20">
+                    <span class="w-2 h-2 bg-green-400 rounded-full mr-2 pulse-dot"></span>
+                    <span class="text-[10px] uppercase font-semibold tracking-widest text-blue-100">Panel Admin</span>
+                </div>
+            </div>
+
+            <nav class="flex-1 px-4 space-y-1">
+                <p class="px-4 text-[10px] font-semibold text-blue-300/50 uppercase tracking-widest mb-2">Menú Principal</p>
+                
+                <a href="dashboard_admin.html" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    <span class="font-medium">Panel General</span>
+                </a>
+                
+                <a href="revision_material.html" class="flex items-center justify-between px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        <span>Revisión Material</span>
+                    </div>
+                    <span class="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full badge-notification">5</span>
+                </a>
+                
+                <a href="gestion_cursos/gestion_cursos.html" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.754 18 18.168 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    <span>Gestión de Cursos</span>
+                </a>
+                
+                <a href="gestion_estudiantes.html" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <span>Gestión de Usuarios</span>
+                </a>
+                
+                <a href="estadisticas_admin.html" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                    <span>Estadísticas</span>
+                </a>
+                
+                <a href="repositorio_archivos.html" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z"></path></svg>
+                    <span>Repositorio Archivos</span>
+                </a>
+                
+                <a href="reportes.html" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <span>Reportes SENCE</span>
+                </a>
+                
+                <p class="px-4 text-[10px] font-semibold text-blue-300/50 uppercase tracking-widest mt-8 mb-2">Otros</p>
+                
+                <a href="contenido_publico.html" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                    <span>Contenido Público</span>
+                </a>
+                
+                <a href="configuracion.html" class="flex items-center px-4 py-3 bg-white/10 border-l-4 border-[#52A9B7] rounded-r-lg transition-all">
+                    <svg class="w-5 h-5 mr-3 text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    <span class="font-medium">Configuración</span>
+                </a>
+            </nav>
+
+            <div class="p-6 bg-black/20 m-4 rounded-xl">
+                <div class="flex items-center mb-3">
+                    <div class="w-10 h-10 rounded-full bg-[#52A9B7] flex items-center justify-center text-sm font-bold mr-3">
+                        <img src="https://ui-avatars.com/api/?name=Admin+Sistema&background=52A9B7&color=fff" class="w-10 h-10 rounded-full" alt="Admin">
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold">Admin Sistema</p>
+                        <p class="text-xs text-blue-200">Superusuario</p>
+                    </div>
+                </div>
+                <button onclick="window.location.href='../login.html'" class="w-full py-2 bg-red-500/20 border border-red-400/30 text-red-100 rounded-lg text-xs font-semibold hover:bg-red-500/30 transition-colors">
+                    Cerrar Sesión
+                </button>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="flex-1 overflow-y-auto relative">
+            <!-- Header Superior -->
+            <header class="sticky top-0 z-10 bg-white/90 backdrop-blur-md px-10 py-6 border-b border-slate-200">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-2xl font-bold text-slate-800">Configuración del Sistema</h1>
+                        <p class="text-slate-500 text-sm">Administra los ajustes generales de la plataforma</p>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <button onclick="saveAllSettings()" class="px-6 py-2 bg-[#064D91] text-white rounded-lg text-sm font-semibold hover:bg-[#265379] transition">
+                            💾 Guardar Cambios
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <div class="px-10 py-8">
+                <!-- Tabs de Navegación -->
+                <div class="bg-white rounded-xl border border-slate-200 shadow-sm mb-6">
+                    <div class="border-b border-slate-200 px-6">
+                        <div class="flex space-x-8 overflow-x-auto">
+                            <button onclick="switchTab('perfil')" class="tab-button active py-4 text-sm whitespace-nowrap">
+                                👤 Mi Perfil
+                            </button>
+                            <button onclick="switchTab('plataforma')" class="tab-button py-4 text-sm text-slate-600 hover:text-slate-800 whitespace-nowrap">
+                                🏢 Plataforma
+                            </button>
+                            <button onclick="switchTab('usuarios')" class="tab-button py-4 text-sm text-slate-600 hover:text-slate-800 whitespace-nowrap">
+                                👥 Usuarios
+                            </button>
+                            <button onclick="switchTab('cursos')" class="tab-button py-4 text-sm text-slate-600 hover:text-slate-800 whitespace-nowrap">
+                                📚 Cursos
+                            </button>
+                            <button onclick="switchTab('notificaciones')" class="tab-button py-4 text-sm text-slate-600 hover:text-slate-800 whitespace-nowrap">
+                                🔔 Notificaciones
+                            </button>
+                            <button onclick="switchTab('seguridad')" class="tab-button py-4 text-sm text-slate-600 hover:text-slate-800 whitespace-nowrap">
+                                🔒 Seguridad
+                            </button>
+                            <button onclick="switchTab('integraciones')" class="tab-button py-4 text-sm text-slate-600 hover:text-slate-800 whitespace-nowrap">
+                                🔌 Integraciones
+                            </button>
+                            <button onclick="switchTab('avanzado')" class="tab-button py-4 text-sm text-slate-600 hover:text-slate-800 whitespace-nowrap">
+                                ⚙️ Avanzado
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Tab Content: Mi Perfil -->
+                    <div id="tab-perfil" class="tab-content active p-6">
+                        <h2 class="text-lg font-bold text-slate-800 mb-6">Información Personal</h2>
+                        
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                            <!-- Foto de perfil -->
+                            <div class="lg:col-span-1">
+                                <div class="bg-slate-50 rounded-xl p-6 text-center">
+                                    <img src="https://ui-avatars.com/api/?name=Admin+Sistema&background=064D91&color=fff&size=128" class="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-white shadow-lg" alt="Admin">
+                                    <button class="px-4 py-2 bg-[#064D91] text-white rounded-lg text-sm font-semibold hover:bg-[#265379] transition mb-2">
+                                        Cambiar Foto
+                                    </button>
+                                    <button class="px-4 py-2 bg-slate-200 text-slate-700 rounded-lg text-sm font-semibold hover:bg-slate-300 transition">
+                                        Eliminar
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Datos personales -->
+                            <div class="lg:col-span-2 space-y-4">
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-2">Nombre</label>
+                                        <input type="text" value="Admin" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-2">Apellido</label>
+                                        <input type="text" value="Sistema" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-2">Correo Electrónico</label>
+                                    <input type="email" value="admin@jcdigitaltraining.cl" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-2">Teléfono</label>
+                                    <input type="tel" value="+56 9 1234 5678" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-2">Cargo</label>
+                                    <input type="text" value="Administrador del Sistema" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border-t border-slate-200 pt-6">
+                            <h3 class="text-md font-bold text-slate-800 mb-4">Cambiar Contraseña</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-2">Contraseña Actual</label>
+                                    <input type="password" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-2">Nueva Contraseña</label>
+                                    <input type="password" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-2">Confirmar Contraseña</label>
+                                    <input type="password" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab Content: Plataforma -->
+                    <div id="tab-plataforma" class="tab-content p-6">
+                        <h2 class="text-lg font-bold text-slate-800 mb-6">Configuración de la Plataforma</h2>
+                        
+                        <div class="space-y-6">
+                            <!-- Información general -->
+                            <div class="bg-slate-50 rounded-lg p-6">
+                                <h3 class="text-md font-bold text-slate-800 mb-4">Información General</h3>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-2">Nombre de la Plataforma</label>
+                                        <input type="text" value="JC Digital Training" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-2">Descripción</label>
+                                        <textarea rows="3" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">Plataforma de capacitación empresarial online certificada por SENCE</textarea>
+                                    </div>
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm font-semibold text-slate-700 mb-2">Email de Contacto</label>
+                                            <input type="email" value="contacto@jcdigitaltraining.cl" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-semibold text-slate-700 mb-2">Teléfono de Soporte</label>
+                                            <input type="tel" value="+56 9 1234 5678" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Zona horaria y localización -->
+                            <div class="bg-slate-50 rounded-lg p-6">
+                                <h3 class="text-md font-bold text-slate-800 mb-4">Localización</h3>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-2">Zona Horaria</label>
+                                        <select class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                            <option>América/Santiago (UTC-3)</option>
+                                            <option>América/Buenos_Aires (UTC-3)</option>
+                                            <option>América/Lima (UTC-5)</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-2">Idioma</label>
+                                        <select class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                            <option>Español</option>
+                                            <option>Inglés</option>
+                                            <option>Portugués</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Límites de uso -->
+                            <div class="bg-slate-50 rounded-lg p-6">
+                                <h3 class="text-md font-bold text-slate-800 mb-4">Límites de Uso</h3>
+                                <div class="grid grid-cols-3 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-2">Usuarios Máximos</label>
+                                        <input type="number" value="500" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-2">Cursos Máximos</label>
+                                        <input type="number" value="50" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-2">Almacenamiento (GB)</label>
+                                        <input type="number" value="100" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab Content: Usuarios -->
+                    <div id="tab-usuarios" class="tab-content p-6">
+                        <h2 class="text-lg font-bold text-slate-800 mb-6">Configuración de Usuarios</h2>
+                        
+                        <div class="space-y-6">
+                            <!-- Registro de usuarios -->
+                            <div class="bg-slate-50 rounded-lg p-6">
+                                <h3 class="text-md font-bold text-slate-800 mb-4">Registro y Acceso</h3>
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between py-3 border-b border-slate-200">
+                                        <div>
+                                            <p class="font-semibold text-slate-800">Permitir auto-registro de estudiantes</p>
+                                            <p class="text-sm text-slate-500">Los estudiantes pueden crear su propia cuenta</p>
+                                        </div>
+                                        <div class="toggle-switch" onclick="toggleSwitch(this)"></div>
+                                    </div>
+
+                                    <div class="flex items-center justify-between py-3 border-b border-slate-200">
+                                        <div>
+                                            <p class="font-semibold text-slate-800">Requiere verificación de email</p>
+                                            <p class="text-sm text-slate-500">Los usuarios deben verificar su correo electrónico</p>
+                                        </div>
+                                        <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                                    </div>
+
+                                    <div class="flex items-center justify-between py-3">
+                                        <div>
+                                            <p class="font-semibold text-slate-800">Permitir login con RUT</p>
+                                            <p class="text-sm text-slate-500">Los usuarios pueden iniciar sesión con su RUT chileno</p>
+                                        </div>
+                                        <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Roles y permisos -->
+                            <div class="bg-slate-50 rounded-lg p-6">
+                                <h3 class="text-md font-bold text-slate-800 mb-4">Roles de Usuario</h3>
+                                <div class="space-y-3">
+                                    <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <p class="font-semibold text-slate-800">👤 Estudiante</p>
+                                                <p class="text-sm text-slate-500">Acceso a cursos asignados y materiales</p>
+                                            </div>
+                                            <button class="px-4 py-2 bg-slate-100 text-slate-700 rounded-lg text-sm font-semibold hover:bg-slate-200 transition">
+                                                Editar Permisos
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <p class="font-semibold text-slate-800">📚 Relator</p>
+                                                <p class="text-sm text-slate-500">Crear y gestionar contenido de cursos</p>
+                                            </div>
+                                            <button class="px-4 py-2 bg-slate-100 text-slate-700 rounded-lg text-sm font-semibold hover:bg-slate-200 transition">
+                                                Editar Permisos
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <p class="font-semibold text-slate-800">⚙️ Administrador</p>
+                                                <p class="text-sm text-slate-500">Control total del sistema</p>
+                                            </div>
+                                            <button class="px-4 py-2 bg-slate-100 text-slate-700 rounded-lg text-sm font-semibold hover:bg-slate-200 transition">
+                                                Editar Permisos
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Configuración de sesión -->
+                            <div class="bg-slate-50 rounded-lg p-6">
+                                <h3 class="text-md font-bold text-slate-800 mb-4">Sesiones</h3>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-2">Tiempo de inactividad (minutos)</label>
+                                        <input type="number" value="30" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-2">Duración máxima de sesión (horas)</label>
+                                        <input type="number" value="8" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab Content: Cursos -->
+                    <div id="tab-cursos" class="tab-content p-6">
+                        <h2 class="text-lg font-bold text-slate-800 mb-6">Configuración de Cursos</h2>
+                        
+                        <div class="space-y-6">
+                            <!-- Ajustes generales de cursos -->
+                            <div class="bg-slate-50 rounded-lg p-6">
+                                <h3 class="text-md font-bold text-slate-800 mb-4">Ajustes Generales</h3>
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between py-3 border-b border-slate-200">
+                                        <div>
+                                            <p class="font-semibold text-slate-800">Aprobar automáticamente material de relatores</p>
+                                            <p class="text-sm text-slate-500">El material se publica sin revisión del admin</p>
+                                        </div>
+                                        <div class="toggle-switch" onclick="toggleSwitch(this)"></div>
+                                    </div>
+
+                                    <div class="flex items-center justify-between py-3 border-b border-slate-200">
+                                        <div>
+                                            <p class="font-semibold text-slate-800">Permitir descarga de materiales</p>
+                                            <p class="text-sm text-slate-500">Estudiantes pueden descargar PDFs y recursos</p>
+                                        </div>
+                                        <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                                    </div>
+
+                                    <div class="flex items-center justify-between py-3">
+                                        <div>
+                                            <p class="font-semibold text-slate-800">Habilitar foros de discusión</p>
+                                            <p class="text-sm text-slate-500">Los cursos pueden tener foros de estudiantes</p>
+                                        </div>
+                                        <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Evaluaciones -->
+                            <div class="bg-slate-50 rounded-lg p-6">
+                                <h3 class="text-md font-bold text-slate-800 mb-4">Evaluaciones</h3>
+                                <div class="grid grid-cols-3 gap-4 mb-4">
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-2">Intentos máximos por examen</label>
+                                        <input type="number" value="3" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-2">Nota mínima aprobación (%)</label>
+                                        <input type="number" value="70" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-2">Tiempo entre intentos (horas)</label>
+                                        <input type="number" value="24" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between py-3">
+                                    <div>
+                                        <p class="font-semibold text-slate-800">Mostrar respuestas correctas después del intento</p>
+                                        <p class="text-sm text-slate-500">Los estudiantes ven las respuestas correctas</p>
+                                    </div>
+                                    <div class="toggle-switch" onclick="toggleSwitch(this)"></div>
+                                </div>
+                            </div>
+
+                            <!-- Certificados -->
+                            <div class="bg-slate-50 rounded-lg p-6">
+                                <h3 class="text-md font-bold text-slate-800 mb-4">Certificados</h3>
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between py-3 border-b border-slate-200">
+                                        <div>
+                                            <p class="font-semibold text-slate-800">Generar certificados automáticamente</p>
+                                            <p class="text-sm text-slate-500">Al completar el curso con nota aprobatoria</p>
+                                        </div>
+                                        <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-2">Plantilla de Certificado</label>
+                                        <button class="px-4 py-2 bg-[#064D91] text-white rounded-lg text-sm font-semibold hover:bg-[#265379] transition">
+                                            Subir Plantilla (.PDF)
+                                        </button>
+                                        <p class="text-xs text-slate-500 mt-2">Archivo actual: certificado_template.pdf</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab Content: Notificaciones -->
+                    <div id="tab-notificaciones" class="tab-content p-6">
+                        <h2 class="text-lg font-bold text-slate-800 mb-6">Preferencias de Notificaciones</h2>
+                        
+                        <div class="space-y-6">
+                            <!-- Notificaciones por email -->
+                            <div class="bg-slate-50 rounded-lg p-6">
+                                <h3 class="text-md font-bold text-slate-800 mb-4">Notificaciones por Email</h3>
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between py-3 border-b border-slate-200">
+                                        <div>
+                                            <p class="font-semibold text-slate-800">Nuevo material para revisar</p>
+                                            <p class="text-sm text-slate-500">Cuando un relator sube material</p>
+                                        </div>
+                                        <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                                    </div>
+
+                                    <div class="flex items-center justify-between py-3 border-b border-slate-200">
+                                        <div>
+                                            <p class="font-semibold text-slate-800">Nuevo usuario registrado</p>
+                                            <p class="text-sm text-slate-500">Cuando se registra un nuevo estudiante</p>
+                                        </div>
+                                        <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                                    </div>
+
+                                    <div class="flex items-center justify-between py-3 border-b border-slate-200">
+                                        <div>
+                                            <p class="font-semibold text-slate-800">Curso completado</p>
+                                            <p class="text-sm text-slate-500">Cuando un estudiante termina un curso</p>
+                                        </div>
+                                        <div class="toggle-switch" onclick="toggleSwitch(this)"></div>
+                                    </div>
+
+                                    <div class="flex items-center justify-between py-3">
+                                        <div>
+                                            <p class="font-semibold text-slate-800">Reportes semanales</p>
+                                            <p class="text-sm text-slate-500">Resumen de actividad semanal</p>
+                                        </div>
+                                        <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Notificaciones en plataforma -->
+                            <div class="bg-slate-50 rounded-lg p-6">
+                                <h3 class="text-md font-bold text-slate-800 mb-4">Notificaciones en Plataforma</h3>
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between py-3 border-b border-slate-200">
+                                        <div>
+                                            <p class="font-semibold text-slate-800">Alertas de sistema</p>
+                                            <p class="text-sm text-slate-500">Errores y alertas importantes</p>
+                                        </div>
+                                        <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                                    </div>
+
+                                    <div class="flex items-center justify-between py-3">
+                                        <div>
+                                            <p class="font-semibold text-slate-800">Sonido de notificaciones</p>
+                                            <p class="text-sm text-slate-500">Reproducir sonido al recibir notificaciones</p>
+                                        </div>
+                                        <div class="toggle-switch" onclick="toggleSwitch(this)"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab Content: Seguridad -->
+                    <div id="tab-seguridad" class="tab-content p-6">
+                        <h2 class="text-lg font-bold text-slate-800 mb-6">Seguridad y Privacidad</h2>
+                        
+                        <div class="space-y-6">
+                            <!-- Autenticación -->
+                            <div class="bg-slate-50 rounded-lg p-6">
+                                <h3 class="text-md font-bold text-slate-800 mb-4">Autenticación</h3>
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between py-3 border-b border-slate-200">
+                                        <div>
+                                            <p class="font-semibold text-slate-800">Autenticación de dos factores (2FA)</p>
+                                            <p class="text-sm text-slate-500">Requiere código adicional al iniciar sesión</p>
+                                        </div>
+                                        <div class="toggle-switch" onclick="toggleSwitch(this)"></div>
+                                    </div>
+
+                                    <div class="flex items-center justify-between py-3">
+                                        <div>
+                                            <p class="font-semibold text-slate-800">Forzar contraseñas seguras</p>
+                                            <p class="text-sm text-slate-500">Mínimo 8 caracteres, mayúsculas, números</p>
+                                        </div>
+                                        <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Sesiones activas -->
+                            <div class="bg-slate-50 rounded-lg p-6">
+                                <h3 class="text-md font-bold text-slate-800 mb-4">Sesiones Activas</h3>
+                                <div class="space-y-3">
+                                    <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                        <div class="flex items-center justify-between">
+                                            <div class="flex items-center space-x-3">
+                                                <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                                    </svg>
+                                                </div>
+                                                <div>
+                                                    <p class="font-semibold text-slate-800">Windows 11 - Chrome</p>
+                                                    <p class="text-sm text-slate-500">Santiago, Chile • IP: 190.xxx.xxx.xxx</p>
+                                                    <p class="text-xs text-green-600 mt-1">● Sesión actual</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="mt-4 px-4 py-2 bg-red-500 text-white rounded-lg text-sm font-semibold hover:bg-red-600 transition">
+                                    Cerrar Todas las Sesiones
+                                </button>
+                            </div>
+
+                            <!-- Registro de actividad -->
+                            <div class="bg-slate-50 rounded-lg p-6">
+                                <h3 class="text-md font-bold text-slate-800 mb-4">Registro de Actividad</h3>
+                                <div class="flex items-center justify-between py-3">
+                                    <div>
+                                        <p class="font-semibold text-slate-800">Registrar acciones de admin</p>
+                                        <p class="text-sm text-slate-500">Guardar historial de cambios importantes</p>
+                                    </div>
+                                    <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                                </div>
+                                <button class="mt-4 px-4 py-2 bg-[#064D91] text-white rounded-lg text-sm font-semibold hover:bg-[#265379] transition">
+                                    Ver Registro Completo
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab Content: Integraciones -->
+                    <div id="tab-integraciones" class="tab-content p-6">
+                        <h2 class="text-lg font-bold text-slate-800 mb-6">Integraciones Externas</h2>
+                        
+                        <div class="space-y-6">
+                            <!-- SENCE -->
+                            <div class="bg-slate-50 rounded-lg p-6">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                                            <span class="text-2xl">🏛️</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-md font-bold text-slate-800">SENCE</h3>
+                                            <p class="text-sm text-slate-500">Sistema Nacional de Certificación</p>
+                                        </div>
+                                    </div>
+                                    <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                                </div>
+                                <div class="space-y-3">
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-2">Código OTEC</label>
+                                        <input type="text" value="OT-2024-XXXX" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-2">API Key</label>
+                                        <input type="password" value="••••••••••••••••" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                    </div>
+                                </div>
+                                <button class="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg text-sm font-semibold hover:bg-green-600 transition">
+                                    Probar Conexión
+                                </button>
+                            </div>
+
+                            <!-- Email (SMTP) -->
+                            <div class="bg-slate-50 rounded-lg p-6">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                                            <span class="text-2xl">📧</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-md font-bold text-slate-800">Servidor de Email (SMTP)</h3>
+                                            <p class="text-sm text-slate-500">Envío de notificaciones y certificados</p>
+                                        </div>
+                                    </div>
+                                    <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-2">Servidor SMTP</label>
+                                        <input type="text" value="smtp.gmail.com" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-2">Puerto</label>
+                                        <input type="text" value="587" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-2">Usuario</label>
+                                        <input type="text" value="noreply@jcdigitaltraining.cl" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-semibold text-slate-700 mb-2">Contraseña</label>
+                                        <input type="password" value="••••••••••••" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                    </div>
+                                </div>
+                                <button class="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg text-sm font-semibold hover:bg-green-600 transition">
+                                    Enviar Email de Prueba
+                                </button>
+                            </div>
+
+                            <!-- Almacenamiento en la nube -->
+                            <div class="bg-slate-50 rounded-lg p-6">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                                            <span class="text-2xl">☁️</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-md font-bold text-slate-800">Almacenamiento en la Nube</h3>
+                                            <p class="text-sm text-slate-500">AWS S3, Google Cloud Storage, Azure</p>
+                                        </div>
+                                    </div>
+                                    <div class="toggle-switch" onclick="toggleSwitch(this)"></div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-2">Proveedor</label>
+                                    <select class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                        <option>Seleccionar proveedor</option>
+                                        <option>Amazon S3</option>
+                                        <option>Google Cloud Storage</option>
+                                        <option>Microsoft Azure</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tab Content: Avanzado -->
+                    <div id="tab-avanzado" class="tab-content p-6">
+                        <h2 class="text-lg font-bold text-slate-800 mb-6">Configuración Avanzada</h2>
+                        
+                        <div class="space-y-6">
+                            <!-- Mantenimiento -->
+                            <div class="bg-slate-50 rounded-lg p-6">
+                                <h3 class="text-md font-bold text-slate-800 mb-4">Modo Mantenimiento</h3>
+                                <div class="flex items-center justify-between py-3 mb-4">
+                                    <div>
+                                        <p class="font-semibold text-slate-800">Activar modo mantenimiento</p>
+                                        <p class="text-sm text-slate-500">La plataforma no estará disponible para usuarios</p>
+                                    </div>
+                                    <div class="toggle-switch" onclick="toggleSwitch(this)"></div>
+                                </div>
+                                <div>
+                                    <label class="block text-sm font-semibold text-slate-700 mb-2">Mensaje de mantenimiento</label>
+                                    <textarea rows="2" class="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">Estamos realizando mejoras en el sistema. Volveremos pronto.</textarea>
+                                </div>
+                            </div>
+
+                            <!-- Base de datos -->
+                            <div class="bg-slate-50 rounded-lg p-6">
+                                <h3 class="text-md font-bold text-slate-800 mb-4">Base de Datos</h3>
+                                <div class="grid grid-cols-2 gap-4 mb-4">
+                                    <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                        <p class="text-sm text-slate-500 mb-1">Última copia de seguridad</p>
+                                        <p class="text-lg font-bold text-slate-800">19 Ene 2026, 03:00</p>
+                                    </div>
+                                    <div class="bg-white rounded-lg p-4 border border-slate-200">
+                                        <p class="text-sm text-slate-500 mb-1">Tamaño de BD</p>
+                                        <p class="text-lg font-bold text-slate-800">2.4 GB</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-center space-x-3">
+                                    <button class="px-4 py-2 bg-[#064D91] text-white rounded-lg text-sm font-semibold hover:bg-[#265379] transition">
+                                        Crear Backup Ahora
+                                    </button>
+                                    <button class="px-4 py-2 bg-slate-200 text-slate-700 rounded-lg text-sm font-semibold hover:bg-slate-300 transition">
+                                        Restaurar desde Backup
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Caché -->
+                            <div class="bg-slate-50 rounded-lg p-6">
+                                <h3 class="text-md font-bold text-slate-800 mb-4">Caché y Rendimiento</h3>
+                                <div class="flex items-center justify-between py-3 mb-4">
+                                    <div>
+                                        <p class="font-semibold text-slate-800">Habilitar caché de contenido</p>
+                                        <p class="text-sm text-slate-500">Mejora la velocidad de carga</p>
+                                    </div>
+                                    <div class="toggle-switch active" onclick="toggleSwitch(this)"></div>
+                                </div>
+                                <button class="px-4 py-2 bg-amber-500 text-white rounded-lg text-sm font-semibold hover:bg-amber-600 transition">
+                                    Limpiar Caché
+                                </button>
+                            </div>
+
+                            <!-- Zona de peligro -->
+                            <div class="bg-red-50 rounded-lg p-6 border-2 border-red-200">
+                                <h3 class="text-md font-bold text-red-800 mb-4">⚠️ Zona de Peligro</h3>
+                                <div class="space-y-3">
+                                    <button class="w-full px-4 py-2 bg-red-500 text-white rounded-lg text-sm font-semibold hover:bg-red-600 transition text-left flex items-center justify-between">
+                                        <span>Resetear todas las configuraciones</span>
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                        </svg>
+                                    </button>
+                                    <button class="w-full px-4 py-2 bg-red-600 text-white rounded-lg text-sm font-semibold hover:bg-red-700 transition text-left flex items-center justify-between">
+                                        <span>Eliminar todos los datos de prueba</span>
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bloqueo Móvil -->
+    <div class="mobile-blocker fixed inset-0 bg-[#064D91] flex-col items-center justify-center p-8 text-center z-[100] hidden">
+        <h2 class="text-3xl font-bold text-white mb-4">Computador Requerido</h2>
+        <p class="text-blue-100 mb-6">El panel requiere una pantalla más grande para gestionar el contenido.</p>
+    </div>
+
+    <script>
+        // Cambiar entre tabs
+        function switchTab(tabName) {
+            // Ocultar todos los tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Desactivar todos los botones
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Activar tab seleccionado
+            document.getElementById(`tab-${tabName}`).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Toggle switch
+        function toggleSwitch(element) {
+            element.classList.toggle('active');
+        }
+
+        // Guardar configuración
+        function saveAllSettings() {
+            if (confirm('¿Deseas guardar todos los cambios de configuración?')) {
+                alert('Configuración guardada exitosamente.\n\nLos cambios se aplicarán inmediatamente.');
+            }
+        }
+    </script>
+</body>
+</html>

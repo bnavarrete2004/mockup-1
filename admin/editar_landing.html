@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Landing Page - JC Digital Training</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        /* Paleta personalizada */
+        .gradient-bg {
+            background: linear-gradient(135deg, #265379 0%, #064D91 100%);
+        }
+        
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(6, 77, 145, 0.15);
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: #52A9B7;
+            border-radius: 2px;
+        }
+        
+        nav {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+        
+        .mobile-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        
+        .mobile-menu.active {
+            max-height: 500px;
+        }
+
+        /* Colores personalizados para Tailwind */
+        .text-primary { color: #064D91; }
+        .bg-primary { background-color: #064D91; }
+        .hover-bg-primary:hover { background-color: #265379; }
+        .text-accent { color: #52A9B7; }
+        .bg-accent-light { background-color: rgba(82, 169, 183, 0.1); }
+
+        /* Estilos para el modo edición */
+        .editable-section {
+            position: relative;
+        }
+
+        .edit-btn {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .edit-btn:hover {
+            background: #52A9B7;
+            transform: scale(1.1);
+        }
+
+        .edit-btn:hover svg {
+            color: white;
+        }
+
+        .edit-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(82, 169, 183, 0.1);
+            border: 2px dashed #52A9B7;
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .editable-section:hover .edit-overlay {
+            opacity: 1;
+        }
+
+        /* Banner de modo edición */
+        .edit-mode-banner {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Banner de Modo Edición -->
+    <div class="edit-mode-banner fixed top-0 left-0 right-0 z-[60] text-white py-3">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                </svg>
+                <span class="font-semibold">MODO EDICIÓN - Landing Page</span>
+            </div>
+            <div class="flex items-center space-x-4">
+                <button onclick="previewChanges()" class="px-4 py-1.5 bg-white/20 rounded-lg text-sm font-medium hover:bg-white/30 transition">
+                    Vista Previa
+                </button>
+                <button onclick="saveChanges()" class="px-4 py-1.5 bg-white text-amber-600 rounded-lg text-sm font-semibold hover:bg-gray-100 transition">
+                    Guardar Cambios
+                </button>
+                <button onclick="exitEditMode()" class="px-4 py-1.5 bg-red-500 rounded-lg text-sm font-semibold hover:bg-red-600 transition">
+                    Salir
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed w-full top-12 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center editable-section">
+                    <button class="edit-btn" onclick="editElement('logo')" title="Editar logo">
+                        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </button>
+                    <div class="text-2xl font-bold" style="color: #064D91;">JC Digital Training</div>
+                    <span class="ml-2 text-sm text-gray-600 hidden sm:block">Capacitaciones</span>
+                </div>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex space-x-8">
+                    <a href="#inicio" class="text-gray-700 hover:text-[#52A9B7] transition">Inicio</a>
+                    <a href="#nosotros" class="text-gray-700 hover:text-[#52A9B7] transition">Quiénes Somos</a>
+                    <a href="#cursos" class="text-gray-700 hover:text-[#52A9B7] transition">Cursos</a>
+                    <a href="#metodologia" class="text-gray-700 hover:text-[#52A9B7] transition">Metodología</a>
+                    <a href="#clientes" class="text-gray-700 hover:text-[#52A9B7] transition">Clientes</a>
+                    <a href="#noticias" class="text-gray-700 hover:text-[#52A9B7] transition">Noticias</a>
+                    <a href="#contacto" class="text-gray-700 hover:text-[#52A9B7] transition">Contacto</a>
+                </div>
+                
+                <button class="bg-[#064D91] text-white px-6 py-2 rounded-lg hover:bg-[#265379] transition">
+                    Iniciar Sesión
+                </button>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="gradient-bg pt-36 pb-20 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div class="editable-section">
+                    <button class="edit-btn" onclick="editElement('hero-text')" title="Editar texto principal">
+                        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </button>
+                    <div class="edit-overlay"></div>
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
+                        Capacitación Profesional para el Crecimiento de tu Empresa
+                    </h1>
+                    <p class="text-xl mb-8 text-blue-100">
+                        Plataforma de capacitación online certificada por SENCE. Cursos diseñados para potenciar las competencias de tu equipo.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button class="bg-white text-[#064D91] px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition">
+                            Ver Cursos
+                        </button>
+                        <button class="border-2 border-white text-white px-8 py-3 rounded-lg font-semibold hover:bg-white hover:text-[#064D91] transition">
+                            Contáctanos
+                        </button>
+                    </div>
+                </div>
+                <div class="hidden md:block editable-section">
+                    <button class="edit-btn" onclick="editElement('hero-features')" title="Editar características">
+                        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </button>
+                    <div class="edit-overlay"></div>
+                    <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20">
+                        <div class="space-y-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="bg-white/20 p-3 rounded-lg">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="font-semibold">Certificación SENCE</p>
+                                    <p class="text-sm text-blue-200">Cursos homologados</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="bg-white/20 p-3 rounded-lg">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="font-semibold">Flexible y Asincrónico</p>
+                                    <p class="text-sm text-blue-200">Aprende a tu ritmo</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="bg-white/20 p-3 rounded-lg">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="font-semibold">Relatores Expertos</p>
+                                    <p class="text-sm text-blue-200">Profesionales certificados</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiénes Somos -->
+    <section id="nosotros" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 editable-section">
+                <button class="edit-btn" onclick="editElement('nosotros-header')" title="Editar título">
+                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                    </svg>
+                </button>
+                <div class="edit-overlay"></div>
+                <h2 class="text-4xl font-bold text-gray-900 section-title mb-4">Quiénes Somos</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto mt-8">
+                    Somos un OTEC certificado especializado en capacitación empresarial online, comprometidos con el desarrollo profesional y el crecimiento de las organizaciones.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="text-center p-8 bg-gray-50 rounded-xl editable-section">
+                    <button class="edit-btn" onclick="editElement('mision')" title="Editar misión">
+                        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </button>
+                    <div class="edit-overlay"></div>
+                    <div class="bg-[#52A9B7]/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-[#064D91]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Nuestra Misión</h3>
+                    <p class="text-gray-600">
+                        Proporcionar capacitación de calidad accesible y flexible que impulse el crecimiento profesional y empresarial.
+                    </p>
+                </div>
+                
+                <div class="text-center p-8 bg-gray-50 rounded-xl editable-section">
+                    <button class="edit-btn" onclick="editElement('vision')" title="Editar visión">
+                        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </button>
+                    <div class="edit-overlay"></div>
+                    <div class="bg-[#52A9B7]/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-[#064D91]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Nuestra Visión</h3>
+                    <p class="text-gray-600">
+                        Ser la plataforma de referencia en capacitación empresarial, reconocidos por nuestra excelencia e innovación.
+                    </p>
+                </div>
+                
+                <div class="text-center p-8 bg-gray-50 rounded-xl editable-section">
+                    <button class="edit-btn" onclick="editElement('valores')" title="Editar valores">
+                        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </button>
+                    <div class="edit-overlay"></div>
+                    <div class="bg-[#52A9B7]/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <svg class="w-8 h-8 text-[#064D91]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Nuestros Valores</h3>
+                    <p class="text-gray-600">
+                        Calidad, compromiso, innovación y el desarrollo continuo de nuestros estudiantes y clientes.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cursos -->
+    <section id="cursos" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 editable-section">
+                <button class="edit-btn" onclick="editElement('cursos-header')" title="Editar título">
+                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                    </svg>
+                </button>
+                <div class="edit-overlay"></div>
+                <h2 class="text-4xl font-bold text-gray-900 section-title mb-4">Nuestros Cursos</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto mt-8">
+                    Explora nuestra amplia variedad de cursos diseñados para potenciar las habilidades de tu equipo.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Curso 1 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover editable-section">
+                    <button class="edit-btn" onclick="editElement('curso-1')" title="Editar curso">
+                        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </button>
+                    <div class="edit-overlay"></div>
+                    <div class="h-48 bg-gradient-to-br from-[#265379] to-[#064D91]"></div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-blue-100 text-[#064D91] text-xs font-semibold px-3 py-1 rounded-full">40 horas</span>
+                            <span class="text-yellow-500">⭐ 4.8</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Liderazgo y Gestión de Equipos</h3>
+                        <p class="text-gray-600 mb-4">
+                            Desarrolla habilidades de liderazgo efectivo para gestionar equipos de alto rendimiento.
+                        </p>
+                        <button class="w-full bg-[#064D91] text-white py-2 rounded-lg hover:bg-[#265379] transition">
+                            Ver Más
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Curso 2 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover editable-section">
+                    <button class="edit-btn" onclick="editElement('curso-2')" title="Editar curso">
+                        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </button>
+                    <div class="edit-overlay"></div>
+                    <div class="h-48 bg-gradient-to-br from-[#52A9B7] to-[#064D91]"></div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-teal-100 text-teal-800 text-xs font-semibold px-3 py-1 rounded-full">30 horas</span>
+                            <span class="text-yellow-500">⭐ 4.9</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Excel Avanzado para Negocios</h3>
+                        <p class="text-gray-600 mb-4">
+                            Domina herramientas avanzadas de Excel para análisis de datos y toma de decisiones.
+                        </p>
+                        <button class="w-full bg-[#064D91] text-white py-2 rounded-lg hover:bg-[#265379] transition">
+                            Ver Más
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Curso 3 -->
+                <div class="bg-white rounded-xl shadow-md overflow-hidden card-hover editable-section">
+                    <button class="edit-btn" onclick="editElement('curso-3')" title="Editar curso">
+                        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </button>
+                    <div class="edit-overlay"></div>
+                    <div class="h-48 bg-gradient-to-br from-[#265379] to-[#52A9B7]"></div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="bg-gray-100 text-gray-800 text-xs font-semibold px-3 py-1 rounded-full">50 horas</span>
+                            <span class="text-yellow-500">⭐ 4.7</span>
+                        </div>
+                        <h3 class="text-xl font-bold mb-2">Marketing Digital Estratégico</h3>
+                        <p class="text-gray-600 mb-4">
+                            Aprende estrategias de marketing digital para impulsar tu negocio en el entorno online.
+                        </p>
+                        <button class="w-full bg-[#064D91] text-white py-2 rounded-lg hover:bg-[#265379] transition">
+                            Ver Más
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-center mt-12 editable-section">
+                <button class="edit-btn" onclick="editElement('ver-todos-cursos')" title="Editar botón">
+                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                    </svg>
+                </button>
+                <div class="edit-overlay"></div>
+                <button class="bg-white text-[#064D91] border-2 border-[#064D91] px-8 py-3 rounded-lg font-semibold hover:bg-[#064D91] hover:text-white transition">
+                    Ver Todos los Cursos
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Metodología -->
+    <section id="metodologia" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 editable-section">
+                <button class="edit-btn" onclick="editElement('metodologia-header')" title="Editar título">
+                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                    </svg>
+                </button>
+                <div class="edit-overlay"></div>
+                <h2 class="text-4xl font-bold text-gray-900 section-title mb-4">Nuestra Metodología</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto mt-8">
+                    Un enfoque estructurado y flexible que garantiza el aprendizaje efectivo.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div class="text-center editable-section">
+                    <button class="edit-btn" onclick="editElement('metodo-1')" title="Editar paso">
+                        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </button>
+                    <div class="edit-overlay"></div>
+                    <div class="bg-[#52A9B7]/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-3xl font-bold text-[#064D91]">1</span>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">Diagnóstico Inicial</h3>
+                    <p class="text-gray-600 text-sm">
+                        Evaluamos el nivel de conocimientos de cada estudiante para personalizar el aprendizaje.
+                    </p>
+                </div>
+                
+                <div class="text-center editable-section">
+                    <button class="edit-btn" onclick="editElement('metodo-2')" title="Editar paso">
+                        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </button>
+                    <div class="edit-overlay"></div>
+                    <div class="bg-[#52A9B7]/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-3xl font-bold text-[#064D91]">2</span>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">Contenido Interactivo</h3>
+                    <p class="text-gray-600 text-sm">
+                        Material multimedia, videos explicativos y guías descargables para facilitar el aprendizaje.
+                    </p>
+                </div>
+                
+                <div class="text-center editable-section">
+                    <button class="edit-btn" onclick="editElement('metodo-3')" title="Editar paso">
+                        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </button>
+                    <div class="edit-overlay"></div>
+                    <div class="bg-[#52A9B7]/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-3xl font-bold text-[#064D91]">3</span>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">Evaluación Continua</h3>
+                    <p class="text-gray-600 text-sm">
+                        Cuestionarios y exámenes que miden el progreso y aseguran la comprensión de conceptos.
+                    </p>
+                </div>
+                
+                <div class="text-center editable-section">
+                    <button class="edit-btn" onclick="editElement('metodo-4')" title="Editar paso">
+                        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </button>
+                    <div class="edit-overlay"></div>
+                    <div class="bg-[#52A9B7]/10 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span class="text-3xl font-bold text-[#064D91]">4</span>
+                    </div>
+                    <h3 class="text-lg font-bold mb-2">Certificación</h3>
+                    <p class="text-gray-600 text-sm">
+                        Diploma certificado por SENCE que valida las competencias adquiridas.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Clientes -->
+    <section id="clientes" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 editable-section">
+                <button class="edit-btn" onclick="editElement('clientes-header')" title="Editar título">
+                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                    </svg>
+                </button>
+                <div class="edit-overlay"></div>
+                <h2 class="text-4xl font-bold text-gray-900 section-title mb-4">Nuestros Clientes</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto mt-8">
+                    Empresas que confían en nuestra plataforma para la capacitación de sus equipos.
+                </p>
+            </div>
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-md flex items-center justify-center h-32 editable-section">
+                    <button class="edit-btn" onclick="editElement('logo-1')" title="Editar logo">
+                        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </button>
+                    <div class="edit-overlay"></div>
+                    <span class="text-2xl font-bold text-gray-400">LOGO 1</span>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-md flex items-center justify-center h-32 editable-section">
+                    <button class="edit-btn" onclick="editElement('logo-2')" title="Editar logo">
+                        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </button>
+                    <div class="edit-overlay"></div>
+                    <span class="text-2xl font-bold text-gray-400">LOGO 2</span>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-md flex items-center justify-center h-32 editable-section">
+                    <button class="edit-btn" onclick="editElement('logo-3')" title="Editar logo">
+                        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </button>
+                    <div class="edit-overlay"></div>
+                    <span class="text-2xl font-bold text-gray-400">LOGO 3</span>
+                </div>
+                <div class="bg-white p-8 rounded-xl shadow-md flex items-center justify-center h-32 editable-section">
+                    <button class="edit-btn" onclick="editElement('logo-4')" title="Editar logo">
+                        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </button>
+                    <div class="edit-overlay"></div>
+                    <span class="text-2xl font-bold text-gray-400">LOGO 4</span>
+                </div>
+            </div>
+            
+            <!-- Testimonios -->
+            <div class="mt-16 grid md:grid-cols-2 gap-8">
+                <div class="bg-white p-8 rounded-xl shadow-md border-l-4 border-[#52A9B7] editable-section">
+                    <button class="edit-btn" onclick="editElement('testimonio-1')" title="Editar testimonio">
+                        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </button>
+                    <div class="edit-overlay"></div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-[#52A9B7]/20 rounded-full mr-4"></div>
+                        <div>
+                            <p class="font-bold">María González</p>
+                            <p class="text-sm text-gray-600">Gerente de RRHH - Empresa ABC</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">
+                        "La plataforma es muy intuitiva y nuestros colaboradores han podido capacitarse sin problemas. El seguimiento en tiempo real nos permite ver el progreso de cada uno."
+                    </p>
+                    <div class="mt-4 text-yellow-500">⭐⭐⭐⭐⭐</div>
+                </div>
+                
+                <div class="bg-white p-8 rounded-xl shadow-md border-l-4 border-[#52A9B7] editable-section">
+                    <button class="edit-btn" onclick="editElement('testimonio-2')" title="Editar testimonio">
+                        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </button>
+                    <div class="edit-overlay"></div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-[#52A9B7]/20 rounded-full mr-4"></div>
+                        <div>
+                            <p class="font-bold">Carlos Rodríguez</p>
+                            <p class="text-sm text-gray-600">Director General - Empresa XYZ</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-600 italic">
+                        "Los cursos están muy bien estructurados y el material es de excelente calidad. La certificación SENCE fue un plus importante para nuestra empresa."
+                    </p>
+                    <div class="mt-4 text-yellow-500">⭐⭐⭐⭐⭐</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Noticias -->
+    <section id="noticias" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 editable-section">
+                <button class="edit-btn" onclick="editElement('noticias-header')" title="Editar título">
+                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                    </svg>
+                </button>
+                <div class="edit-overlay"></div>
+                <h2 class="text-4xl font-bold text-gray-900 section-title mb-4">Últimas Noticias</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto mt-8">
+                    Mantente informado sobre novedades, nuevos cursos y actualizaciones.
+                </p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <article class="bg-gray-50 rounded-xl overflow-hidden card-hover editable-section">
+                    <button class="edit-btn" onclick="editElement('noticia-1')" title="Editar noticia">
+                        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </button>
+                    <div class="edit-overlay"></div>
+                    <div class="h-48 bg-gradient-to-br from-[#265379] to-[#52A9B7]"></div>
+                    <div class="p-6">
+                        <span class="text-sm text-gray-500">05 Enero 2026</span>
+                        <h3 class="text-xl font-bold mt-2 mb-3">Nuevos cursos de Transformación Digital</h3>
+                        <p class="text-gray-600 mb-4">
+                            Lanzamos una nueva línea de cursos enfocados en la transformación digital de las empresas...
+                        </p>
+                        <a href="#" class="text-[#064D91] font-semibold hover:underline">Leer más →</a>
+                    </div>
+                </article>
+                
+                <article class="bg-gray-50 rounded-xl overflow-hidden card-hover editable-section">
+                    <button class="edit-btn" onclick="editElement('noticia-2')" title="Editar noticia">
+                        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </button>
+                    <div class="edit-overlay"></div>
+                    <div class="h-48 bg-gradient-to-br from-[#064D91] to-[#265379]"></div>
+                    <div class="p-6">
+                        <span class="text-sm text-gray-500">28 Diciembre 2025</span>
+                        <h3 class="text-xl font-bold mt-2 mb-3">Certificación SENCE renovada para 2026</h3>
+                        <p class="text-gray-600 mb-4">
+                            Hemos renovado nuestra certificación SENCE, garantizando la calidad de nuestros programas...
+                        </p>
+                        <a href="#" class="text-[#064D91] font-semibold hover:underline">Leer más →</a>
+                    </div>
+                </article>
+
+                <article class="bg-gray-50 rounded-xl overflow-hidden card-hover editable-section">
+                    <button class="edit-btn" onclick="editElement('noticia-3')" title="Editar noticia">
+                        <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                        </svg>
+                    </button>
+                    <div class="edit-overlay"></div>
+                    <div class="h-48 bg-gradient-to-br from-[#52A9B7] to-white"></div>
+                    <div class="p-6">
+                        <span class="text-sm text-gray-500">15 Diciembre 2025</span>
+                        <h3 class="text-xl font-bold mt-2 mb-3">Tips para Capacitación Online Efectiva</h3>
+                        <p class="text-gray-600 mb-4">
+                            Descubre cómo sacar el máximo provecho a nuestra plataforma asincrónica con estos consejos...
+                        </p>
+                        <a href="#" class="text-[#064D91] font-semibold hover:underline">Leer más →</a>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contacto" class="bg-gray-900 text-white py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center editable-section">
+            <button class="edit-btn" onclick="editElement('footer')" title="Editar footer">
+                <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                </svg>
+            </button>
+            <div class="edit-overlay"></div>
+            <div class="text-2xl font-bold mb-4" style="color: #52A9B7;">OTEC</div>
+            <p class="text-gray-400 mb-8">Potenciando el talento humano a través de la educación digital.</p>
+            <div class="flex justify-center space-x-6 mb-8">
+                <a href="#" class="text-gray-400 hover:text-white transition">Email: contacto@otec.cl</a>
+                <a href="#" class="text-gray-400 hover:text-white transition">Tel: +56 9 1234 5678</a>
+            </div>
+            <div class="border-t border-gray-800 pt-8 text-sm text-gray-500">
+                © 2026 OTEC Capacitaciones. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const btn = document.getElementById('mobile-menu-btn');
+        const menu = document.getElementById('mobile-menu');
+
+        btn.addEventListener('click', () => {
+            menu.classList.toggle('active');
+        });
+
+        // Funciones de edición
+        function editElement(element) {
+            alert(`Editar: ${element}\n\nAquí se abriría un modal o formulario para editar este elemento.`);
+        }
+
+        function previewChanges() {
+            alert('Vista previa de los cambios realizados');
+        }
+
+        function saveChanges() {
+            if (confirm('¿Deseas guardar todos los cambios realizados?')) {
+                alert('Cambios guardados exitosamente');
+            }
+        }
+
+        function exitEditMode() {
+            if (confirm('¿Deseas salir del modo edición?\n\nLos cambios no guardados se perderán.')) {
+                window.location.href = 'dashboard_admin.html';
+            }
+        }
+    </script>
+</body>
+</html>

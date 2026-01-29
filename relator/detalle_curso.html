@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Curso - JC Digital Training</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        * { font-family: 'Inter', sans-serif; }
+        
+        .bg-main { background-color: #F8FAFC; }
+        .sidebar-gradient { background: linear-gradient(180deg, #064D91 0%, #043360 100%); }
+        
+        .pulse-dot {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        @media (max-width: 1365px) {
+            .app-container { display: none; }
+            .mobile-blocker { display: flex; }
+        }
+
+        .module-item {
+            transition: all 0.3s ease;
+        }
+
+        .module-item.collapsed .lessons-container {
+            display: none;
+        }
+
+        .lesson-item {
+            transition: all 0.3s ease;
+        }
+
+        .lesson-item.collapsed .materials-container {
+            display: none;
+        }
+
+        .chevron {
+            transition: transform 0.3s ease;
+        }
+
+        .chevron.rotated {
+            transform: rotate(90deg);
+        }
+    </style>
+</head>
+<body class="bg-main text-slate-800">
+
+    <div class="app-container flex h-screen overflow-hidden">
+        
+        <!-- SIDEBAR IZQUIERDO -->
+        <aside class="w-72 sidebar-gradient text-white flex flex-col z-20 shadow-2xl overflow-y-auto">
+            <div class="p-8">
+                <div class="flex items-center space-x-3 mb-2">
+                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-lg">
+                        <span class="text-[#064D91] font-bold text-xl">JC</span>
+                    </div>
+                    <span class="text-xl font-bold tracking-tight">JC Digital Training</span>
+                </div>
+                <div class="inline-flex items-center bg-white/10 px-3 py-1 rounded-full border border-white/20">
+                    <span class="w-2 h-2 bg-green-400 rounded-full mr-2 pulse-dot"></span>
+                    <span class="text-[10px] uppercase font-semibold tracking-widest text-blue-100">Panel Relator</span>
+                </div>
+            </div>
+
+            <nav class="flex-1 px-4 space-y-1">
+                <p class="px-4 text-[10px] font-semibold text-blue-300/50 uppercase tracking-widest mb-2">Menú Principal</p>
+                
+                <a href="dashboard_relator.html" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                    <span>Dashboard</span>
+                </a>
+                
+                <a href="repositorio_material.html" class="flex items-center justify-between px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <span>Mis Materiales</span>
+                    </div>
+                    <span class="bg-[#52A9B7] text-white text-xs font-bold px-2 py-1 rounded-full">32</span>
+                </a>
+                
+                <a href="subir_material.html" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                    </svg>
+                    <span>Subir Material</span>
+                </a>
+                
+                <a href="notificaciones_relator.html" class="flex items-center justify-between px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                        </svg>
+                        <span>Notificaciones</span>
+                    </div>
+                    <span class="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">3</span>
+                </a>
+                
+                <a href="mis_cursos.html" class="flex items-center px-4 py-3 bg-white/10 border-l-4 border-[#52A9B7] rounded-r-lg transition-all">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                    <span class="font-medium">Mis Cursos</span>
+                </a>
+                
+                <a href="mis_estadisticas.html" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                    <span>Mis Estadísticas</span>
+                </a>
+                
+                <p class="px-4 text-[10px] font-semibold text-blue-300/50 uppercase tracking-widest mt-8 mb-2">Otros</p>
+                
+                <a href="#" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span>Centro de Ayuda</span>
+                </a>
+                
+                <a href="mi_perfil_relator.html" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                    <span>Mi Perfil</span>
+                </a>
+            </nav>
+
+            <div class="p-6 bg-black/20 m-4 rounded-xl">
+                <div class="flex items-center mb-3">
+                    <div class="w-10 h-10 rounded-full bg-[#52A9B7] flex items-center justify-center text-sm font-bold mr-3">
+                        <img src="https://ui-avatars.com/api/?name=Carlos+Rojas&background=52A9B7&color=fff" class="w-10 h-10 rounded-full" alt="Relator">
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold">Dr. Carlos Rojas</p>
+                        <p class="text-xs text-blue-200">Relator HACCP</p>
+                    </div>
+                </div>
+                <a href="../login.html" class="block w-full py-2 bg-red-500/20 border border-red-400/30 text-red-100 rounded-lg text-xs font-semibold hover:bg-red-500/30 transition-colors text-center">
+                    Cerrar Sesión
+                </a>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="flex-1 overflow-y-auto relative">
+            
+            <!-- Header -->
+            <header class="sticky top-0 z-10 bg-white/90 backdrop-blur-md px-10 py-6 border-b border-slate-200">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-4">
+                        <a href="mis_cursos.html" class="text-slate-400 hover:text-slate-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                            </svg>
+                        </a>
+                        <div>
+                            <h1 class="text-2xl font-bold text-slate-800">Normativa Sanitaria HACCP</h1>
+                            <p class="text-slate-500 text-sm">Estructura completa del curso</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-3">
+                        <button class="px-4 py-2 bg-slate-100 text-slate-700 rounded-lg font-semibold hover:bg-slate-200 transition text-sm">
+                            Expandir Todo
+                        </button>
+                        <button class="px-4 py-2 bg-slate-100 text-slate-700 rounded-lg font-semibold hover:bg-slate-200 transition text-sm">
+                            Colapsar Todo
+                        </button>
+                    </div>
+                </div>
+            </header>
+
+            <div class="px-10 py-8">
+
+                <!-- Info General del Curso -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-8 mb-8">
+                    <div class="grid grid-cols-4 gap-6">
+                        <div>
+                            <p class="text-sm text-slate-600 mb-1">Estado</p>
+                            <span class="inline-block px-3 py-1 bg-green-100 text-green-700 text-sm font-semibold rounded-full">Activo</span>
+                        </div>
+                        <div>
+                            <p class="text-sm text-slate-600 mb-1">Duración Total</p>
+                            <p class="text-xl font-bold text-slate-800">24 horas</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-slate-600 mb-1">Estudiantes Inscritos</p>
+                            <p class="text-xl font-bold text-slate-800">45</p>
+                        </div>
+                        <div>
+                            <p class="text-sm text-slate-600 mb-1">Código SENCE</p>
+                            <p class="text-xl font-bold text-slate-800">12345678</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Estructura del Curso -->
+                <div class="space-y-4">
+                    
+                    <!-- Módulo 1 -->
+                    <div class="module-item bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden" id="module-1">
+                        <div onclick="toggleModule('module-1')" class="p-6 cursor-pointer hover:bg-slate-50 transition">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-4">
+                                    <svg class="w-6 h-6 text-slate-400 chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                    <div class="w-12 h-12 bg-[#064D91] rounded-lg flex items-center justify-center">
+                                        <span class="text-white font-bold">M1</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-bold text-slate-800">Módulo 1: Introducción a HACCP</h3>
+                                        <p class="text-sm text-slate-500">5 lecciones • 8 horas • 12 materiales</p>
+                                    </div>
+                                </div>
+                                <div class="text-sm text-slate-600">
+                                    <span class="font-semibold">67%</span> progreso promedio
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Lecciones del Módulo 1 -->
+                        <div class="lessons-container bg-slate-50 px-6 pb-4">
+                            
+                            <!-- Lección 1.1 -->
+                            <div class="lesson-item bg-white rounded-lg border border-slate-200 mb-3" id="lesson-1-1">
+                                <div onclick="toggleLesson('lesson-1-1')" class="p-4 cursor-pointer hover:bg-slate-50 transition">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-3">
+                                            <svg class="w-5 h-5 text-slate-400 chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                            </svg>
+                                            <div class="w-10 h-10 bg-[#52A9B7] rounded-lg flex items-center justify-center">
+                                                <span class="text-white text-sm font-bold">L1</span>
+                                            </div>
+                                            <div>
+                                                <h4 class="text-base font-semibold text-slate-800">¿Qué es HACCP?</h4>
+                                                <p class="text-xs text-slate-500">30 minutos • 3 materiales</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Materiales de la Lección 1.1 -->
+                                <div class="materials-container bg-slate-50 px-4 pb-4">
+                                    <div class="space-y-2">
+                                        <!-- Material 1 -->
+                                        <div class="flex items-center gap-3 p-3 bg-white rounded-lg border border-slate-200">
+                                            <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
+                                                <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                                </svg>
+                                            </div>
+                                            <div class="flex-1">
+                                                <p class="text-sm font-semibold text-slate-800">Video: Introducción al Sistema HACCP</p>
+                                                <p class="text-xs text-slate-500">15 min • Creado por ti</p>
+                                            </div>
+                                            <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">✓ Publicado</span>
+                                        </div>
+
+                                        <!-- Material 2 -->
+                                        <div class="flex items-center gap-3 p-3 bg-white rounded-lg border border-slate-200">
+                                            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                                                <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                                </svg>
+                                            </div>
+                                            <div class="flex-1">
+                                                <p class="text-sm font-semibold text-slate-800">Guía: Historia y evolución de HACCP</p>
+                                                <p class="text-xs text-slate-500">8 páginas • Creado por ti</p>
+                                            </div>
+                                            <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">✓ Publicado</span>
+                                        </div>
+
+                                        <!-- Material 3 -->
+                                        <div class="flex items-center gap-3 p-3 bg-white rounded-lg border border-slate-200">
+                                            <div class="w-8 h-8 bg-green-100 rounded-lg flex items-center justify-center">
+                                                <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                                </svg>
+                                            </div>
+                                            <div class="flex-1">
+                                                <p class="text-sm font-semibold text-slate-800">Quiz: Conceptos básicos</p>
+                                                <p class="text-xs text-slate-500">5 preguntas • Creado por otro relator</p>
+                                            </div>
+                                            <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">✓ Publicado</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Lección 1.2 -->
+                            <div class="lesson-item bg-white rounded-lg border border-slate-200 mb-3" id="lesson-1-2">
+                                <div onclick="toggleLesson('lesson-1-2')" class="p-4 cursor-pointer hover:bg-slate-50 transition">
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-3">
+                                            <svg class="w-5 h-5 text-slate-400 chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                            </svg>
+                                            <div class="w-10 h-10 bg-[#52A9B7] rounded-lg flex items-center justify-center">
+                                                <span class="text-white text-sm font-bold">L2</span>
+                                            </div>
+                                            <div>
+                                                <h4 class="text-base font-semibold text-slate-800">Los 7 Principios del HACCP</h4>
+                                                <p class="text-xs text-slate-500">45 minutos • 4 materiales</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Materiales de la Lección 1.2 -->
+                                <div class="materials-container bg-slate-50 px-4 pb-4">
+                                    <div class="space-y-2">
+                                        <div class="flex items-center gap-3 p-3 bg-white rounded-lg border border-slate-200">
+                                            <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
+                                                <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                                </svg>
+                                            </div>
+                                            <div class="flex-1">
+                                                <p class="text-sm font-semibold text-slate-800">Video: Los 7 Principios Explicados</p>
+                                                <p class="text-xs text-slate-500">30 min • Creado por ti</p>
+                                            </div>
+                                            <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">✓ Publicado</span>
+                                        </div>
+
+                                        <div class="flex items-center gap-3 p-3 bg-white rounded-lg border border-slate-200">
+                                            <div class="w-8 h-8 bg-blue-100 rounded-lg flex items-center justify-center">
+                                                <svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                                </svg>
+                                            </div>
+                                            <div class="flex-1">
+                                                <p class="text-sm font-semibold text-slate-800">Guía: Aplicación práctica de cada principio</p>
+                                                <p class="text-xs text-slate-500">15 páginas • Creado por ti</p>
+                                            </div>
+                                            <span class="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">✓ Publicado</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- Módulo 2 -->
+                    <div class="module-item bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden collapsed" id="module-2">
+                        <div onclick="toggleModule('module-2')" class="p-6 cursor-pointer hover:bg-slate-50 transition">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-4">
+                                    <svg class="w-6 h-6 text-slate-400 chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                    <div class="w-12 h-12 bg-[#064D91] rounded-lg flex items-center justify-center">
+                                        <span class="text-white font-bold">M2</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-bold text-slate-800">Módulo 2: Análisis de Peligros</h3>
+                                        <p class="text-sm text-slate-500">4 lecciones • 6 horas • 8 materiales</p>
+                                    </div>
+                                </div>
+                                <div class="text-sm text-slate-600">
+                                    <span class="font-semibold">54%</span> progreso promedio
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Lecciones del Módulo 2 (colapsadas por defecto) -->
+                        <div class="lessons-container bg-slate-50 px-6 pb-4">
+                            <p class="text-sm text-slate-500 text-center py-4">Haz clic en el módulo para ver las lecciones</p>
+                        </div>
+                    </div>
+
+                    <!-- Módulo 3 -->
+                    <div class="module-item bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden collapsed" id="module-3">
+                        <div onclick="toggleModule('module-3')" class="p-6 cursor-pointer hover:bg-slate-50 transition">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-4">
+                                    <svg class="w-6 h-6 text-slate-400 chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                                    </svg>
+                                    <div class="w-12 h-12 bg-[#064D91] rounded-lg flex items-center justify-center">
+                                        <span class="text-white font-bold">M3</span>
+                                    </div>
+                                    <div>
+                                        <h3 class="text-lg font-bold text-slate-800">Módulo 3: Puntos Críticos de Control</h3>
+                                        <p class="text-sm text-slate-500">6 lecciones • 10 horas • 14 materiales</p>
+                                    </div>
+                                </div>
+                                <div class="text-sm text-slate-600">
+                                    <span class="font-semibold">42%</span> progreso promedio
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Lecciones del Módulo 3 (colapsadas por defecto) -->
+                        <div class="lessons-container bg-slate-50 px-6 pb-4">
+                            <p class="text-sm text-slate-500 text-center py-4">Haz clic en el módulo para ver las lecciones</p>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Bloqueo Móvil -->
+    <div class="mobile-blocker fixed inset-0 bg-[#064D91] flex-col items-center justify-center p-8 text-center z-[100] hidden">
+        <div class="max-w-md">
+            <h2 class="text-3xl font-bold text-white mb-4">Computador Requerido</h2>
+            <p class="text-blue-100">La vista de detalles requiere escritorio</p>
+        </div>
+    </div>
+
+    <script>
+        function toggleModule(moduleId) {
+            const module = document.getElementById(moduleId);
+            const chevron = module.querySelector('.chevron');
+            
+            module.classList.toggle('collapsed');
+            chevron.classList.toggle('rotated');
+        }
+
+        function toggleLesson(lessonId) {
+            const lesson = document.getElementById(lessonId);
+            const chevron = lesson.querySelector('.chevron');
+            
+            lesson.classList.toggle('collapsed');
+            chevron.classList.toggle('rotated');
+        }
+    </script>
+
+</body>
+</html>

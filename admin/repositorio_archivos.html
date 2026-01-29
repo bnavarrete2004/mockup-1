@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repositorio de Archivos - JC Digital Training</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        * { font-family: 'Inter', sans-serif; }
+        
+        .bg-main { background-color: #F8FAFC; }
+        .sidebar-gradient { background: linear-gradient(180deg, #064D91 0%, #043360 100%); }
+        
+        .pulse-dot {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .badge-notification {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* Scrollbar personalizada */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        @media (max-width: 1365px) {
+            .app-container { display: none; }
+            .mobile-blocker { display: flex; }
+        }
+    </style>
+</head>
+<body class="bg-main text-slate-800">
+
+    <div class="app-container flex h-screen overflow-hidden">
+        
+        <!-- SIDEBAR IZQUIERDO -->
+        <aside class="w-72 sidebar-gradient text-white flex flex-col z-20 shadow-2xl overflow-y-auto">
+            <div class="p-8">
+                <div class="flex items-center space-x-3 mb-2">
+                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-lg">
+                        <span class="text-[#064D91] font-bold text-xl">JC</span>
+                    </div>
+                    <span class="text-xl font-bold tracking-tight">JC Digital Training</span>
+                </div>
+                <div class="inline-flex items-center bg-white/10 px-3 py-1 rounded-full border border-white/20">
+                    <span class="w-2 h-2 bg-green-400 rounded-full mr-2 pulse-dot"></span>
+                    <span class="text-[10px] uppercase font-semibold tracking-widest text-blue-100">Panel Admin</span>
+                </div>
+            </div>
+
+            <nav class="flex-1 px-4 space-y-1">
+                <p class="px-4 text-[10px] font-semibold text-blue-300/50 uppercase tracking-widest mb-2">Menú Principal</p>
+                
+                <a href="dashboard_admin.html" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                    <span class="font-medium">Panel General</span>
+                </a>
+                
+                <a href="#" class="flex items-center justify-between px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        <span>Revisión Material</span>
+                    </div>
+                    <span class="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full badge-notification">5</span>
+                </a>
+                
+                <a href="gestion_cursos/gestion_cursos.html" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.754 18 18.168 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                    <span>Gestión de Cursos</span>
+                </a>
+                
+                <a href="gestion_estudiantes.html" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    <span>Gestión de Usuarios</span>
+                </a>
+                
+                <a href="estadisticas_admin.html" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                    <span>Estadísticas</span>
+                </a>
+                
+                <a href="repositorio_archivos.html" class="flex items-center px-4 py-3 bg-white/10 border-l-4 border-[#52A9B7] rounded-r-lg transition-all">
+                    <svg class="w-5 h-5 mr-3 text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z"></path></svg>
+                    <span class="font-medium">Repositorio Archivos</span>
+                </a>
+                
+                <a href="reportes.html" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    <span>Reportes SENCE</span>
+                </a>
+                
+                <p class="px-4 text-[10px] font-semibold text-blue-300/50 uppercase tracking-widest mt-8 mb-2">Otros</p>
+                
+                <a href="editar_landing.html" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                    <span>Contenido Público</span>
+                </a>
+                
+                <a href="#" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                    <span>Configuración</span>
+                </a>
+            </nav>
+
+            <div class="p-6 bg-black/20 m-4 rounded-xl">
+                <div class="flex items-center mb-3">
+                    <div class="w-10 h-10 rounded-full bg-[#52A9B7] flex items-center justify-center text-sm font-bold mr-3">
+                        <img src="https://ui-avatars.com/api/?name=Admin+Sistema&background=52A9B7&color=fff" class="w-10 h-10 rounded-full" alt="Admin">
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold">Admin Sistema</p>
+                        <p class="text-xs text-blue-200">Superusuario</p>
+                    </div>
+                </div>
+                <button onclick="window.location.href='../login.html'" class="w-full py-2 bg-red-500/20 border border-red-400/30 text-red-100 rounded-lg text-xs font-semibold hover:bg-red-500/30 transition-colors">
+                    Cerrar Sesión
+                </button>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="flex-1 overflow-y-auto relative">
+            <!-- Header Superior -->
+            <header class="sticky top-0 z-10 bg-white/90 backdrop-blur-md px-10 py-6 border-b border-slate-200">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-2xl font-bold text-slate-800">Repositorio de Archivos</h1>
+                        <p class="text-slate-500 text-sm">Gestión y visualización de material aprobado</p>
+                    </div>
+                    <div class="flex items-center space-x-6">
+                        <div class="bg-blue-50 rounded-lg px-4 py-2 border border-blue-200">
+                            <div class="flex items-center text-xs">
+                                <svg class="w-4 h-4 text-[#064D91] mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <span class="text-gray-600">Total:</span>
+                                <span class="font-bold text-[#064D91] ml-1">243 archivos</span>
+                            </div>
+                        </div>
+                        
+                        <div class="h-10 w-[1px] bg-slate-200"></div>
+                        
+                        <div class="flex items-center space-x-3 bg-white px-3 py-2 rounded-lg shadow-sm border border-slate-200">
+                            <img src="https://ui-avatars.com/api/?name=Admin+Sistema&background=064D91&color=fff" class="w-8 h-8 rounded-full" alt="Admin">
+                            <div class="text-left">
+                                <p class="text-xs font-semibold text-slate-700">Admin Sistema</p>
+                                <p class="text-[10px] text-slate-500">Superusuario</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="px-10 py-8">
+                <!-- Estadísticas rápidas -->
+                <div class="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <p class="text-2xl font-bold text-slate-800">87</p>
+                        <p class="text-xs text-slate-500 mt-1">Videos</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <p class="text-2xl font-bold text-slate-800">124</p>
+                        <p class="text-xs text-slate-500 mt-1">Guías PDF</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <p class="text-2xl font-bold text-slate-800">18</p>
+                        <p class="text-xs text-slate-500 mt-1">Cuestionarios</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <p class="text-2xl font-bold text-slate-800">14</p>
+                        <p class="text-xs text-slate-500 mt-1">Presentaciones</p>
+                    </div>
+
+                    <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            </div>
+                        </div>
+                        <p class="text-2xl font-bold text-slate-800">243</p>
+                        <p class="text-xs text-slate-500 mt-1">Total Archivos</p>
+                    </div>
+                </div>
+
+                <!-- Filtros y búsqueda -->
+                <div class="bg-white rounded-xl border border-slate-200 p-6 shadow-sm mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <!-- Búsqueda -->
+                        <div class="md:col-span-2">
+                            <label class="block text-xs font-semibold text-slate-600 mb-2">Buscar archivo</label>
+                            <div class="relative">
+                                <input type="text" id="searchInput" placeholder="Buscar por nombre, curso, relator..." class="w-full px-4 py-2 pl-10 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                <svg class="w-5 h-5 text-slate-400 absolute left-3 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- Filtro por tipo -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-2">Tipo de archivo</label>
+                            <select id="filterType" class="w-full px-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                <option value="">Todos</option>
+                                <option value="video">Videos</option>
+                                <option value="pdf">Guías PDF</option>
+                                <option value="quiz">Cuestionarios</option>
+                                <option value="pptx">Presentaciones</option>
+                            </select>
+                        </div>
+
+                        <!-- Filtro por curso -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-600 mb-2">Curso</label>
+                            <select id="filterCourse" class="w-full px-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#52A9B7]">
+                                <option value="">Todos los cursos</option>
+                                <option value="haccp">HACCP</option>
+                                <option value="bioseguridad">Bioseguridad</option>
+                                <option value="bpm">BPM y POS</option>
+                                <option value="laboral">Normativa Laboral</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Botones de acción -->
+                    <div class="flex items-center justify-between mt-4 pt-4 border-t border-slate-200">
+                        <div class="flex items-center space-x-3">
+                            <button onclick="applyFilters()" class="px-4 py-2 bg-[#064D91] text-white rounded-lg text-sm font-semibold hover:bg-[#265379] transition">
+                                Aplicar Filtros
+                            </button>
+                            <button onclick="clearFilters()" class="px-4 py-2 bg-slate-100 text-slate-600 rounded-lg text-sm font-semibold hover:bg-slate-200 transition">
+                                Limpiar
+                            </button>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <button onclick="exportToExcel()" class="px-4 py-2 bg-green-500 text-white rounded-lg text-sm font-semibold hover:bg-green-600 transition flex items-center">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                Exportar Excel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabla de archivos -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200">
+                    <div class="p-6 border-b border-slate-200">
+                        <div class="flex items-center justify-between">
+                            <h2 class="text-lg font-bold text-slate-800">Material Aprobado</h2>
+                            <p class="text-sm text-slate-500"><span class="font-semibold">243</span> archivos encontrados</p>
+                        </div>
+                    </div>
+
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-slate-50 border-b border-slate-200">
+                                <tr>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Archivo</th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Tipo</th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Curso / Módulo</th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Relator</th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Aprobado</th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Tamaño</th>
+                                    <th class="px-6 py-4 text-left text-xs font-semibold text-slate-600 uppercase tracking-wider">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-200" id="filesTableBody">
+                                <!-- Video -->
+                                <tr class="hover:bg-slate-50 transition" data-type="video" data-course="haccp">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                                </svg>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-semibold text-slate-800">Introducción a HACCP</p>
+                                                <p class="text-xs text-slate-500">Duración: 15:42 min</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-3 py-1 bg-red-100 text-red-700 text-xs font-semibold rounded-full">Video</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm text-slate-800 font-medium">HACCP</p>
+                                        <p class="text-xs text-slate-500">Módulo 1</p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-2">
+                                            <img src="https://ui-avatars.com/api/?name=Carlos+Rojas&background=52A9B7&color=fff" class="w-8 h-8 rounded-full" alt="Relator">
+                                            <span class="text-sm text-slate-700">Dr. Carlos Rojas</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm text-slate-700">12 Ene 2026</p>
+                                        <p class="text-xs text-slate-500">Hace 2 días</p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm font-medium text-slate-700">145 MB</p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-2">
+                                            <button onclick="viewFile(1)" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="Ver">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                                </svg>
+                                            </button>
+                                            <button onclick="downloadFile(1)" class="p-2 text-green-600 hover:bg-green-50 rounded-lg transition" title="Descargar">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                                </svg>
+                                            </button>
+                                            <button onclick="editMetadata(1)" class="p-2 text-slate-600 hover:bg-slate-50 rounded-lg transition" title="Editar">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                                </svg>
+                                            </button>
+                                            <button onclick="deleteFile(1)" class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition" title="Eliminar">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- PDF -->
+                                <tr class="hover:bg-slate-50 transition" data-type="pdf" data-course="haccp">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                                </svg>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-semibold text-slate-800">Manual de Puntos Críticos de Control</p>
+                                                <p class="text-xs text-slate-500">24 páginas</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full">Guía PDF</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm text-slate-800 font-medium">HACCP</p>
+                                        <p class="text-xs text-slate-500">Módulo 3</p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-2">
+                                            <img src="https://ui-avatars.com/api/?name=Maria+Lopez&background=064D91&color=fff" class="w-8 h-8 rounded-full" alt="Relator">
+                                            <span class="text-sm text-slate-700">María López</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm text-slate-700">11 Ene 2026</p>
+                                        <p class="text-xs text-slate-500">Hace 3 días</p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm font-medium text-slate-700">3.2 MB</p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-2">
+                                            <button onclick="viewFile(2)" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="Ver">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                                </svg>
+                                            </button>
+                                            <button onclick="downloadFile(2)" class="p-2 text-green-600 hover:bg-green-50 rounded-lg transition" title="Descargar">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                                </svg>
+                                            </button>
+                                            <button onclick="editMetadata(2)" class="p-2 text-slate-600 hover:bg-slate-50 rounded-lg transition" title="Editar">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                                </svg>
+                                            </button>
+                                            <button onclick="deleteFile(2)" class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition" title="Eliminar">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Cuestionario -->
+                                <tr class="hover:bg-slate-50 transition" data-type="quiz" data-course="bioseguridad">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                                </svg>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-semibold text-slate-800">Evaluación de Manejo de Patógenos</p>
+                                                <p class="text-xs text-slate-500">15 preguntas</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-3 py-1 bg-purple-100 text-purple-700 text-xs font-semibold rounded-full">Cuestionario</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm text-slate-800 font-medium">Bioseguridad</p>
+                                        <p class="text-xs text-slate-500">Módulo 2</p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-2">
+                                            <img src="https://ui-avatars.com/api/?name=Pedro+Gomez&background=52A9B7&color=fff" class="w-8 h-8 rounded-full" alt="Relator">
+                                            <span class="text-sm text-slate-700">Pedro Gómez</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm text-slate-700">10 Ene 2026</p>
+                                        <p class="text-xs text-slate-500">Hace 4 días</p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm font-medium text-slate-700">124 KB</p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-2">
+                                            <button onclick="viewFile(3)" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="Ver">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                                </svg>
+                                            </button>
+                                            <button onclick="downloadFile(3)" class="p-2 text-green-600 hover:bg-green-50 rounded-lg transition" title="Descargar">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                                </svg>
+                                            </button>
+                                            <button onclick="editMetadata(3)" class="p-2 text-slate-600 hover:bg-slate-50 rounded-lg transition" title="Editar">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                                </svg>
+                                            </button>
+                                            <button onclick="deleteFile(3)" class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition" title="Eliminar">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Presentación -->
+                                <tr class="hover:bg-slate-50 transition" data-type="pptx" data-course="bpm">
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-3">
+                                            <div class="w-10 h-10 bg-amber-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                                                <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                                </svg>
+                                            </div>
+                                            <div>
+                                                <p class="text-sm font-semibold text-slate-800">Introducción a BPM y Procedimientos</p>
+                                                <p class="text-xs text-slate-500">32 diapositivas</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <span class="px-3 py-1 bg-amber-100 text-amber-700 text-xs font-semibold rounded-full">Presentación</span>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm text-slate-800 font-medium">BPM y POS</p>
+                                        <p class="text-xs text-slate-500">Módulo 1</p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-2">
+                                            <img src="https://ui-avatars.com/api/?name=Ana+Martinez&background=064D91&color=fff" class="w-8 h-8 rounded-full" alt="Relator">
+                                            <span class="text-sm text-slate-700">Ana Martínez</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm text-slate-700">8 Ene 2026</p>
+                                        <p class="text-xs text-slate-500">Hace 6 días</p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <p class="text-sm font-medium text-slate-700">8.7 MB</p>
+                                    </td>
+                                    <td class="px-6 py-4">
+                                        <div class="flex items-center space-x-2">
+                                            <button onclick="viewFile(4)" class="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition" title="Ver">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                                </svg>
+                                            </button>
+                                            <button onclick="downloadFile(4)" class="p-2 text-green-600 hover:bg-green-50 rounded-lg transition" title="Descargar">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path>
+                                                </svg>
+                                            </button>
+                                            <button onclick="editMetadata(4)" class="p-2 text-slate-600 hover:bg-slate-50 rounded-lg transition" title="Editar">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path>
+                                                </svg>
+                                            </button>
+                                            <button onclick="deleteFile(4)" class="p-2 text-red-600 hover:bg-red-50 rounded-lg transition" title="Eliminar">
+                                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                                                </svg>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Paginación -->
+                    <div class="p-6 border-t border-slate-200 flex items-center justify-between">
+                        <p class="text-sm text-slate-600">
+                            Mostrando <span class="font-semibold">1-4</span> de <span class="font-semibold">243</span> archivos
+                        </p>
+                        <div class="flex items-center space-x-2">
+                            <button class="px-3 py-1 border border-slate-200 rounded-lg text-sm text-slate-600 hover:bg-slate-50 transition disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                                Anterior
+                            </button>
+                            <button class="px-3 py-1 bg-[#064D91] text-white rounded-lg text-sm font-semibold">
+                                1
+                            </button>
+                            <button class="px-3 py-1 border border-slate-200 rounded-lg text-sm text-slate-600 hover:bg-slate-50 transition">
+                                2
+                            </button>
+                            <button class="px-3 py-1 border border-slate-200 rounded-lg text-sm text-slate-600 hover:bg-slate-50 transition">
+                                3
+                            </button>
+                            <button class="px-3 py-1 border border-slate-200 rounded-lg text-sm text-slate-600 hover:bg-slate-50 transition">
+                                Siguiente
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Bloqueo Móvil -->
+    <div class="mobile-blocker fixed inset-0 bg-[#064D91] flex-col items-center justify-center p-8 text-center z-[100] hidden">
+        <h2 class="text-3xl font-bold text-white mb-4">Computador Requerido</h2>
+        <p class="text-blue-100 mb-6">El panel requiere una pantalla más grande para gestionar el contenido.</p>
+    </div>
+
+    <script>
+        // Búsqueda y filtros
+        function applyFilters() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filterType = document.getElementById('filterType').value;
+            const filterCourse = document.getElementById('filterCourse').value;
+            const rows = document.querySelectorAll('#filesTableBody tr');
+
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                const type = row.getAttribute('data-type');
+                const course = row.getAttribute('data-course');
+
+                const matchesSearch = searchTerm === '' || text.includes(searchTerm);
+                const matchesType = filterType === '' || type === filterType;
+                const matchesCourse = filterCourse === '' || course === filterCourse;
+
+                if (matchesSearch && matchesType && matchesCourse) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        function clearFilters() {
+            document.getElementById('searchInput').value = '';
+            document.getElementById('filterType').value = '';
+            document.getElementById('filterCourse').value = '';
+            applyFilters();
+        }
+
+        // Acciones de archivos
+        function viewFile(id) {
+            alert(`Ver archivo #${id}`);
+        }
+
+        function downloadFile(id) {
+            alert(`Descargando archivo #${id}`);
+        }
+
+        function editMetadata(id) {
+            alert(`Editar metadatos del archivo #${id}`);
+        }
+
+        function deleteFile(id) {
+            if (confirm('¿Estás seguro de eliminar este archivo?\n\nEsta acción no se puede deshacer.')) {
+                alert(`Archivo #${id} eliminado`);
+            }
+        }
+
+        function exportToExcel() {
+            alert('Exportando a Excel...');
+        }
+
+        // Búsqueda en tiempo real
+        document.getElementById('searchInput').addEventListener('input', applyFilters);
+    </script>
+</body>
+</html>

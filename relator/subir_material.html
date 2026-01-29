@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subir Material - JC Digital Training</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        * { font-family: 'Inter', sans-serif; }
+        
+        .bg-main { background-color: #F8FAFC; }
+        .sidebar-gradient { background: linear-gradient(180deg, #064D91 0%, #043360 100%); }
+        
+        .pulse-dot {
+            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .badge-notification {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        @media (max-width: 1365px) {
+            .app-container { display: none; }
+            .mobile-blocker { display: flex; }
+        }
+
+        .step-indicator {
+            transition: all 0.3s ease;
+        }
+
+        .step-indicator.active {
+            background: #064D91;
+            color: white;
+        }
+
+        .step-indicator.completed {
+            background: #10b981;
+            color: white;
+        }
+
+        .step-indicator.pending {
+            background: #e2e8f0;
+            color: #64748b;
+        }
+
+        .type-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .type-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.15);
+        }
+
+        .type-card.selected {
+            border-color: #064D91;
+            background: #eff6ff;
+            transform: translateY(-4px);
+        }
+
+        .upload-zone {
+            transition: all 0.3s ease;
+        }
+
+        .upload-zone.dragover {
+            background: #eff6ff;
+            border-color: #064D91;
+            transform: scale(1.02);
+        }
+
+        .progress-bar {
+            transition: width 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease;
+        }
+    </style>
+</head>
+<body class="bg-main text-slate-800">
+
+    <div class="app-container flex h-screen overflow-hidden">
+        
+        <!-- SIDEBAR IZQUIERDO -->
+        <aside class="w-72 sidebar-gradient text-white flex flex-col z-20 shadow-2xl overflow-y-auto">
+            <div class="p-8">
+                <div class="flex items-center space-x-3 mb-2">
+                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center shadow-lg">
+                        <span class="text-[#064D91] font-bold text-xl">JC</span>
+                    </div>
+                    <span class="text-xl font-bold tracking-tight">JC Digital Training</span>
+                </div>
+                <div class="inline-flex items-center bg-white/10 px-3 py-1 rounded-full border border-white/20">
+                    <span class="w-2 h-2 bg-green-400 rounded-full mr-2 pulse-dot"></span>
+                    <span class="text-[10px] uppercase font-semibold tracking-widest text-blue-100">Panel Relator</span>
+                </div>
+            </div>
+
+            <nav class="flex-1 px-4 space-y-1">
+                <p class="px-4 text-[10px] font-semibold text-blue-300/50 uppercase tracking-widest mb-2">Menú Principal</p>
+                
+                <a href="dashboard_relator.html" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                    </svg>
+                    <span>Dashboard</span>
+                </a>
+                
+                <a href="repositorio_material.html" class="flex items-center justify-between px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 19a2 2 0 01-2-2V7a2 2 0 012-2h4l2 2h4a2 2 0 012 2v1M5 19h14a2 2 0 002-2v-5a2 2 0 00-2-2H9a2 2 0 00-2 2v5a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <span>Mis Materiales</span>
+                    </div>
+                    <span class="bg-[#52A9B7] text-white text-xs font-bold px-2 py-1 rounded-full">32</span>
+                </a>
+                
+                <a href="subir_material.html" class="flex items-center px-4 py-3 bg-white/10 border-l-4 border-[#52A9B7] rounded-r-lg transition-all">
+                    <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                    </svg>
+                    <span class="font-medium">Subir Material</span>
+                </a>
+                
+                <a href="notificaciones_relator.html" class="flex items-center justify-between px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path>
+                        </svg>
+                        <span>Notificaciones</span>
+                    </div>
+                    <span class="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full badge-notification">3</span>
+                </a>
+                
+                <a href="mis_cursos.html" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                    <span>Mis Cursos</span>
+                </a>
+                
+                <a href="mis_estadisticas.html" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                    <span>Mis Estadísticas</span>
+                </a>
+                
+                <p class="px-4 text-[10px] font-semibold text-blue-300/50 uppercase tracking-widest mt-8 mb-2">Otros</p>
+                
+                <a href="#" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    <span>Centro de Ayuda</span>
+                </a>
+                
+                <a href="mi_perfil_relator.html" class="flex items-center px-4 py-3 text-blue-100/70 hover:bg-white/5 rounded-lg transition-all group">
+                    <svg class="w-5 h-5 mr-3 group-hover:text-[#52A9B7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                    </svg>
+                    <span>Mi Perfil</span>
+                </a>
+            </nav>
+
+            <div class="p-6 bg-black/20 m-4 rounded-xl">
+                <div class="flex items-center mb-3">
+                    <div class="w-10 h-10 rounded-full bg-[#52A9B7] flex items-center justify-center text-sm font-bold mr-3">
+                        <img src="https://ui-avatars.com/api/?name=Carlos+Rojas&background=52A9B7&color=fff" class="w-10 h-10 rounded-full" alt="Relator">
+                    </div>
+                    <div>
+                        <p class="text-sm font-semibold">Dr. Carlos Rojas</p>
+                        <p class="text-xs text-blue-200">Relator HACCP</p>
+                    </div>
+                </div>
+                <button class="w-full py-2 bg-red-500/20 border border-red-400/30 text-red-100 rounded-lg text-xs font-semibold hover:bg-red-500/30 transition-colors">
+                    Cerrar Sesión
+                </button>
+            </div>
+        </aside>
+
+        <!-- CONTENIDO PRINCIPAL -->
+        <main class="flex-1 overflow-y-auto relative">
+            
+            <!-- Header -->
+            <header class="sticky top-0 z-10 bg-white/90 backdrop-blur-md px-10 py-6 border-b border-slate-200">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h1 class="text-2xl font-bold text-slate-800">Subir Nuevo Material</h1>
+                        <p class="text-slate-500 text-sm">Completa los pasos para subir tu contenido</p>
+                    </div>
+                    <a href="#" class="text-sm text-slate-600 hover:text-slate-800 flex items-center">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                        </svg>
+                        Volver a Mis Materiales
+                    </a>
+                </div>
+            </header>
+
+            <div class="px-10 py-8">
+
+                <!-- Indicador de Pasos -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-8 mb-8">
+                    <div class="flex items-center justify-between max-w-3xl mx-auto">
+                        <!-- Paso 1 -->
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="step-indicator active w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg mb-3" id="step-indicator-1">
+                                1
+                            </div>
+                            <p class="text-sm font-semibold text-slate-700" id="step-label-1">Tipo</p>
+                            <p class="text-xs text-slate-500 mt-1 text-center">Selecciona formato</p>
+                        </div>
+                        <div class="flex-1 h-1 bg-slate-300 mx-4 mt-[-32px]" id="line-1"></div>
+                        
+                        <!-- Paso 2 -->
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="step-indicator pending w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg mb-3" id="step-indicator-2">
+                                2
+                            </div>
+                            <p class="text-sm font-semibold text-slate-400" id="step-label-2">Información</p>
+                            <p class="text-xs text-slate-400 mt-1 text-center">Detalles del material</p>
+                        </div>
+                        <div class="flex-1 h-1 bg-slate-300 mx-4 mt-[-32px]" id="line-2"></div>
+                        
+                        <!-- Paso 3 -->
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="step-indicator pending w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg mb-3" id="step-indicator-3">
+                                3
+                            </div>
+                            <p class="text-sm font-semibold text-slate-400" id="step-label-3">Archivo</p>
+                            <p class="text-xs text-slate-400 mt-1 text-center">Sube contenido</p>
+                        </div>
+                        <div class="flex-1 h-1 bg-slate-300 mx-4 mt-[-32px]" id="line-3"></div>
+                        
+                        <!-- Paso 4 -->
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="step-indicator pending w-12 h-12 rounded-full flex items-center justify-center font-bold text-lg mb-3" id="step-indicator-4">
+                                4
+                            </div>
+                            <p class="text-sm font-semibold text-slate-400" id="step-label-4">Confirmar</p>
+                            <p class="text-xs text-slate-400 mt-1 text-center">Revisar y enviar</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contenedor de Pasos -->
+                <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-10">
+                    
+                    <!-- PASO 1: Seleccionar Tipo -->
+                    <div id="step-1" class="fade-in">
+                        <h3 class="text-2xl font-bold text-slate-800 mb-3">Paso 1: Selecciona el tipo de material</h3>
+                        <p class="text-slate-600 mb-10">¿Qué tipo de contenido vas a subir?</p>
+                        
+                        <div class="grid grid-cols-2 gap-8 max-w-3xl mx-auto">
+                            
+                            <!-- Video -->
+                            <div onclick="selectType('video')" class="type-card p-10 border-2 border-slate-300 rounded-xl" id="type-video">
+                                <div class="w-20 h-20 bg-red-100 rounded-xl flex items-center justify-center mb-6 mx-auto">
+                                    <svg class="w-10 h-10 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
+                                    </svg>
+                                </div>
+                                <h4 class="text-xl font-bold text-slate-800 text-center mb-3">Video</h4>
+                                <p class="text-sm text-slate-600 text-center mb-4">Material audiovisual educativo</p>
+                                <p class="text-xs text-slate-500 text-center">Formatos: MP4, AVI, MOV</p>
+                            </div>
+
+                            <!-- PDF/Guía -->
+                            <div onclick="selectType('pdf')" class="type-card p-10 border-2 border-slate-300 rounded-xl" id="type-pdf">
+                                <div class="w-20 h-20 bg-blue-100 rounded-xl flex items-center justify-center mb-6 mx-auto">
+                                    <svg class="w-10 h-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                    </svg>
+                                </div>
+                                <h4 class="text-xl font-bold text-slate-800 text-center mb-3">PDF / Guía</h4>
+                                <p class="text-sm text-slate-600 text-center mb-4">Documentos y manuales</p>
+                                <p class="text-xs text-slate-500 text-center">Formatos: PDF, DOCX</p>
+                            </div>
+
+                            <!-- Quiz -->
+                            <div onclick="selectType('quiz')" class="type-card p-10 border-2 border-slate-300 rounded-xl" id="type-quiz">
+                                <div class="w-20 h-20 bg-green-100 rounded-xl flex items-center justify-center mb-6 mx-auto">
+                                    <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                                    </svg>
+                                </div>
+                                <h4 class="text-xl font-bold text-slate-800 text-center mb-3">Quiz</h4>
+                                <p class="text-sm text-slate-600 text-center mb-4">Evaluación de práctica</p>
+                                <p class="text-xs text-slate-500 text-center">Se creará el quiz</p>
+                            </div>
+
+                            <!-- Examen -->
+                            <div onclick="selectType('exam')" class="type-card p-10 border-2 border-slate-300 rounded-xl" id="type-exam">
+                                <div class="w-20 h-20 bg-purple-100 rounded-xl flex items-center justify-center mb-6 mx-auto">
+                                    <svg class="w-10 h-10 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                                <h4 class="text-xl font-bold text-slate-800 text-center mb-3">Examen</h4>
+                                <p class="text-sm text-slate-600 text-center mb-4">Evaluación final certificada</p>
+                                <p class="text-xs text-slate-500 text-center">Se creará el examen</p>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- PASO 2: Información Básica -->
+                    <div id="step-2" class="hidden">
+                        <h3 class="text-2xl font-bold text-slate-800 mb-3">Paso 2: Información del material</h3>
+                        <p class="text-slate-600 mb-8">Completa los detalles de tu <span id="material-type-name">material</span></p>
+                        
+                        <form id="info-form" class="space-y-8 max-w-3xl mx-auto">
+                            
+                            <!-- Título -->
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-3">
+                                    Título del Material <span class="text-red-500">*</span>
+                                </label>
+                                <input 
+                                    type="text" 
+                                    id="title-input"
+                                    class="w-full px-4 py-4 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#52A9B7] focus:border-[#52A9B7] outline-none text-lg"
+                                    placeholder="Ej: Introducción a los Puntos Críticos de Control"
+                                    required
+                                >
+                            </div>
+
+                            <!-- Descripción -->
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-3">
+                                    Descripción Breve <span class="text-red-500">*</span>
+                                </label>
+                                <textarea 
+                                    id="description-input"
+                                    rows="4"
+                                    class="w-full px-4 py-4 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#52A9B7] focus:border-[#52A9B7] outline-none resize-none"
+                                    placeholder="Describe brevemente el contenido y objetivos de aprendizaje..."
+                                    required
+                                ></textarea>
+                            </div>
+
+                            <!-- Tema/Categoría -->
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-3">
+                                    Tema / Categoría <span class="text-red-500">*</span>
+                                </label>
+                                <select 
+                                    id="category-input"
+                                    class="w-full px-4 py-4 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#52A9B7] focus:border-[#52A9B7] outline-none"
+                                    required
+                                >
+                                    <option value="">-- Seleccionar --</option>
+                                    <option value="haccp">HACCP - Análisis de Peligros</option>
+                                    <option value="bpm">Buenas Prácticas de Manufactura</option>
+                                    <option value="iso">ISO 22000</option>
+                                    <option value="higiene">Higiene Alimentaria</option>
+                                    <option value="control">Control de Calidad</option>
+                                    <option value="legislacion">Legislación Sanitaria</option>
+                                </select>
+                            </div>
+
+                            <!-- Campos específicos según tipo -->
+                            <div id="specific-fields">
+                                <!-- Se llenarán dinámicamente -->
+                            </div>
+
+                        </form>
+                    </div>
+
+                    <!-- PASO 3: Subir Archivo -->
+                    <div id="step-3" class="hidden">
+                        <h3 class="text-2xl font-bold text-slate-800 mb-3">Paso 3: Sube tu archivo</h3>
+                        <p class="text-slate-600 mb-8">Arrastra o selecciona el archivo RAW (sin editar)</p>
+                        
+                        <div class="max-w-3xl mx-auto">
+                            <!-- Nota Importante -->
+                            <div class="bg-blue-50 border-l-4 border-blue-500 p-6 mb-8 rounded-lg">
+                                <div class="flex items-start">
+                                    <svg class="w-6 h-6 text-blue-500 mr-4 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <div>
+                                        <p class="text-base font-bold text-blue-800 mb-2">Sube tu material SIN editar</p>
+                                        <p class="text-sm text-blue-700 leading-relaxed">El equipo de administración revisará el contenido teórico y luego realizará la post-producción profesional (logos, branding, subtítulos, etc.)</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Zona de Drag & Drop -->
+                            <div class="upload-zone border-2 border-dashed border-slate-300 rounded-xl p-16 text-center mb-8" id="upload-zone">
+                                <input type="file" id="file-input" class="hidden" onchange="handleFileSelect(event)" accept=".mp4,.avi,.mov,.pdf,.docx">
+                                <label for="file-input" class="cursor-pointer">
+                                    <svg class="w-20 h-20 text-slate-400 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                                    </svg>
+                                    <p class="text-xl font-semibold text-slate-700 mb-3">Arrastra tu archivo aquí</p>
+                                    <p class="text-base text-slate-500 mb-6">o haz click para seleccionar</p>
+                                    <p class="text-sm text-slate-400" id="file-requirements">Tamaño máximo: 500 MB</p>
+                                </label>
+                            </div>
+
+                            <!-- Archivo Seleccionado -->
+                            <div id="file-selected" class="hidden bg-green-50 border border-green-200 rounded-xl p-6 mb-8">
+                                <div class="flex items-center justify-between mb-4">
+                                    <div class="flex items-center gap-4">
+                                        <svg class="w-10 h-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        <div>
+                                            <p class="font-bold text-green-800 text-lg" id="file-name">video.mp4</p>
+                                            <p class="text-sm text-green-600" id="file-size">25.3 MB</p>
+                                        </div>
+                                    </div>
+                                    <button onclick="removeFile()" class="text-red-600 hover:text-red-800 p-2">
+                                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                                
+                                <!-- Barra de progreso (simulada) -->
+                                <div class="w-full bg-green-200 rounded-full h-3">
+                                    <div class="progress-bar bg-green-600 h-3 rounded-full" style="width: 100%"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- PASO 4: Confirmar -->
+                    <div id="step-4" class="hidden">
+                        <h3 class="text-2xl font-bold text-slate-800 mb-3">Paso 4: Confirma y envía</h3>
+                        <p class="text-slate-600 mb-8">Revisa que toda la información esté correcta</p>
+                        
+                        <div class="max-w-3xl mx-auto">
+                            <div class="bg-slate-50 border border-slate-200 rounded-xl p-8 space-y-6 mb-8">
+                                
+                                <!-- Tipo -->
+                                <div class="flex items-start">
+                                    <svg class="w-6 h-6 text-slate-500 mr-4 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                                    </svg>
+                                    <div>
+                                        <p class="text-sm font-semibold text-slate-600 mb-1">Tipo de Material</p>
+                                        <p class="text-slate-800 font-medium text-lg" id="confirm-type">Video</p>
+                                    </div>
+                                </div>
+
+                                <!-- Título -->
+                                <div class="flex items-start">
+                                    <svg class="w-6 h-6 text-slate-500 mr-4 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                    </svg>
+                                    <div>
+                                        <p class="text-sm font-semibold text-slate-600 mb-1">Título</p>
+                                        <p class="text-slate-800 font-medium text-lg" id="confirm-title">-</p>
+                                    </div>
+                                </div>
+
+                                <!-- Descripción -->
+                                <div class="flex items-start">
+                                    <svg class="w-6 h-6 text-slate-500 mr-4 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7"></path>
+                                    </svg>
+                                    <div>
+                                        <p class="text-sm font-semibold text-slate-600 mb-1">Descripción</p>
+                                        <p class="text-slate-800 leading-relaxed" id="confirm-description">-</p>
+                                    </div>
+                                </div>
+
+                                <!-- Categoría -->
+                                <div class="flex items-start">
+                                    <svg class="w-6 h-6 text-slate-500 mr-4 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
+                                    </svg>
+                                    <div>
+                                        <p class="text-sm font-semibold text-slate-600 mb-1">Categoría</p>
+                                        <p class="text-slate-800 font-medium text-lg" id="confirm-category">-</p>
+                                    </div>
+                                </div>
+
+                                <!-- Info específica -->
+                                <div id="confirm-specific">
+                                    <!-- Se llenará dinámicamente -->
+                                </div>
+
+                                <!-- Archivo -->
+                                <div class="flex items-start">
+                                    <svg class="w-6 h-6 text-slate-500 mr-4 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path>
+                                    </svg>
+                                    <div>
+                                        <p class="text-sm font-semibold text-slate-600 mb-1">Archivo</p>
+                                        <p class="text-slate-800 font-medium text-lg" id="confirm-file">-</p>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- Mensaje importante -->
+                            <div class="bg-amber-50 border border-amber-200 rounded-xl p-6">
+                                <div class="flex items-start">
+                                    <svg class="w-6 h-6 text-amber-600 mr-4 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                                    </svg>
+                                    <div>
+                                        <p class="text-base font-bold text-amber-800 mb-3">¿Qué pasa después?</p>
+                                        <ul class="text-sm text-amber-700 space-y-2">
+                                            <li class="flex items-start">
+                                                <span class="font-bold mr-2">1.</span>
+                                                <span>Tu material quedará en estado: <strong>Pendiente de revisión</strong></span>
+                                            </li>
+                                            <li class="flex items-start">
+                                                <span class="font-bold mr-2">2.</span>
+                                                <span>Un administrador revisará el contenido teórico</span>
+                                            </li>
+                                            <li class="flex items-start">
+                                                <span class="font-bold mr-2">3.</span>
+                                                <span>Si es aprobado, pasará a <strong>post-producción</strong></span>
+                                            </li>
+                                            <li class="flex items-start">
+                                                <span class="font-bold mr-2">4.</span>
+                                                <span>Una vez editado, será <strong>publicado</strong> y podrás verlo en tus cursos</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- Botones de Navegación (sticky en la parte inferior) -->
+                <div class="sticky bottom-0 bg-slate-50 border-t border-slate-200 px-10 py-6 mt-8 -mx-10 flex items-center justify-between">
+                    <button onclick="previousStep()" id="btn-previous" class="px-8 py-4 bg-slate-200 text-slate-700 rounded-lg font-semibold hover:bg-slate-300 transition disabled:opacity-50 text-lg" disabled>
+                        ← Anterior
+                    </button>
+                    <button onclick="nextStep()" id="btn-next" class="px-8 py-4 bg-[#064D91] text-white rounded-lg font-semibold hover:bg-[#265379] transition disabled:opacity-50 text-lg" disabled>
+                        Siguiente →
+                    </button>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Bloqueo Móvil -->
+    <div class="mobile-blocker fixed inset-0 bg-[#064D91] flex-col items-center justify-center p-8 text-center z-[100] hidden">
+        <div class="max-w-md">
+            <h2 class="text-3xl font-bold text-white mb-4">Computador Requerido</h2>
+            <p class="text-blue-100">La subida de materiales requiere escritorio</p>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+        let selectedType = null;
+        let selectedFile = null;
+
+        const formData = {
+            type: null,
+            title: '',
+            description: '',
+            category: '',
+            duration: '',
+            pages: '',
+            questions: '',
+            file: null
+        };
+
+        function selectType(type) {
+            selectedType = type;
+            formData.type = type;
+            
+            document.querySelectorAll('.type-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            document.getElementById(`type-${type}`).classList.add('selected');
+            
+            document.getElementById('btn-next').disabled = false;
+        }
+
+        function showStep(step) {
+            // Ocultar todos los pasos
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById(`step-${i}`).classList.add('hidden');
+            }
+            
+            // Mostrar paso actual
+            document.getElementById(`step-${step}`).classList.remove('hidden');
+            document.getElementById(`step-${step}`).classList.add('fade-in');
+            
+            // Actualizar indicadores
+            for (let i = 1; i <= 4; i++) {
+                const indicator = document.getElementById(`step-indicator-${i}`);
+                const label = document.getElementById(`step-label-${i}`);
+                const line = document.getElementById(`line-${i}`);
+                
+                if (i < step) {
+                    indicator.classList.remove('active', 'pending');
+                    indicator.classList.add('completed');
+                    indicator.innerHTML = '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path></svg>';
+                    label.classList.remove('text-slate-400');
+                    label.classList.add('text-green-600');
+                    if (line) line.classList.add('bg-green-500');
+                } else if (i === step) {
+                    indicator.classList.remove('completed', 'pending');
+                    indicator.classList.add('active');
+                    indicator.textContent = i;
+                    label.classList.remove('text-slate-400', 'text-green-600');
+                    label.classList.add('text-slate-700');
+                } else {
+                    indicator.classList.remove('active', 'completed');
+                    indicator.classList.add('pending');
+                    indicator.textContent = i;
+                    label.classList.remove('text-slate-700', 'text-green-600');
+                    label.classList.add('text-slate-400');
+                    if (line) line.classList.remove('bg-green-500');
+                }
+            }
+            
+            // Actualizar botones
+            document.getElementById('btn-previous').disabled = step === 1;
+            
+            if (step === 4) {
+                document.getElementById('btn-next').innerHTML = '✓ Enviar a Revisión';
+                document.getElementById('btn-next').disabled = false;
+            } else {
+                document.getElementById('btn-next').innerHTML = 'Siguiente →';
+            }
+            
+            currentStep = step;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function nextStep() {
+            if (currentStep === 1) {
+                if (!selectedType) {
+                    alert('Por favor selecciona un tipo de material');
+                    return;
+                }
+                setupStep2();
+                showStep(2);
+                document.getElementById('btn-next').disabled = true;
+            } else if (currentStep === 2) {
+                if (!validateStep2()) return;
+                showStep(3);
+                document.getElementById('btn-next').disabled = true;
+            } else if (currentStep === 3) {
+                if (!selectedFile) {
+                    alert('Por favor sube un archivo');
+                    return;
+                }
+                setupConfirmation();
+                showStep(4);
+            } else if (currentStep === 4) {
+                submitMaterial();
+            }
+        }
+
+        function previousStep() {
+            if (currentStep > 1) {
+                showStep(currentStep - 1);
+            }
+        }
+
+        function setupStep2() {
+            const typeNames = {
+                'video': 'video',
+                'pdf': 'PDF/Guía',
+                'quiz': 'quiz',
+                'exam': 'examen'
+            };
+            document.getElementById('material-type-name').textContent = typeNames[selectedType];
+            
+            const specificFields = document.getElementById('specific-fields');
+            
+            if (selectedType === 'video') {
+                specificFields.innerHTML = `
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-3">
+                            Duración Estimada <span class="text-red-500">*</span>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="duration-input"
+                            class="w-full px-4 py-4 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#52A9B7] outline-none"
+                            placeholder="Ej: 15 minutos"
+                            required
+                        >
+                    </div>
+                `;
+            } else if (selectedType === 'pdf') {
+                specificFields.innerHTML = `
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-3">
+                            Número de Páginas (aprox) <span class="text-red-500">*</span>
+                        </label>
+                        <input 
+                            type="number" 
+                            id="pages-input"
+                            class="w-full px-4 py-4 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#52A9B7] outline-none"
+                            placeholder="Ej: 24"
+                            required
+                        >
+                    </div>
+                `;
+            } else if (selectedType === 'quiz' || selectedType === 'exam') {
+                specificFields.innerHTML = `
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-3">
+                            Número de Preguntas <span class="text-red-500">*</span>
+                        </label>
+                        <input 
+                            type="number" 
+                            id="questions-input"
+                            class="w-full px-4 py-4 border border-slate-300 rounded-lg focus:ring-2 focus:ring-[#52A9B7] outline-none"
+                            placeholder="Ej: 10"
+                            required
+                        >
+                    </div>
+                `;
+            
+            
+            document.getElementById('title-input').addEventListener('input', checkStep2);
+            document.getElementById('description-input').addEventListener('input', checkStep2);
+            document.getElementById('category-input').addEventListener('change', checkStep2);
+        }
+
+                    // Agregar listener al campo específico según el tipo
+            setTimeout(() => {
+                if (selectedType === 'video') {
+                    const durationInput = document.getElementById('duration-input');
+                    if (durationInput) durationInput.addEventListener('input', checkStep2);
+                } else if (selectedType === 'pdf') {
+                    const pagesInput = document.getElementById('pages-input');
+                    if (pagesInput) pagesInput.addEventListener('input', checkStep2);
+                } else if (selectedType === 'quiz' || selectedType === 'exam') {
+                    const questionsInput = document.getElementById('questions-input');
+                    if (questionsInput) questionsInput.addEventListener('input', checkStep2);
+                }
+            }, 100);
+        }
+
+        function checkStep2() {
+            const title = document.getElementById('title-input').value.trim();
+            const description = document.getElementById('description-input').value.trim();
+            const category = document.getElementById('category-input').value;
+            
+            let specificOk = true;
+            if (selectedType === 'video') {
+                specificOk = document.getElementById('duration-input')?.value.trim() !== '';
+            } else if (selectedType === 'pdf') {
+                specificOk = document.getElementById('pages-input')?.value !== '';
+            } else if (selectedType === 'quiz' || selectedType === 'exam') {
+                specificOk = document.getElementById('questions-input')?.value !== '';
+            }
+            
+            document.getElementById('btn-next').disabled = !(title && description && category && specificOk);
+        }
+
+        function validateStep2() {
+            formData.title = document.getElementById('title-input')?.value.trim() || '';
+            formData.description = document.getElementById('description-input')?.value.trim() || '';
+            formData.category = document.getElementById('category-input')?.value || '';
+            
+            if (selectedType === 'video') {
+                const durationInput = document.getElementById('duration-input');
+                formData.duration = durationInput ? durationInput.value.trim() : '';
+            } else if (selectedType === 'pdf') {
+                const pagesInput = document.getElementById('pages-input');
+                formData.pages = pagesInput ? pagesInput.value : '';
+            } else if (selectedType === 'quiz' || selectedType === 'exam') {
+                const questionsInput = document.getElementById('questions-input');
+                formData.questions = questionsInput ? questionsInput.value : '';
+            }
+            
+            if (!formData.title || !formData.description || !formData.category) {
+                alert('Por favor completa todos los campos obligatorios');
+                return false;
+            }
+            
+            return true;
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                selectedFile = file;
+                formData.file = file;
+                
+                document.getElementById('file-selected').classList.remove('hidden');
+                document.getElementById('file-name').textContent = file.name;
+                document.getElementById('file-size').textContent = (file.size / (1024 * 1024)).toFixed(2) + ' MB';
+                
+                document.getElementById('btn-next').disabled = false;
+            }
+        }
+
+        function removeFile() {
+            selectedFile = null;
+            formData.file = null;
+            document.getElementById('file-input').value = '';
+            document.getElementById('file-selected').classList.add('hidden');
+            document.getElementById('btn-next').disabled = true;
+        }
+
+        const uploadZone = document.getElementById('upload-zone');
+        
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
+        });
+        
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.classList.remove('dragover');
+        });
+        
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            const file = e.dataTransfer.files[0];
+            if (file) {
+                document.getElementById('file-input').files = e.dataTransfer.files;
+                handleFileSelect({ target: { files: [file] } });
+            }
+        });
+
+        function setupConfirmation() {
+            const typeNames = {
+                'video': 'Video',
+                'pdf': 'PDF/Guía',
+                'quiz': 'Quiz',
+                'exam': 'Examen'
+            };
+            
+            document.getElementById('confirm-type').textContent = typeNames[formData.type];
+            document.getElementById('confirm-title').textContent = formData.title;
+            document.getElementById('confirm-description').textContent = formData.description;
+            
+            const categorySelect = document.getElementById('category-input');
+            document.getElementById('confirm-category').textContent = categorySelect.options[categorySelect.selectedIndex].text;
+            
+            const specificDiv = document.getElementById('confirm-specific');
+            if (formData.duration) {
+                specificDiv.innerHTML = `
+                    <div class="flex items-start">
+                        <svg class="w-6 h-6 text-slate-500 mr-4 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <div>
+                            <p class="text-sm font-semibold text-slate-600 mb-1">Duración</p>
+                            <p class="text-slate-800 font-medium text-lg">${formData.duration}</p>
+                        </div>
+                    </div>
+                `;
+            } else if (formData.pages) {
+                specificDiv.innerHTML = `
+                    <div class="flex items-start">
+                        <svg class="w-6 h-6 text-slate-500 mr-4 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <div>
+                            <p class="text-sm font-semibold text-slate-600 mb-1">Número de Páginas</p>
+                            <p class="text-slate-800 font-medium text-lg">${formData.pages} páginas</p>
+                        </div>
+                    </div>
+                `;
+            } else if (formData.questions) {
+                specificDiv.innerHTML = `
+                    <div class="flex items-start">
+                        <svg class="w-6 h-6 text-slate-500 mr-4 mt-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path>
+                        </svg>
+                        <div>
+                            <p class="text-sm font-semibold text-slate-600 mb-1">Número de Preguntas</p>
+                            <p class="text-slate-800 font-medium text-lg">${formData.questions} preguntas</p>
+                        </div>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('confirm-file').textContent = selectedFile.name + ' (' + (selectedFile.size / (1024 * 1024)).toFixed(2) + ' MB)';
+        }
+
+        function submitMaterial() {
+            console.log('Enviando material:', formData);
+            
+            alert(`✓ Material enviado exitosamente!\n\nTu ${formData.type} "${formData.title}" ha sido enviado a revisión.\n\nRecibirás una notificación cuando sea aprobado o si necesita correcciones.`);
+            
+            window.location.href = '#'; // Redirigir a repositorio
+        }
+    </script>
+
+</body>
+</html>
